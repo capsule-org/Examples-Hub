@@ -16,9 +16,10 @@ import {
   parseGwei,
 } from "viem";
 
-type RequestBody = {
+interface RequestBody {
   email: string;
-};
+}
+
 export const signWithViem: Handler = async (req: Request): Promise<Response> => {
   const authHeader = req.headers.get("Authorization");
 

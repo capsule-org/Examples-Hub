@@ -5,6 +5,10 @@ import { simulateVerifyToken } from "../utils/auth-utils.ts";
 import { encrypt } from "../utils/encryption-utils.ts";
 import { setKeyShareInDB } from "../db/keySharesDB.ts";
 
+interface RequestBody {
+  email: string;
+}
+
 export const createWallet: Handler = async (req: Request): Promise<Response> => {
   const authHeader = req.headers.get("Authorization");
 
@@ -21,7 +25,7 @@ export const createWallet: Handler = async (req: Request): Promise<Response> => 
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const { email } = await req.json();
+  const { email }: RequestBody = await req.json();
 
   if (user.email !== email) {
     return new Response("Forbidden", { status: 403 });

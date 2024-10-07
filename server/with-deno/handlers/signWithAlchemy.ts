@@ -4,19 +4,19 @@ import { Capsule as CapsuleServer, hexStringToBase64, SuccessfulSignatureRes } f
 import { getKeyShareInDB } from "../db/keySharesDB.ts";
 import { decrypt } from "../utils/encryption-utils.ts";
 import { createCapsuleAccount, createCapsuleViemClient } from "@usecapsule/viem-v2-integration";
-import { sepolia } from "viem/chains";
 import { http, WalletClient, LocalAccount, SignableMessage, Hash } from "viem";
 import { createModularAccountAlchemyClient } from "@alchemy/aa-alchemy";
 import { WalletClientSigner, arbitrumSepolia } from "@alchemy/aa-core";
 import { hashMessage } from "viem";
 import Example from "../artifacts/Example.json" with { type: "json" };
-
 import { BatchUserOperationCallData, SendUserOperationResult } from "@alchemy/aa-core";
 import { encodeFunctionData } from "viem";
 
-type RequestBody = {
+interface RequestBody {
   email: string;
-};
+}
+
+
 export const signWithAlchemy: Handler = async (req: Request): Promise<Response> => {
   const authHeader = req.headers.get("Authorization");
 
@@ -66,7 +66,7 @@ export const signWithAlchemy: Handler = async (req: Request): Promise<Response> 
 
   const viemClient: WalletClient = createCapsuleViemClient(capsuleClient, {
     account: viemCapsuleAccount,
-    chain: sepolia,
+    chain: arbitrumSepolia,
     transport: http("https://ethereum-sepolia-rpc.publicnode.com"),
   });
 

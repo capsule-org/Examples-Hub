@@ -2,10 +2,10 @@ import { Handler } from "@std/http";
 import { Capsule as CapsuleServer, Environment } from "@usecapsule/server-sdk";
 import { simulateVerifyToken } from "../utils/auth-utils.ts";
 
-type RequestBody = {
+interface RequestBody {
   email: string;
   session: string;
-};
+}
 
 export const signWithCapsuleSession: Handler = async (req: Request): Promise<Response> => {
   const authHeader = req.headers.get("Authorization");

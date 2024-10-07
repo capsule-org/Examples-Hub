@@ -6,9 +6,9 @@ import { encodeBase64 } from "@std/encoding/base64";
 import { decrypt } from "../utils/encryption-utils.ts";
 import { RLP } from "@ethereumjs/rlp";
 
-type RequestBody = {
+interface RequestBody {
   email: string;
-};
+}
 
 export const signWithCapsulePreGen: Handler = async (req: Request): Promise<Response> => {
   const authHeader = req.headers.get("Authorization");
