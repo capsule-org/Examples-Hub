@@ -1,5 +1,5 @@
 import { Handler } from "@std/http";
-import { Capsule as CapsuleServer, Environment, WalletType, PregenIdentifierType } from "npm:@usecapsule/server-sdk";
+import { Capsule as CapsuleServer, Environment, WalletType, PregenIdentifierType } from "@usecapsule/server-sdk";
 
 import { simulateVerifyToken } from "../utils/auth-utils.ts";
 import { encrypt } from "../utils/encryption-utils.ts";

@@ -1,5 +1,5 @@
 import { Handler } from "@std/http";
-import { Capsule as CapsuleServer, Environment } from "npm:@usecapsule/server-sdk";
+import { Capsule as CapsuleServer, Environment } from "@usecapsule/server-sdk";
 import { simulateVerifyToken } from "../utils/auth-utils.ts";
 import { getKeyShareInDB } from "../db/keySharesDB.ts";
 import { encodeBase64 } from "@std/encoding/base64";
