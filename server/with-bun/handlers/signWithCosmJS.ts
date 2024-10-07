@@ -7,9 +7,9 @@ import { CapsuleProtoSigner } from "@usecapsule/cosmjs-v0-integration";
 import { getKeyShareInDB } from "../db/keySharesDB.ts";
 import { decrypt } from "../utils/encryption-utils.ts";
 
-type RequestBody = {
+interface RequestBody {
   email: string;
-};
+}
 
 export const signWithCosmJS = async (req: Request): Promise<Response> => {
   const authHeader = req.headers.get("Authorization");

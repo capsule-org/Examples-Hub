@@ -4,9 +4,9 @@ import { getKeyShareInDB } from "../db/keySharesDB.ts";
 import { decrypt } from "../utils/encryption-utils.ts";
 import { RLP } from "@ethereumjs/rlp";
 
-type RequestBody = {
+interface RequestBody {
   email: string;
-};
+}
 
 export const signWithCapsulePreGen = async (req: Request): Promise<Response> => {
   const authHeader = req.headers.get("Authorization");

@@ -6,9 +6,9 @@ import { CapsuleEthersSigner } from "@usecapsule/ethers-v6-integration";
 import { ethers } from "ethers";
 import type { TransactionRequest } from "ethers";
 
-type RequestBody = {
+interface RequestBody {
   email: string;
-};
+}
 
 export const signWithEthers = async (req: Request): Promise<Response> => {
   const authHeader = req.headers.get("Authorization");

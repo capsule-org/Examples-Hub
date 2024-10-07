@@ -7,9 +7,9 @@ import { Connection, clusterApiUrl, Transaction } from "@solana/web3.js";
 import { SystemProgram } from "@solana/web3.js";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 
-type RequestBody = {
+interface RequestBody {
   email: string;
-};
+}
 
 export const signWithSolanaWeb3 = async (req: Request): Promise<Response> => {
   const authHeader = req.headers.get("Authorization");

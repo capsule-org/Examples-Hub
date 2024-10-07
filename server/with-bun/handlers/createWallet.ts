@@ -4,9 +4,9 @@ import { simulateVerifyToken } from "../utils/auth-utils";
 import { encrypt } from "../utils/encryption-utils";
 import { setKeyShareInDB } from "../db/keySharesDB";
 
-type RequestBody = {
+interface RequestBody {
   email: string;
-};
+}
 
 export const createWallet = async (req: Request): Promise<Response> => {
   const authHeader = req.headers.get("Authorization");

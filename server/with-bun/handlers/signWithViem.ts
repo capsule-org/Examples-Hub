@@ -7,9 +7,10 @@ import { sepolia } from "viem/chains";
 import { http, parseEther, parseGwei } from "viem";
 import type { SignTransactionParameters, WalletClient, Chain, Account, LocalAccount } from "viem";
 
-type RequestBody = {
+interface RequestBody {
   email: string;
-};
+}
+
 export const signWithViem = async (req: Request): Promise<Response> => {
   const authHeader = req.headers.get("Authorization");
 
