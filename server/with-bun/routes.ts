@@ -4,7 +4,7 @@ import { signWithViem } from "./handlers/signWithViem";
 import { signWithCosmJS } from "./handlers/signWithCosmJS";
 import { signWithSolanaWeb3 } from "./handlers/signWithSolanaWeb3";
 import { signWithAlchemy } from "./handlers/signWithAlchemy";
-import { signWithCapsulePreGen } from "./handlers/signWithCapsulePreGen";
+import { signWithCapsulePreGen } from "./handlers/signWithCapsuleClient";
 import { signWithCapsuleSession } from "./handlers/signWithCapsuleSession";
 
 export const routes = [

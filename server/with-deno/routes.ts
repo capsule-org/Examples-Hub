@@ -5,7 +5,7 @@ import { signWithViem } from "./handlers/signWithViem.ts";
 import { signWithCosmJS } from "./handlers/signWithCosmJS.ts";
 import { signWithSolanaWeb3 } from "./handlers/signWithSolanaWeb3.ts";
 import { signWithAlchemy } from "./handlers/signWithAlchemy.ts";
-import { signWithCapsulePreGen } from "./handlers/signWithCapsulePreGen.ts";
+import { signWithCapsulePreGen } from "./handlers/signWithCapsuleClient.ts";
 import { signWithCapsuleSession } from "./handlers/signWithCapsuleSession.ts";
 
 export const routes: Route[] = [
