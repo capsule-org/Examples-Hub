@@ -1,4 +1,5 @@
 # Examples Hub
+<<<<<<< Updated upstream
 A centralized repository featuring comprehensive Capsule SDK examples.
 
 # Directory
@@ -37,3 +38,7 @@ Within each of these sections
 Additional web examples can also be found outside this repository:
 - [Vue](https://github.com/capsule-org/vue-example)
 - [Legacy Web Examples](https://github.com/capsule-org/react-integration-examples)
+=======
+
+A centralized repository featuring comprehensive Capsule SDK examples.
+>>>>>>> Stashed changes

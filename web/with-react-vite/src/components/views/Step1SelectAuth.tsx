@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import StepLayout from "../layouts/stepLayout";
 import { AuthOption } from "../../main";
 import { Card, CardContent } from "../ui/card";
-import { ReactComponent as MailIcon } from "../../assets/mail.svg";
-import { ReactComponent as OAuthIcon } from "../../assets/oauth.svg";
-import { ReactComponent as ModalIcon } from "../../assets/capsule.svg";
-import { ReactComponent as PhoneIcon } from "../../assets/phone.svg";
-import { ReactComponent as RainbowIcon } from "../../assets/rainbow.svg";
-import { ReactComponent as Web3Icon } from "../../assets/web3onboard.svg";
-import { ReactComponent as WalletIcon } from "../../assets/wallet.svg";
+import MailIcon from "../../assets/mail.svg?react";
+import OAuthIcon from "../../assets/oauth.svg?react";
+import ModalIcon from "../../assets/capsule.svg?react";
+import PhoneIcon from "../../assets/phone.svg?react";
+import RainbowIcon from "../../assets/rainbow.svg?react";
+import Web3Icon from "../../assets/web3onboard.svg?react";
+import WalletIcon from "../../assets/wallet.svg?react";
 
 type Step1SelectAuthProps = {
   selectedAuth: AuthOption | "";
