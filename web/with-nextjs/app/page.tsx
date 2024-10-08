@@ -1,12 +1,11 @@
 "use client";
+
 import { useState } from "react";
-import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
 import RenderStepContent from "./components/views/RenderStepContent";
 import RenderCodeSnippet from "./components/views/RenderCodeSnippet";
 import Stepper from "./components/ui/stepper";
 import Layout from "./components/layouts/layout";
-import FooterNavigation from "./components/ui/footerNavigation";
 
 const authOptions = ["oauth", "email", "phone", "capsuleModal", "rainbowkit", "web3-onboard", "PreGen"] as const;
 
@@ -24,7 +23,7 @@ const signingOptions = [
 export type AuthOption = (typeof authOptions)[number];
 export type SigningOption = (typeof signingOptions)[number];
 
-export default function Component() {
+export default function Main() {
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [selectedAuth, setSelectedAuth] = useState<AuthOption | "">("");
   const [selectedSigner, setSelectedSigner] = useState<SigningOption | "">("");

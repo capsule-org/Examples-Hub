@@ -5,7 +5,7 @@ import Step3SelectSigningMethod from "./Step3SelectSigningMethod";
 import Step4SignTransaction from "./Step4SignTransaction";
 import Step5ExportSession from "./Step5ExportSession";
 import Step6Logout from "./Step6Logout";
-import { AuthOption, SigningOption } from "../../main";
+import { AuthOption, SigningOption } from "../../page";
 
 type RenderStepContentProps = {
   currentStep: number;

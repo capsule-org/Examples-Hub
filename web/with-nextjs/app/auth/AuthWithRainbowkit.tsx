@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { CAPSULE_API_KEY } from "../capsuleClient";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import Logo from "../assets/capsule.svg";
 import { ConnectButton, RainbowKitProvider, connectorsForWallets, lightTheme } from "@usecapsule/rainbowkit";
 import { getCapsuleWallet, GetCapsuleOpts, OAuthMethod } from "@usecapsule/rainbowkit-wallet";

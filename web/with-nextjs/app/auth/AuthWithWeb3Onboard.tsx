@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import capsuleModule, { Environment, OAuthMethod } from "@web3-onboard/capsule";
 import { useConnectWallet, init } from "@web3-onboard/react";
 import Logo from "../assets/capsule.svg";
-import { Button } from "../../components/ui/button";
+import { Button } from "../components/ui/button";
 import { CAPSULE_API_KEY } from "../capsuleClient";
 
 type AuthWithWeb3OnboardProps = {

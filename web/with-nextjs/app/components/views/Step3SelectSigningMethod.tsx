@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import StepLayout from "../layouts/stepLayout";
-import { SigningOption } from "../../main";
+import { SigningOption } from "../../page";
 
 type Step3SelectSigningMethodProps = {
   signingOptions: readonly SigningOption[];

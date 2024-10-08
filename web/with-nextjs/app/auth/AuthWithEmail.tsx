@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { capsuleClient } from "../capsuleClient";
-import { Button } from "../../components/ui/button";
-import { Input } from "../../components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "../../components/ui/input-otp";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "../components/ui/input-otp";
 
 type AuthWithEmailProps = {
   email: string;

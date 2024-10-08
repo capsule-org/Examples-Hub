@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { capsuleClient } from "../capsuleClient";
 import { OAuthMethod } from "@usecapsule/web-sdk";
-import { ReactComponent as GoogleIcon } from "../assets/google.svg";
-import { ReactComponent as FacebookIcon } from "../assets/facebook.svg";
-import { ReactComponent as TwitterIcon } from "../assets/twitter.svg";
-import { ReactComponent as DiscordIcon } from "../assets/discord.svg";
-import { ReactComponent as AppleIcon } from "../assets/apple.svg";
-import { ReactComponent as FarcasterIcon } from "../assets/farcaster.svg";
+import GoogleIcon from "../assets/google.svg";
+import FacebookIcon from "../assets/facebook.svg";
+import TwitterIcon from "../assets/twitter.svg";
+import DiscordIcon from "../assets/discord.svg";
+import AppleIcon from "../assets/apple.svg";
+import FarcasterIcon from "../assets/farcaster.svg";
 
 type AuthWithOAuthProps = {
   email: string;

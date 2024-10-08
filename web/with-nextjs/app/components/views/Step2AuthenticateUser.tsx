@@ -1,14 +1,14 @@
 import React, { PropsWithChildren } from "react";
 import StepLayout from "../layouts/stepLayout";
-import { AuthOption } from "../../main";
+import { AuthOption } from "../../page";
 
-import OAuthAuth from "../../app/auth/AuthWithOAuth";
-import EmailAuth from "../../app/auth/AuthWithEmail";
-import PhoneAuth from "../../app/auth/AuthWithPhone";
-import CapsuleModalAuth from "../../app/auth/AuthWithCapsuleModal";
-import RainbowKitAuth from "../../app/auth/AuthWithRainbowkit";
-import Web3OnboardAuth from "../../app/auth/AuthWithWeb3Onboard";
-import PreGenAuth from "../../app/auth/AuthWithPreGen";
+import OAuthAuth from "../../auth/AuthWithOAuth";
+import EmailAuth from "../../auth/AuthWithEmail";
+import PhoneAuth from "../../auth/AuthWithPhone";
+import CapsuleModalAuth from "../../auth/AuthWithCapsuleModal";
+import RainbowKitAuth from "../../auth/AuthWithRainbowkit";
+import Web3OnboardAuth from "../../auth/AuthWithWeb3Onboard";
+import PreGenAuth from "../../auth/AuthWithPreGen";
 
 type Step2AuthenticateUserProps = {
   email: string;
