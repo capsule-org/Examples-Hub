@@ -28,7 +28,7 @@ yarn install
 yarn dev
 ```
 
-Make sure to configure the `.env` file as mentioned earlier.
+Make sure to configure the `.env` file based on the `.env.example` file in each project directory.
 
 Additional web examples can also be found outside this repository:
 
@@ -49,13 +49,7 @@ yarn install
 yarn dev
 ```
 
-Make sure to set up a `.env` file based on `.env.example`:
-
-```
-REACT_APP_CAPSULE_API_KEY=YOUR_CAPSULE_API_KEY
-REACT_APP_ALCHEMY_API_KEY=YOUR_ALCHEMY_API_KEY
-REACT_APP_ALCHEMY_GAS_POLICY_ID=YOUR_ALCHEMY_GAS_POLICY_ID
-```
+Make sure to set up a `.env` file based on the `.env.example` file in each project directory.
 
 ## Server
 
@@ -73,6 +67,8 @@ yarn install
 yarn dev
 ```
 
+Make sure to configure the `.env` file based on the `.env.example` file in each project directory.
+
 ## Specialized
 
 - [Telegram Web App (TWA)](./specialized/with-telegram-web-app)
@@ -80,9 +76,4 @@ yarn dev
 
 Each of these examples is an app that can be run individually. Follow the same steps as above to run them.
 
-Make sure to configure the `.env` file as mentioned earlier.
-
-Additional web examples can also be found outside this repository:
-
-- [Vue](https://github.com/capsule-org/vue-example)
-- [Legacy Web Examples](https://github.com/capsule-org/react-integration-examples)
+Make sure to configure the `.env` file based on the `.env.example` file in each project directory.
