@@ -1,26 +1,26 @@
-## Node Server Example
+## Deno Server Example
 
-This example demonstrates how to integrate the Capsule SDK with a Node server. The server includes routes for wallet
+This example demonstrates how to integrate the Capsule SDK with a Deno server. The server includes routes for wallet
 creation and signing using different libraries.
 
 ### Running the Example
 
-1. Install dependencies:
+1. Install dependencies (optional):
    ```bash
-   yarn install
+   deno cache --reload server.ts
    ```
 2. Start the server:
    ```bash
-   yarn dev
+   deno task dev
    ```
 
-Alternatively, you can run the server directly:
+Alternatively, you can run directly:
 
 ```bash
-ts-node-esm server.ts
+deno run --watch -R server.ts
 ```
 
-Ensure that you configure the `.env` file using `.env.example`.
+Ensure that you configure the \***\*`.env`\*\*** file using \***\*`.env.example`\*\***.
 
 ### Available Routes
 

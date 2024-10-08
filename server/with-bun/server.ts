@@ -14,5 +14,5 @@ Bun.serve({
     }
     return defaultHandler(req);
   },
-  port: 3000,
+  port: 8000,
 });
