@@ -69,6 +69,8 @@ const Step2AuthenticateUser: React.FC<PropsWithChildren<Step2AuthenticateUserPro
             setPhoneNumber={setPhoneNumber}
             countryCode={countryCode}
             setCountryCode={setCountryCode}
+            verificationCode={verificationCode}
+            setVerificationCode={setVerificationCode}
             setCurrentStep={setCurrentStep}
             setDisableNext={setDisableNext}
           />

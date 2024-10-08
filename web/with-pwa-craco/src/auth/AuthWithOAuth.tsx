@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { capsuleClient } from "../capsuleClient";
-import { Input } from "../components/ui/input";
-import { Button } from "../components/ui/button";
 import { OAuthMethod } from "@usecapsule/web-sdk";
 import { ReactComponent as GoogleIcon } from "../assets/google.svg";
 import { ReactComponent as FacebookIcon } from "../assets/facebook.svg";

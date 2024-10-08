@@ -12,4 +12,5 @@ const AuthWithCapsuleModal: React.FC<AuthWithCapsuleModalProps> = ({ setCurrentS
     </div>
   );
 };
+
 export default AuthWithCapsuleModal;

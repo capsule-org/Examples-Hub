@@ -2,7 +2,7 @@ import CapsuleWeb, { Environment } from "@usecapsule/react-sdk";
 import { ConstructorOpts } from "@usecapsule/core-sdk";
 
 // Grab an BETA API key from https://developer.usecapsule.com/
-const CAPSULE_API_KEY = process.env.REACT_APP_CAPSULE_API_KEY || "";
+export const CAPSULE_API_KEY = process.env.REACT_APP_CAPSULE_API_KEY || "";
 
 // Grab an Alchemy API key from https://dashboard.alchemy.com/apps
 const ALCHEMY_API_KEY = process.env.REACT_APP_ALCHEMY_API_KEY || "";
