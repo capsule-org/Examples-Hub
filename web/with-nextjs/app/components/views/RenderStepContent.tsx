@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Step1SelectAuth from "./Step1SelectAuth";
 import Step2AuthenticateUser from "./Step2AuthenticateUser";

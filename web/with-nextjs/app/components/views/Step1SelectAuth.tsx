@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useState } from "react";
 import StepLayout from "../layouts/stepLayout";
-import { AuthOption } from "../../page";
+import type { AuthOption } from "../../page";
 import { Card, CardContent } from "../ui/card";
 import MailIcon from "../../assets/mail.svg";
 import OAuthIcon from "../../assets/oauth.svg";
@@ -63,12 +65,7 @@ const authOptions: Options = {
   },
 };
 
-export default function Step1SelectAuth({
-  selectedAuth,
-  setSelectedAuth,
-  currentStep,
-  setCurrentStep,
-}: Step1SelectAuthProps) {
+const Step1SelectAuth = ({ selectedAuth, setSelectedAuth, currentStep, setCurrentStep }: Step1SelectAuthProps) => {
   const [hoveredOption, setHoveredOption] = useState<string | null>(null);
 
   const handleSelectAuth = (key: AuthOption) => {
@@ -109,4 +106,6 @@ export default function Step1SelectAuth({
       </div>
     </StepLayout>
   );
-}
+};
+
+export default Step1SelectAuth;
