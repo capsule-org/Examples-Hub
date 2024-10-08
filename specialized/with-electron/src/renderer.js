@@ -5,7 +5,7 @@ import "@usecapsule/react-sdk/styles.css";
 import "./index.css"; // Make sure to create this file for your styles
 
 // Step 1: Set up your Capsule API key and environment
-const CAPSULE_API_KEY = "d0b61c2c8865aaa2fb12886651627271";
+const CAPSULE_API_KEY = "YOUR_API_KEY";
 const CAPSULE_ENVIRONMENT = Environment.BETA;
 
 // Step 2: Define constructor options
