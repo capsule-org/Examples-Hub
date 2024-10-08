@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import Logo from "../assets/capsule.svg";
 import { ConnectButton, RainbowKitProvider, connectorsForWallets, lightTheme } from "@usecapsule/rainbowkit";
 import { getCapsuleWallet, GetCapsuleOpts, OAuthMethod } from "@usecapsule/rainbowkit-wallet";
-import { WagmiProvider, createConfig, useAccount } from "wagmi";
+import { WagmiProvider, createConfig, useAccount, type CreateConfigParameters } from "wagmi";
 import { sepolia } from "wagmi/chains";
 import { createClient, http } from "viem";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -54,7 +54,7 @@ const wagmiConfig = createConfig({
   client({ chain }) {
     return createClient({ chain, transport: http() });
   },
-});
+} as CreateConfigParameters);
 
 const queryClient = new QueryClient();
 

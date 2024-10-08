@@ -1,5 +1,6 @@
 const webpack = require("webpack");
 const path = require("path");
+const { GenerateSW } = require("workbox-webpack-plugin");
 
 module.exports = {
   webpack: {
@@ -8,6 +9,20 @@ module.exports = {
         new webpack.ProvidePlugin({
           Buffer: ["buffer", "Buffer"],
           process: "process/browser",
+        }),
+        new GenerateSW({
+          clientsClaim: true,
+          skipWaiting: true,
+          navigateFallback: "/index.html",
+          runtimeCaching: [
+            {
+              urlPattern: /^https?.*/,
+              handler: "NetworkFirst",
+              options: {
+                cacheName: "http-cache",
+              },
+            },
+          ],
         }),
       ],
     },
