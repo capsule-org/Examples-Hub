@@ -1,6 +1,6 @@
-## React Vite Example
+## React Craco Example
 
-This example shows how to integrate the Capsule SDK with a React application using Vite as the build tool.
+This example showcases how to use the Capsule SDK with a React application set up with Craco.
 
 ### Running the Example
 
@@ -13,6 +13,6 @@ This example shows how to integrate the Capsule SDK with a React application usi
    yarn dev
    ```
 
-Make sure to configure the `.env` file using `.env.example`.
+Make sure to configure the `.env` file as outlined in `.env.example`.
 
 For more details, visit the [Capsule SDK documentation](https://docs.usecapsule.com/welcome).
