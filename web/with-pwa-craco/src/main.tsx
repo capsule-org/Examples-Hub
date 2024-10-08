@@ -23,7 +23,7 @@ const signingOptions = [
 export type AuthOption = (typeof authOptions)[number];
 export type SigningOption = (typeof signingOptions)[number];
 
-export default function Component() {
+export default function Main() {
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [selectedAuth, setSelectedAuth] = useState<AuthOption | "">("");
   const [selectedSigner, setSelectedSigner] = useState<SigningOption | "">("");
