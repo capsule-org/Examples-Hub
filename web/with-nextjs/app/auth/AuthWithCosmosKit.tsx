@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ChainProvider } from "@cosmos-kit/react";
 import { assets, chains } from "chain-registry";
-import { useChain } from "@cosmos-kit/react";
 import { Chain } from "@chain-registry/types";
 import { wallets } from "@cosmos-kit/leap-capsule-social-login";
 import { CustomCapsuleModalView } from "@leapwallet/cosmos-social-login-capsule-provider-ui";
