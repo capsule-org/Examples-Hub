@@ -7,12 +7,14 @@ import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 import { CapsuleProtoSigner } from "@usecapsule/cosmjs-v0-integration";
 import { getKeyShareInDB } from "../db/keySharesDB";
 import { decrypt } from "../utils/encryption-utils";
+import { CapsuleEthersSigner } from "@usecapsule/ethers-v6-integration";
+import { ethers, type TransactionRequest } from "ethers";
 
 interface RequestBody {
   email: string;
 }
 
-export const signWithCosmJS = async (
+export const signWithEthers = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -65,45 +67,30 @@ export const signWithCosmJS = async (
 
     await capsuleClient.setUserShare(decryptedKeyShare);
 
-    const capsuleProtoSigner = new CapsuleProtoSigner(capsuleClient, "cosmos");
+    const provider = new ethers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
 
-    const stargateClient = await SigningStargateClient.connectWithSigner(
-      "https://rpc-t.cosmos.nodestake.top",
-      capsuleProtoSigner
-    );
+    const capsuleEthersSigner = new CapsuleEthersSigner(capsuleClient, provider);
 
-    const toAddress = "cosmos1..."; // Replace with the actual recipient address
+    const address = await capsuleEthersSigner.getAddress();
 
-    const fromAddress = capsuleProtoSigner.address;
+    const message = "Sign with Capsule PreGen and Capsule Ethers Signer";
 
-    const amount: Coin = {
-      denom: "uatom",
-      amount: "1000",
+    const signMessageResult = await capsuleEthersSigner.signMessage(message);
+
+    const demoTx: TransactionRequest = {
+      to: address,
+      value: ethers.parseEther("0.01"),
+      nonce: await provider.getTransactionCount(address),
+      gasLimit: 21000,
+      gasPrice: (await provider.getFeeData()).gasPrice,
     };
 
-    const fee: StdFee = {
-      amount: [{ denom: "uatom", amount: "500" }],
-      gas: "200000",
-    };
-
-    const message: MsgSend = {
-      fromAddress: fromAddress,
-      toAddress: toAddress,
-      amount: [amount],
-    };
-
-    const demoTxMessage: MsgSendEncodeObject = {
-      typeUrl: "/cosmos.bank.v1beta1.MsgSend",
-      value: message,
-    };
-
-    const memo = "Signed with Capsule";
-
-    const signResult = await stargateClient.sign(fromAddress, [demoTxMessage], fee, memo);
+    const signTxResult = await capsuleEthersSigner.signTransaction(demoTx);
 
     return res.status(200).json({
       route: "signWithCosmJS",
-      signResult,
+      signMessageResult,
+      signTxResult,
     });
   } catch (error) {
     console.error("Error in signWithCosmJS:", error);
