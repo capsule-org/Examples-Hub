@@ -58,7 +58,7 @@ const AuthWithLeapSocial: React.FC<AuthWithLeapSocialProps> = ({ setCurrentStep,
   };
 
   const handleLoginFailure = () => {
-    window.failureFromCapsuleModal();
+    setShowCapsuleModal(false);
   };
 
   return (
