@@ -68,7 +68,13 @@ const AuthWithLeapSocial: React.FC<AuthWithLeapSocialProps> = ({ setCurrentStep,
           <CardTitle>{step === 0 ? "Connect with Leap Social" : "Login Status"}</CardTitle>
         </CardHeader>
         <CardContent>
-          {step === 0 && <Button onClick={handleModalOpen}>Open Leap Social Modal</Button>}
+          {step === 0 && (
+            <Button
+              onClick={handleModalOpen}
+              disabled={isLoading}>
+              {isLoggedIn ? "Reconnect" : "Open Leap Social Modal"}
+            </Button>
+          )}
           {step === 1 && (
             <div className="text-center">
               <p className="text-green-600 font-semibold">You're successfully logged in!</p>

@@ -72,7 +72,13 @@ const AuthWithCosmosKit: React.FC<AuthWithCosmosKitProps> = ({ setCurrentStep, s
           <CardTitle>{step === 0 ? "Connect with Cosmos Kit" : "Login Status"}</CardTitle>
         </CardHeader>
         <CardContent>
-          {step === 0 && <Button onClick={handleModalOpen}>Open Capsule Modal</Button>}
+          {step === 0 && (
+            <Button
+              onClick={handleModalOpen}
+              disabled={isLoading}>
+              {isLoading ? "Loading..." : "Open Leap Social Modal"}
+            </Button>
+          )}
           {step === 1 && (
             <div className="text-center">
               <p className="text-green-600 font-semibold">You're successfully logged in!</p>

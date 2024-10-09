@@ -86,7 +86,7 @@ const AuthWithCapsuleModal: React.FC<AuthWithCapsuleModalProps> = ({
             <Button
               onClick={handleModalOpen}
               disabled={isLoading}>
-              Connect with Capsule Modal
+              {isLoading ? "Loading..." : "Open Capsule Modal"}
             </Button>
           )}
           {step === 1 && (
