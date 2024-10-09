@@ -79,7 +79,7 @@ const RenderStepContent: React.FC<RenderStepContentProps> = ({
     case 2:
       return (
         <Step3SelectSigningMethod
-          signingOptions={signingOptions}
+          selectedSigner={selectedSigner}
           setSelectedSigner={setSelectedSigner}
           currentStep={currentStep}
           setCurrentStep={setCurrentStep}

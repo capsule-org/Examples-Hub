@@ -19,7 +19,7 @@ const authOptions = [
   "cosmos-kit",
 ] as const;
 
-const signingOptions = ["capsule", "ethers", "viem", "wagmi", "cosmjs", "solana-web3js", "alchemy aa"] as const;
+const signingOptions = ["capsule", "ethers", "viem", "cosmjs", "solana-web3js", "alchemy-aa"] as const;
 
 export type AuthOption = (typeof authOptions)[number];
 export type SigningOption = (typeof signingOptions)[number];
