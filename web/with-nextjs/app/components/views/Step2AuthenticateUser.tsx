@@ -9,6 +9,9 @@ import CapsuleModalAuth from "../../auth/AuthWithCapsuleModal";
 import RainbowKitAuth from "../../auth/AuthWithRainbowkit";
 import Web3OnboardAuth from "../../auth/AuthWithWeb3Onboard";
 import PreGenAuth from "../../auth/AuthWithPreGen";
+import AuthWithLeapSocial from ".auth/AuthWithLeapSocial";
+import AuthWithCosmosKit from ".auth/AuthWithCosmosKit";
+import AuthWithGraz from ".auth/AuthWithGraz";
 
 type Step2AuthenticateUserProps = {
   email: string;
@@ -49,6 +52,7 @@ const Step2AuthenticateUser: React.FC<PropsWithChildren<Step2AuthenticateUserPro
             setEmail={setEmail}
             setCurrentStep={setCurrentStep}
             setDisableNext={setDisableNext}
+            setDisablePrev={setDisablePrev}
           />
         );
       case "email":
@@ -60,6 +64,7 @@ const Step2AuthenticateUser: React.FC<PropsWithChildren<Step2AuthenticateUserPro
             setVerificationCode={setVerificationCode}
             setCurrentStep={setCurrentStep}
             setDisableNext={setDisableNext}
+            setDisablePrev={setDisablePrev}
           />
         );
       case "phone":
@@ -73,6 +78,7 @@ const Step2AuthenticateUser: React.FC<PropsWithChildren<Step2AuthenticateUserPro
             setVerificationCode={setVerificationCode}
             setCurrentStep={setCurrentStep}
             setDisableNext={setDisableNext}
+            setDisablePrev={setDisablePrev}
           />
         );
       case "capsuleModal":
@@ -80,6 +86,7 @@ const Step2AuthenticateUser: React.FC<PropsWithChildren<Step2AuthenticateUserPro
           <CapsuleModalAuth
             setCurrentStep={setCurrentStep}
             setDisableNext={setDisableNext}
+            setDisablePrev={setDisablePrev}
           />
         );
       case "rainbowkit":
@@ -87,6 +94,7 @@ const Step2AuthenticateUser: React.FC<PropsWithChildren<Step2AuthenticateUserPro
           <RainbowKitAuth
             setCurrentStep={setCurrentStep}
             setDisableNext={setDisableNext}
+            setDisablePrev={setDisablePrev}
           />
         );
       case "web3-onboard":
@@ -94,6 +102,7 @@ const Step2AuthenticateUser: React.FC<PropsWithChildren<Step2AuthenticateUserPro
           <Web3OnboardAuth
             setCurrentStep={setCurrentStep}
             setDisableNext={setDisableNext}
+            setDisablePrev={setDisablePrev}
           />
         );
       case "PreGen":
@@ -101,8 +110,21 @@ const Step2AuthenticateUser: React.FC<PropsWithChildren<Step2AuthenticateUserPro
           <PreGenAuth
             setCurrentStep={setCurrentStep}
             setDisableNext={setDisableNext}
+            setDisablePrev={setDisablePrev}
           />
         );
+      case "leap-social":
+        return <AuthWithLeapSocial />;
+      case "cosmos-kit":
+        return (
+          <AuthWithCosmosKit
+            setCurrentStep={setCurrentStep}
+            setDisableNext={setDisableNext}
+            setDisablePrev={setDisablePrev}
+          />
+        );
+      case "graz":
+        return <AuthWithGraz />;
       default:
         return <div>Please select an authentication method</div>;
     }
@@ -114,7 +136,9 @@ const Step2AuthenticateUser: React.FC<PropsWithChildren<Step2AuthenticateUserPro
       subtitle="Depending on the authentication method you selected authentication may require multiple steps. Reference the code snippets on the right to see how to authenticate a user with the selected method."
       currentStep={currentStep}
       onNextStep={() => setCurrentStep(currentStep + 1)}
-      onPrevStep={() => setCurrentStep(currentStep - 1)}>
+      onPrevStep={() => setCurrentStep(currentStep - 1)}
+      disableNext={disableNext}
+      disablePrev={disablePrev}>
       {renderAuthComponent()}
     </StepLayout>
   );

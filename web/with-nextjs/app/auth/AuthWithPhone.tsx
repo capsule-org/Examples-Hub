@@ -15,6 +15,7 @@ type AuthWithPhoneProps = {
   setVerificationCode: (value: string) => void;
   setCurrentStep: (value: number) => void;
   setDisableNext: (value: boolean) => void;
+  setDisablePrev: (value: boolean) => void;
 };
 
 const AuthWithPhone: React.FC<AuthWithPhoneProps> = ({
@@ -173,8 +174,10 @@ const AuthWithPhone: React.FC<AuthWithPhoneProps> = ({
             </div>
           )}
           {step === 2 && (
-            <div className="text-center">
-              <p className="text-green-600 font-semibold">You're successfully logged in!</p>
+            <div>
+              <p className="text-green-600 font-semibold">
+                You have successfully logged in! Click 'Next' below to proceed to the Signing process.
+              </p>
             </div>
           )}
         </CardContent>

@@ -4,12 +4,14 @@ import { useConnectWallet, init } from "@web3-onboard/react";
 import Logo from "../assets/capsule.svg";
 import { Button } from "../components/ui/button";
 import { CAPSULE_API_KEY } from "../capsuleClient";
+import { CapsuleInitOptions } from "@web3-onboard/capsule/dist/types";
 
 type AuthWithWeb3OnboardProps = {
   setCurrentStep: (value: number) => void;
   setDisableNext: (value: boolean) => void;
+  setDisablePrev: (value: boolean) => void;
 };
-const initOptions = {
+const initOptions: CapsuleInitOptions = {
   environment: Environment.BETA,
   apiKey: CAPSULE_API_KEY,
   modalProps: {
@@ -20,7 +22,7 @@ const initOptions = {
       OAuthMethod.DISCORD,
       OAuthMethod.FACEBOOK,
     ],
-    logo: Logo,
+    logo: Logo.src,
   },
   walletLabel: "Sign in with Capsule",
   walletIcon: async () => (await import("../assets/capsule.svg")).default,

@@ -12,6 +12,7 @@ type AuthWithEmailProps = {
   setVerificationCode: (value: string) => void;
   setCurrentStep: (value: number) => void;
   setDisableNext: (value: boolean) => void;
+  setDisablePrev: (value: boolean) => void;
 };
 
 const AuthWithEmail: React.FC<AuthWithEmailProps> = ({
@@ -21,6 +22,7 @@ const AuthWithEmail: React.FC<AuthWithEmailProps> = ({
   setVerificationCode,
   setCurrentStep,
   setDisableNext,
+  setDisablePrev,
 }) => {
   const [step, setStep] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,6 +51,7 @@ const AuthWithEmail: React.FC<AuthWithEmailProps> = ({
   useEffect(() => {
     if (isLoggedIn && step === 2) {
       setDisableNext(false);
+      setDisablePrev(true);
     }
   }, [isLoggedIn, step]);
 
@@ -149,8 +152,10 @@ const AuthWithEmail: React.FC<AuthWithEmailProps> = ({
             </div>
           )}
           {step === 2 && (
-            <div className="text-center">
-              <p className="text-green-600 font-semibold">You're successfully logged in!</p>
+            <div>
+              <p className="text-green-600 font-semibold">
+                You have successfully logged in! Click 'Next' below to proceed to the Signing process.
+              </p>
             </div>
           )}
         </CardContent>

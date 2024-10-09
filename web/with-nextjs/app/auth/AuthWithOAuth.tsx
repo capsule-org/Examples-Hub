@@ -14,6 +14,7 @@ type AuthWithOAuthProps = {
   setEmail: (value: string) => void;
   setCurrentStep: (value: number) => void;
   setDisableNext: (value: boolean) => void;
+  setDisablePrev: (value: boolean) => void;
 };
 
 const OAuthOptions: {
@@ -183,8 +184,10 @@ const AuthWithOAuth: React.FC<AuthWithOAuthProps> = ({ email, setEmail, setCurre
             </div>
           )}
           {step === 1 && (
-            <div className="text-center">
-              <p className="text-green-600 font-semibold">You're successfully logged in!</p>
+            <div>
+              <p className="text-green-600 font-semibold">
+                You have successfully logged in! Click 'Next' below to proceed to the Signing process.
+              </p>
             </div>
           )}
         </CardContent>

@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { CAPSULE_API_KEY } from "../capsuleClient";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import Logo from "../assets/capsule.svg";
-import { ConnectButton, RainbowKitProvider, connectorsForWallets, lightTheme } from "@usecapsule/rainbowkit";
+import { ConnectButton, RainbowKitProvider, connectorsForWallets } from "@usecapsule/rainbowkit";
 import { getCapsuleWallet, GetCapsuleOpts, OAuthMethod } from "@usecapsule/rainbowkit-wallet";
 import { WagmiProvider, createConfig, useAccount, type CreateConfigParameters } from "wagmi";
 import { sepolia } from "wagmi/chains";
@@ -15,6 +15,7 @@ import { Environment } from "@usecapsule/web-sdk";
 type AuthWithRainbowkitProps = {
   setCurrentStep: (value: number) => void;
   setDisableNext: (value: boolean) => void;
+  setDisablePrev: (value: boolean) => void;
 };
 
 const capsuleWalletOpts: GetCapsuleOpts = {
@@ -58,29 +59,53 @@ const wagmiConfig = createConfig({
 
 const queryClient = new QueryClient();
 
-const AuthWithRainbowkit: React.FC<AuthWithRainbowkitProps> = ({ setCurrentStep, setDisableNext }) => {
-  const { isConnected } = useAccount();
+const ConnectButtonWrapper: React.FC = () => {
+  return <ConnectButton label="Connect with Capsule Modal" />;
+};
 
-  useEffect(() => {
-    setDisableNext(!isConnected);
-  }, [isConnected, setDisableNext]);
+const AuthContent: React.FC<AuthWithRainbowkitProps> = ({ setCurrentStep, setDisableNext, setDisablePrev }) => {
+  const { isConnected } = useAccount();
+  const [step, setStep] = useState(0);
+
+  React.useEffect(() => {
+    if (isConnected) {
+      setStep(1);
+      setDisableNext(false);
+      setDisablePrev(true);
+    } else {
+      setStep(0);
+      setDisableNext(true);
+      setDisablePrev(false);
+    }
+  }, [isConnected, setDisableNext, setDisablePrev]);
 
   return (
+    <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle>{step === 0 ? "Connect with Rainbowkit" : "Connection Status"}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {step === 0 && <ConnectButtonWrapper />}
+        {step === 1 && (
+          <div className="text-center">
+            <p className="text-green-600 font-semibold">You're successfully connected!</p>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+const AuthWithRainbowkit: React.FC<AuthWithRainbowkitProps> = (props) => {
+  return (
     <div className="flex flex-col items-center justify-center h-full">
-      <Card className="w-[350px]">
-        <CardHeader>
-          <CardTitle>Connect with Capsule</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <WagmiProvider config={wagmiConfig}>
-            <QueryClientProvider client={queryClient}>
-              <RainbowKitProvider>
-                <ConnectButton label="Connect with Capsule Modal" />
-              </RainbowKitProvider>
-            </QueryClientProvider>
-          </WagmiProvider>
-        </CardContent>
-      </Card>
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider>
+            <AuthContent {...props} />
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
     </div>
   );
 };

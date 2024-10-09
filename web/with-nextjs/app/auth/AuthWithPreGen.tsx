@@ -3,6 +3,7 @@ import React from "react";
 type AuthWithPreGenProps = {
   setCurrentStep: (value: number) => void;
   setDisableNext: (value: boolean) => void;
+  setDisablePrev: (value: boolean) => void;
 };
 
 const AuthWithPreGen: React.FC<AuthWithPreGenProps> = ({ setCurrentStep, setDisableNext }) => {

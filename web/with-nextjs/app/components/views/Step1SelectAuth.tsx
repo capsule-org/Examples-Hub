@@ -1,6 +1,5 @@
-"use client";
-
 import React, { useState } from "react";
+import Image from "next/image";
 import StepLayout from "../layouts/stepLayout";
 import type { AuthOption } from "../../page";
 import { Card, CardContent } from "../ui/card";
@@ -11,6 +10,9 @@ import PhoneIcon from "../../assets/phone.svg";
 import RainbowIcon from "../../assets/rainbow.svg";
 import Web3Icon from "../../assets/web3onboard.svg";
 import WalletIcon from "../../assets/wallet.svg";
+import GrazIcon from "../../assets/graz.png";
+import LeapSocialIcon from "../../assets/leap.svg";
+import CosmosKitIcon from "../../assets/cosmos-kit.svg";
 
 type Step1SelectAuthProps = {
   selectedAuth: AuthOption | "";
@@ -19,15 +21,22 @@ type Step1SelectAuthProps = {
   setCurrentStep: (value: number) => void;
 };
 
+type IconType = React.FC<React.SVGProps<SVGSVGElement>> | string;
+
 type Options = {
   [k in AuthOption]: {
-    icon: React.FC<React.SVGProps<SVGSVGElement>>;
+    icon: IconType;
     label: string;
     description: string;
   };
 };
 
 const authOptions: Options = {
+  "capsuleModal": {
+    icon: ModalIcon,
+    label: "Capsule Modal",
+    description: "Authenticate with the Capsule Modal.",
+  },
   "email": {
     icon: MailIcon,
     label: "Email",
@@ -38,30 +47,40 @@ const authOptions: Options = {
     label: "OAuth",
     description: "Authenticate with a third-party OAuth provider.",
   },
-  "capsuleModal": {
-    icon: ModalIcon,
-    label: "Capsule Modal",
-    description: "Authenticate with the Capsule Modal.",
-  },
   "phone": {
     icon: PhoneIcon,
     label: "Phone",
     description: "Authenticate with your mobile phone.",
+  },
+  "PreGen": {
+    icon: WalletIcon,
+    label: "PreGen",
+    description: "Authenticate with a Capsule PreGen wallet.",
   },
   "rainbowkit": {
     icon: RainbowIcon,
     label: "RainbowKit",
     description: "Authenticate with RainbowKit.",
   },
+  "leap-social": {
+    icon: LeapSocialIcon,
+    label: "Leap Social",
+    description: "Authenticate with Leap Social.",
+  },
   "web3-onboard": {
     icon: Web3Icon,
     label: "Web3 Onboard",
     description: "Authenticate with Blocknative's Web3 Onboard.",
   },
-  "PreGen": {
-    icon: WalletIcon,
-    label: "PreGen",
-    description: "Authenticate with a Capsule PreGen wallet.",
+  "cosmos-kit": {
+    icon: CosmosKitIcon,
+    label: "Cosmos Kit",
+    description: "Authenticate with Cosmos Kit.",
+  },
+  "graz": {
+    icon: GrazIcon.src,
+    label: "Graz",
+    description: "Authenticate with Graz.",
   },
 };
 
@@ -70,6 +89,22 @@ const Step1SelectAuth = ({ selectedAuth, setSelectedAuth, currentStep, setCurren
 
   const handleSelectAuth = (key: AuthOption) => {
     setSelectedAuth(key);
+  };
+
+  const renderIcon = (icon: IconType) => {
+    if (typeof icon === "string") {
+      return (
+        <Image
+          src={icon}
+          alt="Auth Icon"
+          width={24}
+          height={24}
+        />
+      );
+    } else {
+      const IconComponent = icon;
+      return <IconComponent className="h-6 w-6" />;
+    }
   };
 
   return (
@@ -90,7 +125,7 @@ const Step1SelectAuth = ({ selectedAuth, setSelectedAuth, currentStep, setCurren
             onMouseLeave={() => setHoveredOption(null)}
             onClick={() => handleSelectAuth(key as AuthOption)}>
             <CardContent className="p-4 h-24 flex flex-col items-center justify-center">
-              <option.icon className={"h-6 w-6"} />
+              {renderIcon(option.icon)}
               <h3 className={`mt-2 text-sm font-medium text-center ${selectedAuth === key ? "text-primary" : ""}`}>
                 {option.label}
               </h3>

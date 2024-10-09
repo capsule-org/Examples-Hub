@@ -6,18 +6,20 @@ import RenderCodeSnippet from "./components/views/RenderCodeSnippet";
 import Stepper from "./components/ui/stepper";
 import Layout from "./components/layouts/layout";
 
-const authOptions = ["oauth", "email", "phone", "capsuleModal", "rainbowkit", "web3-onboard", "PreGen"] as const;
-
-const signingOptions = [
-  "capsule",
-  "ethers",
-  "viem",
-  "wagmi",
-  "cosmjs",
-  "solana-web3js",
-  "alchemy aa",
-  "zerodev aa",
+const authOptions = [
+  "email",
+  "oauth",
+  "phone",
+  "capsuleModal",
+  "PreGen",
+  "rainbowkit",
+  "leap-social",
+  "web3-onboard",
+  "graz",
+  "cosmos-kit",
 ] as const;
+
+const signingOptions = ["capsule", "ethers", "viem", "wagmi", "cosmjs", "solana-web3js", "alchemy aa"] as const;
 
 export type AuthOption = (typeof authOptions)[number];
 export type SigningOption = (typeof signingOptions)[number];
@@ -46,7 +48,7 @@ export default function Main() {
 
   return (
     <Layout>
-      <div className="flex-1 flex flex-col p-8 w-1/2">
+      <div className="flex-1 flex flex-col p-8 md:w-1/2">
         <Stepper
           currentStep={currentStep}
           totalSteps={6}
@@ -75,7 +77,7 @@ export default function Main() {
           />
         </div>
       </div>
-      <div className="flex-1 bg-muted p-8 flex items-center justify-center w-1/2">
+      <div className="flex-1 bg-muted p-8 flex items-center justify-center md:w-1/2">
         <Card className="w-full max-w-2xl">
           <RenderCodeSnippet
             currentStep={currentStep}
