@@ -2,160 +2,95 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { capsuleClient } from "../capsuleClient";
 import { OAuthMethod } from "@usecapsule/web-sdk";
-import GoogleIcon from "../assets/google.svg";
-import FacebookIcon from "../assets/facebook.svg";
-import TwitterIcon from "../assets/twitter.svg";
-import DiscordIcon from "../assets/discord.svg";
-import AppleIcon from "../assets/apple.svg";
-import FarcasterIcon from "../assets/farcaster.svg";
+import { useAtom } from "jotai";
+import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from ".state";
+import { OAuthOptions } from ".constants";
+import SuccessMessage from ".components/ui/success-message";
 
-type AuthWithOAuthProps = {
-  email: string;
-  setEmail: (value: string) => void;
-  setCurrentStep: (value: number) => void;
-  setDisableNext: (value: boolean) => void;
-  setDisablePrev: (value: boolean) => void;
-};
+type AuthWithOAuthProps = {};
 
-const OAuthOptions: {
-  [key in OAuthMethod]: {
-    label: string;
-    icon: React.FC<React.SVGProps<SVGSVGElement>>;
-  };
-} = {
-  [OAuthMethod.GOOGLE]: {
-    label: "Google",
-    icon: GoogleIcon,
-  },
-  [OAuthMethod.FACEBOOK]: {
-    label: "Facebook",
-    icon: FacebookIcon,
-  },
-  [OAuthMethod.TWITTER]: {
-    label: "Twitter",
-    icon: TwitterIcon,
-  },
-  [OAuthMethod.DISCORD]: {
-    label: "Discord",
-    icon: DiscordIcon,
-  },
-  [OAuthMethod.APPLE]: {
-    label: "Apple",
-    icon: AppleIcon,
-  },
-  [OAuthMethod.FARCASTER]: {
-    label: "Farcaster",
-    icon: FarcasterIcon,
-  },
-};
-
-const AuthWithOAuth: React.FC<AuthWithOAuthProps> = ({ email, setEmail, setCurrentStep, setDisableNext }) => {
-  const [step, setStep] = useState(0);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hoveredOption, setHoveredOption] = useState<string | null>(null);
+const AuthWithOAuth: React.FC<AuthWithOAuthProps> = () => {
+  const [internalStep, setInternalStep] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const [, setIsLoading] = useAtom(isLoadingAtom);
+  const [, setDisableNext] = useAtom(disableNextAtom);
+  const [, setDisablePrev] = useAtom(disablePrevAtom);
+  const [, setHoveredOption] = useState<string | null>(null);
 
   useEffect(() => {
-    const checkLoginStatus = async () => {
-      setIsLoading(true);
-      try {
-        const loggedIn = await capsuleClient.isFullyLoggedIn();
-        console.log("Is logged in:", loggedIn);
-        setIsLoggedIn(loggedIn);
-        if (loggedIn) {
-          setStep(1);
-        }
-        setDisableNext(!loggedIn);
-      } catch (err) {
-        console.error("Error checking login status:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     checkLoginStatus();
   }, []);
 
-  const handleAuthentication = async (method: OAuthMethod) => {
+  const checkLoginStatus = async () => {
     setIsLoading(true);
-    try {
-      if (method === OAuthMethod.FARCASTER) {
-        await handleFarcasterAuth();
-      } else {
-        await handleRegularOAuth(method);
-      }
-      setIsLoggedIn(true);
-      setCurrentStep(1);
-    } catch (err) {
-      console.error("Capsule OAuth authentication failed:", err);
-    } finally {
-      setIsLoading(false);
+    const loggedIn = await capsuleClient.isFullyLoggedIn();
+    setIsLoggedIn(loggedIn);
+    setDisableNext(!loggedIn);
+    if (loggedIn) {
+      setInternalStep(1);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    if (isLoggedIn && step === 1) {
+    if (isLoggedIn && internalStep === 1) {
       setDisableNext(false);
+      setDisablePrev(true);
     }
-  }, [isLoggedIn, step]);
+  }, [isLoggedIn, internalStep]);
+
+  const handleAuthentication = async (method: OAuthMethod) => {
+    setIsLoading(true);
+
+    if (method === OAuthMethod.FARCASTER) {
+      await handleFarcasterAuth();
+    } else {
+      await handleRegularOAuth(method);
+    }
+    setIsLoggedIn(true);
+    setInternalStep(1);
+    setIsLoading(false);
+  };
 
   const handleFarcasterAuth = async () => {
     const connectUri = await capsuleClient.getFarcasterConnectURL();
-
-    console.log("Farcaster QR Code URL:", connectUri);
-
-    window.open(connectUri, "farcasterConnectPopup", "popup=true,width=400,height=500");
+    window.open(connectUri, "farcasterConnectPopup", "popup=true");
 
     const { userExists, username } = await capsuleClient.waitForFarcasterStatus();
 
-    if (userExists) {
-      const webAuthUrlForLogin = await capsuleClient.initiateUserLogin(username, false, "farcaster");
-      const popup = window.open(webAuthUrlForLogin, "loginPopup", "popup=true,width=400,height=500");
-      if (!popup) {
-        console.error("Failed to open login popup");
-        return;
-      }
-      await capsuleClient.waitForLoginAndSetup(popup);
-    } else {
-      const webAuthURLForCreate = await capsuleClient.getSetUpBiometricsURL(false, "farcaster");
-      window.open(webAuthURLForCreate, "signUpPopup", "popup=true,width=400,height=500");
-      const { recoverySecret } = await capsuleClient.waitForPasskeyAndCreateWallet();
-    }
+    const authUrl = userExists
+      ? await capsuleClient.initiateUserLogin(username, false, "farcaster")
+      : await capsuleClient.getSetUpBiometricsURL(false, "farcaster");
+
+    const popupWindow = window.open(authUrl, userExists ? "loginPopup" : "signUpPopup", "popup=true");
+
+    await (userExists
+      ? capsuleClient.waitForLoginAndSetup(popupWindow!)
+      : capsuleClient.waitForPasskeyAndCreateWallet());
   };
 
   const handleRegularOAuth = async (method: OAuthMethod) => {
     const oAuthURL = await capsuleClient.getOAuthURL(method);
-    window.open(oAuthURL, `${method}AuthPopup`, "popup=true,width=400,height=500");
+    window.open(oAuthURL, "oAuthPopup", "popup=true");
 
     const { email, userExists } = await capsuleClient.waitForOAuth();
 
-    if (!email) {
-      throw new Error("Email is required for authentication");
+    const authUrl = userExists
+      ? await capsuleClient.initiateUserLogin(email!, false, "email")
+      : await capsuleClient.getSetUpBiometricsURL(false, "email");
+
+    const popupWindow = window.open(authUrl, userExists ? "loginPopup" : "signUpPopup", "popup=true");
+
+    const result = await (userExists
+      ? capsuleClient.waitForLoginAndSetup(popupWindow!)
+      : capsuleClient.waitForPasskeyAndCreateWallet());
+
+    if ("needsWallet" in result && result.needsWallet) {
+      await capsuleClient.createWallet();
     }
 
-    if (userExists) {
-      const webAuthUrlForLogin = await capsuleClient.initiateUserLogin(email, false, "email");
-      const popup = window.open(webAuthUrlForLogin, "loginPopup", "popup=true,width=400,height=500");
-      console.log("Opened login popup:", popup);
-
-      const { isError, needsWallet } = await capsuleClient.waitForLoginAndSetup(popup!);
-
-      if (isError) {
-        console.error("Error occurred during Capsule authentication");
-        return;
-      }
-
-      if (needsWallet) {
-        const [wallet, secret] = await capsuleClient.createWallet();
-      }
-
-      setIsLoggedIn(true);
-      setStep(1);
-    } else {
-      const webAuthURLForCreate = await capsuleClient.getSetUpBiometricsURL(false, "email");
-      window.open(webAuthURLForCreate, "createWalletPopup", "popup");
-      const { walletIds, recoverySecret } = await capsuleClient.waitForPasskeyAndCreateWallet();
-      setIsLoggedIn(true);
-      setStep(1);
+    if ("recoverySecret" in result) {
+      const recoverySecret = result.recoverySecret;
     }
   };
 
@@ -166,7 +101,7 @@ const AuthWithOAuth: React.FC<AuthWithOAuthProps> = ({ email, setEmail, setCurre
           <CardTitle>{isLoggedIn ? "Welcome" : "Login"}</CardTitle>
         </CardHeader>
         <CardContent>
-          {step === 0 && (
+          {internalStep === 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {Object.entries(OAuthOptions).map(([key, option]) => (
                 <Card
@@ -183,12 +118,12 @@ const AuthWithOAuth: React.FC<AuthWithOAuthProps> = ({ email, setEmail, setCurre
               ))}
             </div>
           )}
-          {step === 1 && (
-            <div>
-              <p className="text-green-600 font-semibold">
-                You have successfully logged in! Click 'Next' below to proceed to the Signing process.
-              </p>
-            </div>
+          {internalStep === 1 && (
+            <SuccessMessage
+              message={
+                "You have successfully authenticated with OAuth. Click next below to continue to selecting a signer."
+              }
+            />
           )}
         </CardContent>
       </Card>

@@ -6,59 +6,47 @@ import { wallets } from "@cosmos-kit/leap-capsule-social-login";
 import { CustomCapsuleModalView } from "@leapwallet/cosmos-social-login-capsule-provider-ui";
 import "@leapwallet/cosmos-social-login-capsule-provider-ui/styles.css";
 import { OAuthMethod } from "@usecapsule/web-sdk";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { Button } from "../components/ui/button";
 import { capsuleClient } from ".capsuleClient";
+import { useAtom } from "jotai";
+import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from ".state";
+import ModalTriggerCard from ".components/ui/modal-trigger-card";
 
-type AuthWithCosmosKitProps = {
-  setCurrentStep: (value: number) => void;
-  setDisableNext: (value: boolean) => void;
-  setDisablePrev: (value: boolean) => void;
-};
+type AuthWithCosmosKitProps = {};
 
-const AuthWithCosmosKit: React.FC<AuthWithCosmosKitProps> = ({ setCurrentStep, setDisableNext, setDisablePrev }) => {
-  const [showCapsuleModal, setShowCapsuleModal] = useState(false);
-  const [step, setStep] = useState(0);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+const AuthWithCosmosKit: React.FC<AuthWithCosmosKitProps> = () => {
+  const [internalStep, setInternalStep] = useState<number>(0);
+  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
+  const [, setDisableNext] = useAtom(disableNextAtom);
+  const [, setDisablePrev] = useAtom(disablePrevAtom);
+
+  const [showCapsuleModal, setShowCapsuleModal] = useState<boolean>(false);
 
   useEffect(() => {
-    const checkLoginStatus = async () => {
-      setIsLoading(true);
-      try {
-        const loggedIn = await capsuleClient.isFullyLoggedIn();
-        setIsLoggedIn(loggedIn);
-        setDisableNext(!loggedIn);
-        if (loggedIn) {
-          setStep(1);
-        }
-      } catch (err) {
-        console.error("Error checking login status:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     checkLoginStatus();
   }, []);
 
-  const handleModalOpen = () => {
-    setShowCapsuleModal(true);
+  const checkLoginStatus = async () => {
+    setIsLoading(true);
+    const loggedIn = await capsuleClient.isFullyLoggedIn();
+    setIsLoggedIn(loggedIn);
+    setDisableNext(!loggedIn);
+    if (loggedIn) {
+      setInternalStep(1);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    if (isLoggedIn && step === 1) {
+    if (isLoggedIn && internalStep === 1) {
       setDisableNext(false);
       setDisablePrev(true);
     }
-  }, [isLoggedIn, step]);
+  }, [isLoggedIn, internalStep]);
 
   const handleLoginSuccess = async () => {
-    const loggedIn = await capsuleClient.isFullyLoggedIn();
-    setIsLoggedIn(loggedIn);
     setShowCapsuleModal(false);
-    if (loggedIn) {
-      setStep(1);
-    }
+    await checkLoginStatus();
   };
 
   const handleLoginFailure = () => {
@@ -67,25 +55,14 @@ const AuthWithCosmosKit: React.FC<AuthWithCosmosKitProps> = ({ setCurrentStep, s
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <Card className="w-[350px]">
-        <CardHeader>
-          <CardTitle>{step === 0 ? "Connect with Cosmos Kit" : "Login Status"}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {step === 0 && (
-            <Button
-              onClick={handleModalOpen}
-              disabled={isLoading}>
-              {isLoading ? "Loading..." : "Open Leap Social Modal"}
-            </Button>
-          )}
-          {step === 1 && (
-            <div className="text-center">
-              <p className="text-green-600 font-semibold">You're successfully logged in!</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      <ModalTriggerCard
+        internalStep={internalStep}
+        handleModalOpen={() => setShowCapsuleModal(true)}
+        isLoading={isLoading}
+        CardTitleStep0="Leap Custom Capsule Modal + Cosmos Kit"
+        CardTitleStep1="Success!"
+        buttonLabel="Open Modal"
+      />
       <ChainProvider
         chains={chains as (string | Chain)[]}
         assetLists={assets}

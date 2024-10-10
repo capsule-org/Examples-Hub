@@ -1,115 +1,87 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { CapsuleModal, OAuthMethod, AuthLayout, ExternalWallet } from "@usecapsule/react-sdk";
 import "@usecapsule/react-sdk/styles.css";
-import Logo from "../assets/capsule.svg?url";
-import { capsuleClient } from "../capsuleClient";
 import { CapsuleEvmProvider, metaMaskWallet, coinbaseWallet } from "@usecapsule/evm-wallet-connectors";
 import { CapsuleSolanaProvider, phantomWallet } from "@usecapsule/solana-wallet-connectors";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { clusterApiUrl } from "@solana/web3.js";
 import { sepolia } from "wagmi/chains";
-import { Card, CardContent, CardHeader, CardTitle } from ".components/ui/card";
-import { Button } from ".components/ui/button";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import Logo from "../assets/capsule.svg";
+import { capsuleClient } from "../capsuleClient";
+import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from ".state";
+import ModalTriggerCard from ".components/ui/modal-trigger-card";
 import "@usecapsule/react-sdk/styles.css";
 
-const WALLET_CONNECT_PROJECT_ID = "YOUR_WALLET_CONNECT_PROJECT_ID"; // Replace with your actual project ID
+type AuthWithCapsuleModalProps = {};
 
-type AuthWithCapsuleModalProps = {
-  setCurrentStep: (value: number) => void;
-  setDisableNext: (value: boolean) => void;
-  setDisablePrev: (value: boolean) => void;
-};
+const QUERY_CLIENT = new QueryClient();
+const SOLANA_NETWORK = WalletAdapterNetwork.Devnet;
+const SOLANA_ENDPOINT = clusterApiUrl(SOLANA_NETWORK);
 
-const queryClient = new QueryClient();
+const AuthWithCapsuleModal: React.FC<AuthWithCapsuleModalProps> = () => {
+  const [internalStep, setInternalStep] = useState<number>(0);
+  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
+  const [, setDisableNext] = useAtom(disableNextAtom);
+  const [, setDisablePrev] = useAtom(disablePrevAtom);
 
-const AuthWithCapsuleModal: React.FC<AuthWithCapsuleModalProps> = ({
-  setCurrentStep,
-  setDisableNext,
-  setDisablePrev,
-}) => {
-  const [isCapsuleModalOpen, setIsCapsuleModalOpen] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [step, setStep] = useState(0);
-
-  const solanaNetwork = WalletAdapterNetwork.Devnet;
-  const endpoint = useMemo(() => clusterApiUrl(solanaNetwork), [solanaNetwork]);
+  const [showCapsuleModal, setShowCapsuleModal] = useState<boolean>(false);
 
   useEffect(() => {
-    const checkLoginStatus = async () => {
-      setIsLoading(true);
-      try {
-        const loggedIn = await capsuleClient.isFullyLoggedIn();
-        setIsLoggedIn(loggedIn);
-        setDisableNext(!loggedIn);
-        if (loggedIn) {
-          setStep(1);
-        }
-      } catch (err) {
-        console.error("Error checking login status:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     checkLoginStatus();
   }, []);
 
+  const checkLoginStatus = async () => {
+    setIsLoading(true);
+    const loggedIn = await capsuleClient.isFullyLoggedIn();
+    setIsLoggedIn(loggedIn);
+    setDisableNext(!loggedIn);
+    if (loggedIn) {
+      setInternalStep(1);
+    }
+    setIsLoading(false);
+  };
+
   useEffect(() => {
-    if (isLoggedIn && step === 1) {
+    if (isLoggedIn && internalStep === 1) {
       setDisableNext(false);
       setDisablePrev(true);
     }
-  }, [isLoggedIn, step]);
+  }, [isLoggedIn, internalStep]);
 
   const handleModalOpen = () => {
-    setIsCapsuleModalOpen(true);
+    setShowCapsuleModal(true);
   };
 
   const handleModalClose = async () => {
-    const loggedIn = await capsuleClient.isFullyLoggedIn();
-    setIsLoggedIn(loggedIn);
-    setIsCapsuleModalOpen(false);
-    if (loggedIn) {
-      setStep(1);
-    }
+    setShowCapsuleModal(false);
+    await checkLoginStatus();
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <Card className="w-[350px]">
-        <CardHeader>
-          <CardTitle>{step === 0 ? "Connect with Capsule" : "Login Status"}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {step === 0 && (
-            <Button
-              onClick={handleModalOpen}
-              disabled={isLoading}>
-              {isLoading ? "Loading..." : "Open Capsule Modal"}
-            </Button>
-          )}
-          {step === 1 && (
-            <div>
-              <p className="text-green-600 font-semibold">
-                You have successfully logged in! Click 'Next' below to proceed to the Signing process.
-              </p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-      <QueryClientProvider client={queryClient}>
+      <ModalTriggerCard
+        internalStep={internalStep}
+        handleModalOpen={handleModalOpen}
+        isLoading={isLoading}
+        CardTitleStep0="Capsule Modal"
+        CardTitleStep1="Success!"
+        buttonLabel="Open Modal"
+      />
+      <QueryClientProvider client={QUERY_CLIENT}>
         <CapsuleEvmProvider
           config={{
-            projectId: WALLET_CONNECT_PROJECT_ID,
+            projectId: "",
             appName: "Capsule Modal Example",
             chains: [sepolia],
             wallets: [metaMaskWallet, coinbaseWallet],
           }}>
           <CapsuleSolanaProvider
-            endpoint={endpoint}
+            endpoint={SOLANA_ENDPOINT}
             wallets={[phantomWallet]}
-            chain={solanaNetwork}
+            chain={SOLANA_NETWORK}
             appIdentity={{ name: "Capsule Modal Example", uri: `${location.protocol}//${location.host}` }}>
             <CapsuleModal
               logo={Logo.src}
@@ -121,7 +93,7 @@ const AuthWithCapsuleModal: React.FC<AuthWithCapsuleModalProps> = ({
                 font: "Inter",
               }}
               capsule={capsuleClient}
-              isOpen={isCapsuleModalOpen}
+              isOpen={showCapsuleModal}
               onClose={handleModalClose}
               appName="Capsule Modal Example"
               oAuthMethods={Object.values(OAuthMethod)}
