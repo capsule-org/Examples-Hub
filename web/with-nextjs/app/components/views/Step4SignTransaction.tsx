@@ -3,7 +3,7 @@ import StepLayout from "../layouts/stepLayout";
 
 type Step4SignTransactionProps = {};
 
-const TITLE = "Step 4: Sign Transaction";
+const TITLE = "Sign Transaction";
 const SUBTITLE =
   "Sign a transaction or UserOperation with the selected library. Reference the code snippets on the right to see how to sign a transaction.";
 

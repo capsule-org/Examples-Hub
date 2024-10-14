@@ -2,14 +2,14 @@ import React, { PropsWithChildren, useState } from "react";
 import { useAtom } from "jotai";
 import StepLayout from "../layouts/stepLayout";
 import { Card, CardContent } from ".components/ui/card";
-import Icon from ".components/ui/Icon";
+import Icon from ".components/ui/icon";
 import { selectedSignerAtom } from ".state";
 import { SigningOption } from ".types";
 import { SigningMethods } from ".constants";
 
 type Step3SelectSigningMethodProps = {};
 
-const TITLE = "Step 3: Select Signing Method";
+const TITLE = "Select Signing Method";
 const SUBTITLE =
   "Capsule integrates with multiple libraries to sign transactions. Select the library you want to demo with.";
 

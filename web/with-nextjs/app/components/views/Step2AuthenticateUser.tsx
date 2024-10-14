@@ -15,7 +15,7 @@ import StepLayout from "../layouts/stepLayout";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorComponent from ".components/ui/error";
 
-const TITLE = "Step 2: Authenticate User";
+const TITLE = "Authenticate User";
 const SUBTITLE =
   "Depending on the authentication method you selected, authentication may require multiple steps. Reference the code snippets on the right to see how to authenticate a user with the selected method.";
 

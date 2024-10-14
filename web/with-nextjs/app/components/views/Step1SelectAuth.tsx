@@ -1,21 +1,25 @@
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import { useAtom } from "jotai";
+import { disableNextAtom, selectedAuthAtom } from ".state";
+import { AuthOption } from ".types";
+import { AuthMethods } from ".constants";
+import Icon from ".components/ui/icon";
 import StepLayout from "../layouts/stepLayout";
 import { Card, CardContent } from "../ui/card";
-import { selectedAuthAtom } from ".state";
-import { AuthOption, IconType } from ".types";
-import { AuthMethods } from ".constants";
-import Icon from ".components/ui/Icon";
 
 type Step1SelectAuthProps = {};
 
-const TITLE = "Step 1: Select Authentication Method";
+const TITLE = "Select Authentication Method";
 const SUBTITLE = "Capsule supports multiple authentication methods. Select the method you want to demo with.";
 
 const Step1SelectAuth: React.FC<Step1SelectAuthProps> = () => {
   const [hoveredOption, setHoveredOption] = useState<string | null>(null);
   const [selectedAuth, setSelectedAuth] = useAtom(selectedAuthAtom);
+  const [, setDisableNext] = useAtom(disableNextAtom);
+
+  useEffect(() => {
+    setDisableNext(!selectedAuth);
+  }, [selectedAuth, setDisableNext]);
 
   return (
     <StepLayout
