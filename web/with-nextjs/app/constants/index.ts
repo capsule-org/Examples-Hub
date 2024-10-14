@@ -1,26 +1,26 @@
 import { AuthOptionDetails, SigningOptionDetails } from ".types";
 import { OAuthMethod } from "@leapwallet/cosmos-social-login-capsule-provider";
-import AlchemyIcon from "../../assets/alchemy.svg";
-import CapsuleIcon from "../../assets/capsule.svg";
-import CosmjsIcon from "../../assets/cosmjs.svg";
-import CosmosKitIcon from "../../assets/cosmos-kit.svg";
+import AlchemyIcon from "../assets/alchemy.svg";
+import CapsuleIcon from "../assets/capsule.svg";
+import CosmjsIcon from "../assets/cosmjs.svg";
+import CosmosKitIcon from "../assets/cosmos-kit.svg";
 import DiscordIcon from "../assets/discord.svg";
-import EthersIcon from "../../assets/ethers.svg";
+import EthersIcon from "../assets/ethers.svg";
 import FacebookIcon from "../assets/facebook.svg";
 import FarcasterIcon from "../assets/farcaster.svg";
 import GoogleIcon from "../assets/google.svg";
-import GrazIcon from "../../assets/graz.png";
-import LeapSocialIcon from "../../assets/leap.svg";
-import MailIcon from "../../assets/mail.svg";
-import ModalIcon from "../../assets/capsule.svg";
-import OAuthIcon from "../../assets/oauth.svg";
-import PhoneIcon from "../../assets/phone.svg";
-import RainbowIcon from "../../assets/rainbow.svg";
-import SolanaWeb3Icon from "../../assets/solana-web3.svg";
+import GrazIcon from "../assets/graz.png";
+import LeapSocialIcon from "../assets/leap.svg";
+import MailIcon from "../assets/mail.svg";
+import ModalIcon from "../assets/capsule.svg";
+import OAuthIcon from "../assets/oauth.svg";
+import PhoneIcon from "../assets/phone.svg";
+import RainbowIcon from "../assets/rainbow.svg";
+import SolanaWeb3Icon from "../assets/solana-web3.svg";
 import TwitterIcon from "../assets/twitter.svg";
-import ViemIcon from "../../assets/viem.svg";
-import WalletIcon from "../../assets/wallet.svg";
-import Web3Icon from "../../assets/web3onboard.svg";
+import ViemIcon from "../assets/viem.svg";
+import WalletIcon from "../assets/wallet.svg";
+import Web3Icon from "../assets/web3onboard.svg";
 import AppleIcon from "../assets/apple.svg";
 
 export const AuthOptions = [
@@ -39,12 +39,12 @@ export const AuthOptions = [
 export const SigningOptions = ["capsule-client", "ethers", "viem", "cosmjs", "solana-web3js", "alchemy-aa"] as const;
 
 export const exampleSteps = [
-  { label: "Select Auth Method" },
-  { label: "Authenticate" },
-  { label: "Select Signing Method" },
-  { label: "Signing" },
+  { label: "Select Auth" },
+  { label: "Auth" },
+  { label: "Select Signer" },
+  { label: "Sign" },
   { label: "Bonus" },
-  { label: "Logout" },
+  { label: "Session" },
 ];
 
 export const AuthMethods: AuthOptionDetails = {
