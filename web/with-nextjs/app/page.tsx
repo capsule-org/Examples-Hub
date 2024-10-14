@@ -59,19 +59,17 @@ export default function Main() {
   };
 
   return (
-    <JotaiProvider>
-      <Layout>
-        <div className="flex-1 flex flex-col p-8 md:w-1/2">
-          <Stepper />
-          <RenderStepContent />
-          <div className="flex-1 flex flex-col justify-center"></div>
-        </div>
-        <div className="flex-1 bg-muted p-8 flex items-center justify-center md:w-1/2">
-          <Card className="w-full max-w-2xl">
-            <RenderCodeSnippet />
-          </Card>
-        </div>
-      </Layout>
-    </JotaiProvider>
+    <Layout>
+      <div className="flex flex-col p-8 w-full md:w-[60%]">
+        <Stepper />
+        <RenderStepContent />
+        <div className="flex-1 flex flex-col justify-center"></div>
+      </div>
+      <div className=" bg-muted p-8 flex items-center w-full justify-center md:w-[40%]">
+        <Card className="w-full max-w-2xl">
+          <RenderCodeSnippet />
+        </Card>
+      </div>
+    </Layout>
   );
 }
