@@ -2,6 +2,9 @@ import express from "express";
 import type { Request, Response, NextFunction } from "express";
 import { routes } from "./routes";
 import type { Route } from "./routes";
+import { configDotenv } from "dotenv";
+
+configDotenv();
 
 const app = express();
 const port = 8000;
@@ -9,15 +12,12 @@ const port = 8000;
 app.use(express.json());
 
 routes.forEach((route: Route) => {
-  app[route.method.toLowerCase() as "post"](route.path, async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const result = await route.handler(req, res, next);
-      res.status(200).json(result);
-    } catch (error) {
-      console.error(error);
-      next(error);
+  app[route.method.toLowerCase() as "get" | "post" | "put" | "delete"](
+    route.path,
+    (req: Request, res: Response, next: NextFunction) => {
+      route.handler(req, res, next).catch(next);
     }
-  });
+  );
 });
 
 app.use((_req: Request, res: Response) => {

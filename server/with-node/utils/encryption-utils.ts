@@ -1,15 +1,19 @@
 import CryptoJS from "crypto-js";
 
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
+let ENCRYPTION_KEY: string | undefined;
 
-if (!ENCRYPTION_KEY || ENCRYPTION_KEY.length !== 16) {
-  throw new Error("ENCRYPTION_KEY must be set and be 16 bytes long");
+function getEncryptionKey(): string {
+  if (!ENCRYPTION_KEY) {
+    ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
+    if (!ENCRYPTION_KEY || ENCRYPTION_KEY.length !== 32) {
+      throw new Error("ENCRYPTION_KEY must be set and be 32 bytes long");
+    }
+  }
+  return ENCRYPTION_KEY;
 }
 
-const IV_LENGTH = 16;
-
 function getKey(): CryptoJS.lib.WordArray {
-  return CryptoJS.enc.Utf8.parse(ENCRYPTION_KEY!);
+  return CryptoJS.enc.Utf8.parse(getEncryptionKey());
 }
 
 function toHex(wordArray: CryptoJS.lib.WordArray): string {
@@ -21,7 +25,7 @@ function fromHex(hex: string): CryptoJS.lib.WordArray {
 }
 
 export function encrypt(text: string): string {
-  const iv = CryptoJS.lib.WordArray.random(IV_LENGTH);
+  const iv = CryptoJS.lib.WordArray.random(16);
   const key = getKey();
 
   const encrypted = CryptoJS.AES.encrypt(text, key, {
@@ -34,11 +38,16 @@ export function encrypt(text: string): string {
 }
 
 export function decrypt(encryptedText: string): string {
+  console.log("Encrypted text:", encryptedText);
   const [ivHex, encryptedDataHex] = encryptedText.split(":");
   const iv = fromHex(ivHex);
   const encryptedData = fromHex(encryptedDataHex);
+  console.log("IV:", ivHex);
+  console.log("Encrypted data:", encryptedDataHex);
 
   const key = getKey();
+
+  console.log("Key:", toHex(key));
 
   const cipherParams = CryptoJS.lib.CipherParams.create({
     ciphertext: encryptedData,

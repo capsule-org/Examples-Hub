@@ -21,13 +21,17 @@ export const createWallet = async (
     }
 
     const token = authHeader.split(" ")[1];
+    console.log("Token:", token);
     const user = simulateVerifyToken(token);
+    console.log("User:", user);
 
     if (!user) {
       return res.status(401).send("Unauthorized");
     }
 
     const { email } = req.body as RequestBody;
+
+    console.log("Creating wallet for:", email);
 
     if (!email) {
       return res.status(400).send("Email is required");

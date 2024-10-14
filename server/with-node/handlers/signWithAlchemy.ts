@@ -61,16 +61,16 @@ export const signWithAlchemy = async (
       return res.status(400).send("Wallet does not exist");
     }
 
-    const keyShare = getKeyShareInDB(email);
+    const keyShare = await getKeyShareInDB(email);
 
     if (!keyShare) {
       return res.status(400).send("Key share does not exist");
     }
 
-    const decryptedKeyShare = decrypt(keyShare);
+    const decryptedKeyShare =  decrypt(keyShare);
     await capsuleClient.setUserShare(decryptedKeyShare);
 
-    const viemCapsuleAccount: LocalAccount = await createCapsuleAccount(capsuleClient);
+    const viemCapsuleAccount: LocalAccount =  createCapsuleAccount(capsuleClient);
 
     const viemClient: WalletClient = createCapsuleViemClient(capsuleClient, {
       account: viemCapsuleAccount,

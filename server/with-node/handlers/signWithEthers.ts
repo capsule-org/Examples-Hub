@@ -57,7 +57,7 @@ export const signWithEthers = async (
       return res.status(400).send("Wallet does not exist");
     }
 
-    const keyShare = getKeyShareInDB(email);
+    const keyShare = await getKeyShareInDB(email);
 
     if (!keyShare) {
       return res.status(400).send("Key share does not exist");

@@ -55,13 +55,15 @@ export const signWithViem = async (
       return res.status(400).send("Wallet does not exist");
     }
 
-    const keyShare = getKeyShareInDB(email);
+    const keyShare = await getKeyShareInDB(email);
+
+    console.log("Key share:", keyShare);
 
     if (!keyShare) {
       return res.status(400).send("Key share does not exist");
     }
 
-    const decryptedKeyShare = decrypt(keyShare);
+    const decryptedKeyShare = await decrypt(keyShare);
 
     await capsuleClient.setUserShare(decryptedKeyShare);
 
