@@ -11,6 +11,7 @@ import {
   isLoggedInAtom,
   verificationCodeAtom,
 } from "../state";
+import { withMinimumLoadingTime } from ".lib/utils";
 
 type AuthWithEmailProps = {};
 
@@ -28,15 +29,19 @@ const AuthWithEmail: React.FC<AuthWithEmailProps> = () => {
     checkLoginStatus();
   }, []);
 
-  const checkLoginStatus = async () => {
-    setIsLoading(true);
-    const loggedIn = await capsuleClient.isFullyLoggedIn();
-    setIsLoggedIn(loggedIn);
-    setDisableNext(!loggedIn);
-    if (loggedIn) {
-      setInternalStep(1);
-    }
-    setIsLoading(false);
+  const checkLoginStatus = () => {
+    withMinimumLoadingTime(
+      async () => {
+        const loggedIn = await capsuleClient.isFullyLoggedIn();
+        setIsLoggedIn(loggedIn);
+        setDisableNext(!loggedIn);
+        if (loggedIn) {
+          setInternalStep(1);
+        }
+      },
+      250,
+      setIsLoading
+    );
   };
 
   useEffect(() => {
@@ -95,29 +100,22 @@ const AuthWithEmail: React.FC<AuthWithEmailProps> = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <Card className="w-[350px]">
-        <CardHeader>
-          <CardTitle>{["Enter your email", "Enter the OTP", "Success!"][internalStep]}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Authentication
-            authType="email"
-            internalStep={internalStep}
-            email={email}
-            setEmail={setEmail}
-            phoneNumber=""
-            setPhoneNumber={() => {}}
-            countryCode=""
-            setCountryCode={() => {}}
-            verificationCode={verificationCode}
-            setVerificationCode={setVerificationCode}
-            isLoading={isLoading}
-            isLoggedIn={isLoggedIn}
-            handleAuthenticateUser={handleAuthenticateUser}
-            handleVerifyAndCreateWallet={handleVerifyAndCreateWallet}
-          />
-        </CardContent>
-      </Card>
+      <Authentication
+        authType="email"
+        internalStep={internalStep}
+        email={email}
+        setEmail={setEmail}
+        phoneNumber=""
+        setPhoneNumber={() => {}}
+        countryCode=""
+        setCountryCode={() => {}}
+        verificationCode={verificationCode}
+        setVerificationCode={setVerificationCode}
+        isLoading={isLoading}
+        isLoggedIn={isLoggedIn}
+        handleAuthenticateUser={handleAuthenticateUser}
+        handleVerifyAndCreateWallet={handleVerifyAndCreateWallet}
+      />
     </div>
   );
 };

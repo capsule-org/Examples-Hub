@@ -4,18 +4,19 @@ import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { WalletType } from "@usecapsule/web-sdk";
+import { useAtom } from "jotai";
+import { disableNextAtom, disablePrevAtom } from ".state";
 
-type AuthWithPreGenProps = {
-  setCurrentStep: (value: number) => void;
-  setDisableNext: (value: boolean) => void;
-  setDisablePrev: (value: boolean) => void;
-};
+type AuthWithPreGenProps = {};
 
-const AuthWithPreGen: React.FC<AuthWithPreGenProps> = ({ setCurrentStep, setDisableNext, setDisablePrev }) => {
+const AuthWithPreGen: React.FC<AuthWithPreGenProps> = () => {
   const [step, setStep] = useState(0);
   const [identifier, setIdentifier] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [, setDisableNext] = useAtom(disableNextAtom);
+  const [, setDisablePrev] = useAtom(disablePrevAtom);
 
   useEffect(() => {
     const checkPregenWallet = async () => {

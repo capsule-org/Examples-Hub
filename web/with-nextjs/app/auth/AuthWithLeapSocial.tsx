@@ -6,6 +6,7 @@ import { OAuthMethod } from "@usecapsule/web-sdk";
 import { capsuleClient } from ".capsuleClient";
 import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from ".state";
 import ModalTriggerCard from ".components/ui/modal-trigger-card";
+import { withMinimumLoadingTime } from ".lib/utils";
 
 type AuthWithLeapSocialProps = {};
 
@@ -22,15 +23,19 @@ const AuthWithLeapSocial: React.FC<AuthWithLeapSocialProps> = () => {
     checkLoginStatus();
   }, []);
 
-  const checkLoginStatus = async () => {
-    setIsLoading(true);
-    const loggedIn = await capsuleClient.isFullyLoggedIn();
-    setIsLoggedIn(loggedIn);
-    setDisableNext(!loggedIn);
-    if (loggedIn) {
-      setInternalStep(1);
-    }
-    setIsLoading(false);
+  const checkLoginStatus = () => {
+    withMinimumLoadingTime(
+      async () => {
+        const loggedIn = await capsuleClient.isFullyLoggedIn();
+        setIsLoggedIn(loggedIn);
+        setDisableNext(!loggedIn);
+        if (loggedIn) {
+          setInternalStep(1);
+        }
+      },
+      250,
+      setIsLoading
+    );
   };
 
   useEffect(() => {

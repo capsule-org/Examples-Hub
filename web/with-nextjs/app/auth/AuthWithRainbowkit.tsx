@@ -11,12 +11,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "@usecapsule/rainbowkit/styles.css";
 import { Environment } from "@usecapsule/web-sdk";
+import { useAtom } from "jotai";
+import { disableNextAtom, disablePrevAtom } from ".state";
+import SuccessMessage from ".components/ui/success-message";
 
-type AuthWithRainbowkitProps = {
-  setCurrentStep: (value: number) => void;
-  setDisableNext: (value: boolean) => void;
-  setDisablePrev: (value: boolean) => void;
-};
+type AuthWithRainbowkitProps = {};
 
 const capsuleWalletOpts: GetCapsuleOpts = {
   capsule: {
@@ -59,21 +58,19 @@ const wagmiConfig = createConfig({
 
 const queryClient = new QueryClient();
 
-const ConnectButtonWrapper: React.FC = () => {
-  return <ConnectButton label="Connect with Capsule Modal" />;
-};
-
-const AuthContent: React.FC<AuthWithRainbowkitProps> = ({ setCurrentStep, setDisableNext, setDisablePrev }) => {
+const AuthContent: React.FC<AuthWithRainbowkitProps> = () => {
   const { isConnected } = useAccount();
-  const [step, setStep] = useState(0);
+  const [internalStep, setInternalstep] = useState(0);
+  const [disableNext, setDisableNext] = useAtom(disableNextAtom);
+  const [disablePrev, setDisablePrev] = useAtom(disablePrevAtom);
 
   React.useEffect(() => {
     if (isConnected) {
-      setStep(1);
+      setInternalstep(1);
       setDisableNext(false);
       setDisablePrev(true);
     } else {
-      setStep(0);
+      setInternalstep(0);
       setDisableNext(true);
       setDisablePrev(false);
     }
@@ -82,14 +79,12 @@ const AuthContent: React.FC<AuthWithRainbowkitProps> = ({ setCurrentStep, setDis
   return (
     <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle>{step === 0 ? "Connect with Rainbowkit" : "Connection Status"}</CardTitle>
+        <CardTitle>{internalStep === 0 ? "Connect with Rainbowkit" : "Connection Status"}</CardTitle>
       </CardHeader>
       <CardContent>
-        {step === 0 && <ConnectButtonWrapper />}
-        {step === 1 && (
-          <div className="text-center">
-            <p className="text-green-600 font-semibold">You're successfully connected!</p>
-          </div>
+        {internalStep === 0 && <ConnectButton label="Connect with Capsule Modal" />}
+        {internalStep === 1 && (
+          <SuccessMessage message="You're logged in! Click next below to continue to selecting a signer." />
         )}
       </CardContent>
     </Card>

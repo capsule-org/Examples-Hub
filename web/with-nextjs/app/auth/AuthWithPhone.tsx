@@ -13,6 +13,7 @@ import {
   phoneNumberAtom,
   verificationCodeAtom,
 } from "../state";
+import { withMinimumLoadingTime } from ".lib/utils";
 
 type AuthWithPhoneProps = {};
 
@@ -31,15 +32,19 @@ const AuthWithPhone: React.FC<AuthWithPhoneProps> = () => {
     checkLoginStatus();
   }, []);
 
-  const checkLoginStatus = async () => {
-    setIsLoading(true);
-    const loggedIn = await capsuleClient.isFullyLoggedIn();
-    setIsLoggedIn(loggedIn);
-    setDisableNext(!loggedIn);
-    if (loggedIn) {
-      setInternalStep(1);
-    }
-    setIsLoading(false);
+  const checkLoginStatus = () => {
+    withMinimumLoadingTime(
+      async () => {
+        const loggedIn = await capsuleClient.isFullyLoggedIn();
+        setIsLoggedIn(loggedIn);
+        setDisableNext(!loggedIn);
+        if (loggedIn) {
+          setInternalStep(1);
+        }
+      },
+      250,
+      setIsLoading
+    );
   };
 
   useEffect(() => {
@@ -97,29 +102,22 @@ const AuthWithPhone: React.FC<AuthWithPhoneProps> = () => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <Card className="w-[350px]">
-        <CardHeader>
-          <CardTitle>{["Enter your phone", "Enter the OTP", "Success!"][internalStep]}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Authentication
-            authType="phone"
-            internalStep={internalStep}
-            email=""
-            setEmail={() => {}}
-            phoneNumber={phoneNumber}
-            setPhoneNumber={setPhoneNumber}
-            countryCode={countryCode}
-            setCountryCode={setCountryCode}
-            verificationCode={verificationCode}
-            setVerificationCode={setVerificationCode}
-            isLoading={isLoading}
-            isLoggedIn={isLoggedIn}
-            handleAuthenticateUser={handleAuthenticateUser}
-            handleVerifyAndCreateWallet={handleVerifyAndCreateWallet}
-          />
-        </CardContent>
-      </Card>
+      <Authentication
+        authType="phone"
+        internalStep={internalStep}
+        email=""
+        setEmail={() => {}}
+        phoneNumber={phoneNumber}
+        setPhoneNumber={setPhoneNumber}
+        countryCode={countryCode}
+        setCountryCode={setCountryCode}
+        verificationCode={verificationCode}
+        setVerificationCode={setVerificationCode}
+        isLoading={isLoading}
+        isLoggedIn={isLoggedIn}
+        handleAuthenticateUser={handleAuthenticateUser}
+        handleVerifyAndCreateWallet={handleVerifyAndCreateWallet}
+      />
     </div>
   );
 };
