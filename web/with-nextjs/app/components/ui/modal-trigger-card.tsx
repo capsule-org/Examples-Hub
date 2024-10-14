@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./card";
-import { Button } from "@interchain-ui/react";
 import SuccessMessage from "./success-message";
+import { Button } from "./button";
 
 type ModalTriggerCardProps = {
   internalStep: number;

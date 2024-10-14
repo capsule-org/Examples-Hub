@@ -1,17 +1,14 @@
-"use client";
-import { exampleSteps } from ".constants";
-import { currentStepAtom } from ".state";
-import { useAtom } from "jotai";
 import React from "react";
-import { CheckCircle } from "react-feather";
+import { useAtom } from "jotai";
+import { CheckCircle } from "lucide-react";
+import { currentStepAtom } from ".state";
+import { exampleSteps } from ".constants";
 
-type StepperProps = {};
-
-const Stepper: React.FC<StepperProps> = () => {
-  const [currentStep, setCurrentStep] = useAtom(currentStepAtom);
+const Stepper = () => {
+  const [currentStep] = useAtom(currentStepAtom);
 
   return (
-    <div className={`flex  flex-row items-center`}>
+    <div className="w-full flex mb-2">
       {exampleSteps.map((step, index) => {
         const isCompleted = index < currentStep;
         const isCurrent = index === currentStep;
@@ -19,25 +16,32 @@ const Stepper: React.FC<StepperProps> = () => {
         return (
           <div
             key={index}
-            className="flex items-center">
-            <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                isCompleted
-                  ? "bg-green-500 text-white"
-                  : isCurrent
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-300 text-gray-600"
-              }`}
-              aria-label={`Step ${index + 1}: ${step.label}`}
-              role="button">
-              {isCompleted && <CheckCircle className="w-5 h-5" />}
+            className="flex flex-col items-start flex-1">
+            <div className="flex items-center w-full">
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                  isCompleted
+                    ? "bg-primary text-primary-foreground"
+                    : isCurrent
+                    ? "bg-secondary text-secondary-foreground"
+                    : "bg-muted text-muted-foreground"
+                }`}>
+                {isCompleted ? (
+                  <CheckCircle className="w-5 h-5" />
+                ) : (
+                  <span className="text-sm font-medium">{index + 1}</span>
+                )}
+              </div>
+              {index < exampleSteps.length - 1 && (
+                <div className="flex-1 px-2">
+                  <div className={`h-1 ${isCompleted ? "bg-primary" : "bg-muted"}`} />
+                </div>
+              )}
             </div>
-
-            {index < exampleSteps.length - 1 && (
-              <div className={`flex-1 h-1 w-8"} ${isCompleted ? "bg-green-500" : "bg-gray-300"}`}></div>
-            )}
-
-            <div className="text-xs mt-2 text-center">{step.label}</div>
+            <div className="mt-2 w-full">
+              <p className="text-[10px] text-muted-foreground">{`STEP ${index + 1}`}</p>
+              {/* <p className="text-sm font-medium text-foreground">{step.label}</p> */}
+            </div>
           </div>
         );
       })}
