@@ -29,31 +29,29 @@ const SignWithViem: React.FC<SignWithViemProps> = () => {
   const [signatureResult, setSignatureResult] = useState<string>("");
 
   const handleSign = async () => {
-    if (isValid) {
-      try {
-        const viemCapsuleAccount: LocalAccount = await createCapsuleAccount(capsuleClient);
+    try {
+      const viemCapsuleAccount: LocalAccount = await createCapsuleAccount(capsuleClient);
 
-        const capsuleViemSigner: WalletClient = createCapsuleViemClient(capsuleClient, {
-          account: viemCapsuleAccount,
-          chain: sepolia,
-          transport: http("https://ethereum-sepolia-rpc.publicnode.com"),
-        });
+      const capsuleViemSigner: WalletClient = createCapsuleViemClient(capsuleClient, {
+        account: viemCapsuleAccount,
+        chain: sepolia,
+        transport: http("https://ethereum-sepolia-rpc.publicnode.com"),
+      });
 
-        const demoTx: SignTransactionParameters<Chain | undefined, Account | undefined, Chain | undefined> = {
-          account: viemCapsuleAccount,
-          chain: sepolia,
-          to: to as `0x${string}`,
-          value: parseEther(value),
-          gas: parseGwei(gasLimit),
-          gasPrice: parseEther(gasPrice),
-        };
+      const demoTx: SignTransactionParameters<Chain | undefined, Account | undefined, Chain | undefined> = {
+        account: viemCapsuleAccount,
+        chain: sepolia,
+        to: to as `0x${string}`,
+        value: parseEther(value),
+        gas: parseGwei(gasLimit),
+        gasPrice: parseEther(gasPrice),
+      };
 
-        const signedTx = await capsuleViemSigner.signTransaction(demoTx);
+      const signedTx = await capsuleViemSigner.signTransaction(demoTx);
 
-        setSignatureResult(signedTx);
-      } catch (error) {
-        console.error("Error during signing:", error);
-      }
+      setSignatureResult(signedTx);
+    } catch (error) {
+      console.error("Error during signing:", error);
     }
   };
 

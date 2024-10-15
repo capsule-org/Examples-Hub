@@ -26,52 +26,36 @@ const SignWithCapsule: React.FC<SignWithCapsuleProps> = () => {
   const [signatureResult, setSignatureResult] = useState<string>("");
 
   const handleSign = async () => {
-    if (isValid) {
-      try {
-        const tx = {
-          nonce: parseInt(nonce),
-          gasPrice: ethers.toBigInt(gasPrice),
-          gasLimit: ethers.toBigInt(gasLimit),
-          to: to as string,
-          value: ethers.toBigInt(value),
-          chainId: 11155111,
-          data: "0x",
-          v: "0x1c",
-          r: "0x",
-          s: "0x",
-        };
+    const tx = {
+      nonce: parseInt(nonce),
+      gasPrice: ethers.toBigInt(gasPrice),
+      gasLimit: ethers.toBigInt(gasLimit),
+      to: to as string,
+      value: ethers.toBigInt(value),
+      chainId: 11155111,
+      data: "0x",
+      v: "0x1c",
+      r: "0x",
+      s: "0x",
+    };
 
-        const rlpEncodedTx = RLP.encode([
-          tx.nonce,
-          tx.gasPrice,
-          tx.gasLimit,
-          tx.to,
-          tx.value,
-          tx.data,
-          tx.v,
-          tx.r,
-          tx.s,
-        ]);
+    const rlpEncodedTx = RLP.encode([tx.nonce, tx.gasPrice, tx.gasLimit, tx.to, tx.value, tx.data, tx.v, tx.r, tx.s]);
 
-        const rlpEncodedTxBase64 = encodeBase64(rlpEncodedTx);
+    const rlpEncodedTxBase64 = encodeBase64(rlpEncodedTx);
 
-        const wallets = await capsuleClient.getWallets();
+    const wallets = await capsuleClient.getWallets();
 
-        const wallet = Object.values(wallets)[0]; //
+    const wallet = Object.values(wallets)[0]; //
 
-        const walletId = wallet.id;
+    const walletId = wallet.id;
 
-        const signTransactionResult = await capsuleClient.signTransaction(walletId, rlpEncodedTxBase64, "11155111");
+    const signTransactionResult = await capsuleClient.signTransaction(walletId, rlpEncodedTxBase64, "11155111");
 
-        setSignatureResult(
-          "signature" in signTransactionResult
-            ? signTransactionResult.signature
-            : signTransactionResult.transactionReviewUrl
-        );
-      } catch (error) {
-        console.error("Error during signing:", error);
-      }
-    }
+    setSignatureResult(
+      "signature" in signTransactionResult
+        ? signTransactionResult.signature
+        : signTransactionResult.transactionReviewUrl
+    );
   };
 
   return (

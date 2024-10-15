@@ -26,32 +26,22 @@ const SignWithEthers: React.FC<SignWithEthersProps> = () => {
   const [signatureResult, setSignatureResult] = useState<string>("");
 
   const handleSign = async () => {
-    if (isValid) {
-      try {
-        //1. Create an ethers provider
-        const provider = new ethers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
+    const provider = new ethers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
 
-        //2. Create a CapsuleEthersSigner instance by passing the CapsuleClient and the provider
-        const capsuleEthersSigner = new CapsuleEthersSigner(capsuleClient, provider);
+    const capsuleEthersSigner = new CapsuleEthersSigner(capsuleClient, provider);
 
-        //3. Create a transaction request object
-        const demoTx: TransactionRequest = {
-          from: fromAddress,
-          to: to,
-          value: ethers.parseUnits(value, "ether"),
-          nonce: parseInt(nonce),
-          gasLimit: parseInt(gasLimit),
-          gasPrice: ethers.parseUnits(gasPrice, "ether"),
-        };
+    const demoTx: TransactionRequest = {
+      from: fromAddress,
+      to: to,
+      value: ethers.parseUnits(value, "ether"),
+      nonce: parseInt(nonce),
+      gasLimit: parseInt(gasLimit),
+      gasPrice: ethers.parseUnits(gasPrice, "ether"),
+    };
 
-        //4. Sign the transaction
-        const signedTx = await capsuleEthersSigner.signTransaction(demoTx);
+    const signedTx = await capsuleEthersSigner.signTransaction(demoTx);
 
-        setSignatureResult(signedTx);
-      } catch (error) {
-        console.error("Error during signing:", error);
-      }
-    }
+    setSignatureResult(signedTx);
   };
 
   return (
