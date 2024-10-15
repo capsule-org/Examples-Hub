@@ -1,6 +1,5 @@
 import React, { PropsWithChildren } from "react";
 import FooterNavigation from "../ui/footer-navigation";
-import { on } from "events";
 
 type StepLayoutProps = {
   title: string;

@@ -18,3 +18,9 @@ export type AuthOptionDetails = {
 export type SigningOptionDetails = {
   [k in SigningOption]: OptionDetails;
 };
+
+export type CodeStepItem = {
+  title: string;
+  subtitle: string;
+  code: string;
+};
