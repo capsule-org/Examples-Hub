@@ -15,6 +15,7 @@
     "@cosmos-kit/keplr": "^2.12.2",
     "@cosmos-kit/leap-capsule-social-login": "^0.10.3",
     "@cosmos-kit/react": "^2.18.0",
+    "@ethereumjs/rlp": "^5.0.2",
     "@interchain-ui/react": "^1.25.2",
     "@leapwallet/cosmos-social-login-capsule-provider": "^0.0.44",
     "@leapwallet/cosmos-social-login-capsule-provider-ui": "^0.0.59",
