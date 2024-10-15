@@ -39,7 +39,7 @@ const AuthWithPhone: React.FC<AuthWithPhoneProps> = () => {
         setIsLoggedIn(loggedIn);
         setDisableNext(!loggedIn);
         if (loggedIn) {
-          setInternalStep(1);
+          setInternalStep(2);
         }
       },
       250,
