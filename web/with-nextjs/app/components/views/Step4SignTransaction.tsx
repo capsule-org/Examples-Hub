@@ -3,6 +3,8 @@ import StepLayout from "../layouts/stepLayout";
 import { useAtom } from "jotai";
 import { selectedSignerAtom } from ".state";
 import SignWithEthers from ".signing/SignWithEthers";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorComponent from ".components/ui/error";
 
 type Step4SignTransactionProps = {};
 
@@ -35,7 +37,15 @@ const Step4SignTransaction: React.FC<PropsWithChildren<Step4SignTransactionProps
     <StepLayout
       title={TITLE}
       subtitle={SUBTITLE}>
-      {renderSignComponent()}
+      <ErrorBoundary
+        FallbackComponent={({ error, resetErrorBoundary }) => (
+          <ErrorComponent
+            error={error}
+            resetErrorBoundary={resetErrorBoundary}
+          />
+        )}>
+        {renderSignComponent()}
+      </ErrorBoundary>
     </StepLayout>
   );
 };
