@@ -36,7 +36,7 @@ const AuthWithEmail: React.FC<AuthWithEmailProps> = () => {
         setIsLoggedIn(loggedIn);
         setDisableNext(!loggedIn);
         if (loggedIn) {
-          setInternalStep(1);
+          setInternalStep(2);
         }
       },
       250,
