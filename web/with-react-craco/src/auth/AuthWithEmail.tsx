@@ -1,160 +1,120 @@
 import React, { useState, useEffect } from "react";
+import { useAtom } from "jotai";
 import { capsuleClient } from "../capsuleClient";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "../components/ui/input-otp";
+import Authentication from "../components/ui/authentication";
+import {
+  disableNextAtom,
+  disablePrevAtom,
+  emailAtom,
+  isLoadingAtom,
+  isLoggedInAtom,
+  verificationCodeAtom,
+} from "../state";
+import { withMinimumLoadingTime } from "../lib/utils";
 
-type AuthWithEmailProps = {
-  email: string;
-  setEmail: (value: string) => void;
-  verificationCode: string;
-  setVerificationCode: (value: string) => void;
-  setCurrentStep: (value: number) => void;
-  setDisableNext: (value: boolean) => void;
-};
+type AuthWithEmailProps = {};
 
-const AuthWithEmail: React.FC<AuthWithEmailProps> = ({
-  email,
-  setEmail,
-  verificationCode,
-  setVerificationCode,
-  setCurrentStep,
-  setDisableNext,
-}) => {
-  const [step, setStep] = useState(0);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+const AuthWithEmail: React.FC<AuthWithEmailProps> = () => {
+  const [internalStep, setInternalStep] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
+  const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
+  const [, setDisableNext] = useAtom(disableNextAtom);
+  const [, setDisablePrev] = useAtom(disablePrevAtom);
+
+  const [email, setEmail] = useAtom(emailAtom);
+  const [verificationCode, setVerificationCode] = useAtom(verificationCodeAtom);
 
   useEffect(() => {
-    const checkLoginStatus = async () => {
-      setIsLoading(true);
-      try {
-        const loggedIn = await capsuleClient.isFullyLoggedIn();
-        console.log("Is logged in:", loggedIn);
-        setIsLoggedIn(loggedIn);
-        if (loggedIn) {
-          setStep(2);
-        }
-        setDisableNext(!loggedIn);
-      } catch (err) {
-        console.error("Error checking login status:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     checkLoginStatus();
   }, []);
 
+  const checkLoginStatus = () => {
+    withMinimumLoadingTime(
+      async () => {
+        const loggedIn = await capsuleClient.isFullyLoggedIn();
+        setIsLoggedIn(loggedIn);
+        setDisableNext(!loggedIn);
+        if (loggedIn) {
+          setInternalStep(2);
+        }
+      },
+      250,
+      setIsLoading
+    );
+  };
+
   useEffect(() => {
-    if (isLoggedIn && step === 2) {
+    if (isLoggedIn && internalStep === 2) {
       setDisableNext(false);
+      setDisablePrev(true);
     }
-  }, [isLoggedIn, step]);
+  }, [isLoggedIn, internalStep]);
 
   const handleAuthenticateUser = async () => {
     setIsLoading(true);
-    try {
-      const isExistingUser = await capsuleClient.checkIfUserExists(email);
 
-      if (isExistingUser) {
-        const webAuthUrlForLogin = await capsuleClient.initiateUserLogin(email, false, "email");
-        const popup = window.open(webAuthUrlForLogin, "loginPopup", "popup=true,width=400,height=500");
+    const isExistingUser = await capsuleClient.checkIfUserExists(email);
 
-        const { isError, needsWallet } = await capsuleClient.waitForLoginAndSetup(popup!);
+    if (isExistingUser) {
+      const webAuthUrlForLogin = await capsuleClient.initiateUserLogin(email, false, "email");
 
-        if (isError) {
-          console.error("Error occurred during Capsule authentication");
-          return;
-        }
-        if (needsWallet) {
-          const [wallet, secret] = await capsuleClient.createWallet();
-        }
-        setIsLoggedIn(true);
-        setStep(2);
-      } else {
-        await capsuleClient.createUser(email);
-        setStep(1);
+      const popupWindow = window.open(webAuthUrlForLogin, "loginPopup", "popup=true");
+
+      const { needsWallet } = await capsuleClient.waitForLoginAndSetup(popupWindow!);
+
+      if (needsWallet) {
+        const [wallet, secret] = await capsuleClient.createWallet();
       }
-    } catch (err) {
-      console.error("Capsule authentication failed:", err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleVerifyEmailAndCreateWallet = async () => {
-    setIsLoading(true);
-    try {
-      const webAuthURLForCreate = await capsuleClient.getSetUpBiometricsURL(false);
-
-      window.open(webAuthURLForCreate, "createWalletPopup", "popup");
-
-      const { walletIds, recoverySecret } = await capsuleClient.waitForPasskeyAndCreateWallet();
 
       setIsLoggedIn(true);
-      setStep(2);
-    } catch (err) {
-      console.error("Capsule email verification failed:", err);
-    } finally {
-      setIsLoading(false);
+      setInternalStep(2);
+    } else {
+      await capsuleClient.createUser(email);
+      setInternalStep(1);
     }
+
+    setIsLoading(false);
+  };
+
+  const handleVerifyAndCreateWallet = async () => {
+    setIsLoading(true);
+
+    const isVerified = await capsuleClient.verifyEmail(verificationCode);
+
+    if (!isVerified) {
+      setIsLoading(false);
+      return;
+    }
+
+    const authUrl = await capsuleClient.getSetUpBiometricsURL(false);
+
+    window.open(authUrl, "signUpPopup", "popup=true");
+
+    const { recoverySecret } = await capsuleClient.waitForPasskeyAndCreateWallet();
+
+    setIsLoggedIn(true);
+    setInternalStep(2);
+    setIsLoading(false);
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <Card className="w-[350px]">
-        <CardHeader>
-          <CardTitle>{isLoggedIn ? "Welcome" : "Login"}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {step === 0 && (
-            <div className="space-y-4">
-              <Input
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <Button
-                onClick={handleAuthenticateUser}
-                className="w-full"
-                disabled={isLoading || !email}>
-                {isLoading ? "Loading..." : "Continue"}
-              </Button>
-            </div>
-          )}
-          {step === 1 && (
-            <div className="space-y-4">
-              <InputOTP
-                maxLength={6}
-                value={verificationCode}
-                onChange={(value) => setVerificationCode(value)}>
-                <InputOTPGroup>
-                  <InputOTPSlot index={0} />
-                  <InputOTPSlot index={1} />
-                  <InputOTPSlot index={2} />
-                  <InputOTPSlot index={3} />
-                  <InputOTPSlot index={4} />
-                  <InputOTPSlot index={5} />
-                </InputOTPGroup>
-              </InputOTP>
-              <Button
-                onClick={handleVerifyEmailAndCreateWallet}
-                className="w-full"
-                disabled={isLoading || !verificationCode || verificationCode.length < 6}>
-                {isLoading ? "Loading..." : "Verify Email"}
-              </Button>
-            </div>
-          )}
-          {step === 2 && (
-            <div className="text-center">
-              <p className="text-green-600 font-semibold">You're successfully logged in!</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      <Authentication
+        authType="email"
+        internalStep={internalStep}
+        email={email}
+        setEmail={setEmail}
+        phoneNumber=""
+        setPhoneNumber={() => {}}
+        countryCode=""
+        setCountryCode={() => {}}
+        verificationCode={verificationCode}
+        setVerificationCode={setVerificationCode}
+        isLoading={isLoading}
+        isLoggedIn={isLoggedIn}
+        handleAuthenticateUser={handleAuthenticateUser}
+        handleVerifyAndCreateWallet={handleVerifyAndCreateWallet}
+      />
     </div>
   );
 };
