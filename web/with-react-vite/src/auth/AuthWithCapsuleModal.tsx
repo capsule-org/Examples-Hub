@@ -8,7 +8,7 @@ import { clusterApiUrl } from "@solana/web3.js";
 import { sepolia } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAtom } from "jotai";
-import Logo from "../assets/capsule.svg";
+import Logo from "../assets/capsule.svg?react";
 import { capsuleClient } from "../capsuleClient";
 import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from "../state";
 import ModalTriggerCard from "../components/ui/modal-trigger-card";
