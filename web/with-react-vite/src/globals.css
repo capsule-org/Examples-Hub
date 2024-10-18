@@ -58,3 +58,15 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+#capsule-modal > cpsl-auth-modal {
+  z-index: 9999999999;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+pre {
+  font-family: "JetBrains Mono", monospace;
+}
