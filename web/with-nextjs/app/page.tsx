@@ -1,5 +1,5 @@
 "use client";
-import { Provider as JotaiProvider, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import { currentStepAtom } from ".state";
 import Layout from "./components/layouts/layout";
 import { Card } from "./components/ui/card";
