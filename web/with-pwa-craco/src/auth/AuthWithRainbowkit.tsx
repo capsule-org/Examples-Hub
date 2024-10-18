@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { CAPSULE_API_KEY } from "../capsuleClient";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import Logo from "../assets/capsule.svg";
-import { ConnectButton, RainbowKitProvider, connectorsForWallets, lightTheme } from "@usecapsule/rainbowkit";
+import Logo from "../assets/capsule.svg?react";
+import { ConnectButton, RainbowKitProvider, connectorsForWallets } from "@usecapsule/rainbowkit";
 import { getCapsuleWallet, GetCapsuleOpts, OAuthMethod } from "@usecapsule/rainbowkit-wallet";
 import { WagmiProvider, createConfig, useAccount, type CreateConfigParameters } from "wagmi";
 import { sepolia } from "wagmi/chains";
@@ -11,11 +11,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "@usecapsule/rainbowkit/styles.css";
 import { Environment } from "@usecapsule/web-sdk";
+import { useAtom } from "jotai";
+import { disableNextAtom, disablePrevAtom } from "../state";
+import SuccessMessage from "../components/ui/success-message";
 
-type AuthWithRainbowkitProps = {
-  setCurrentStep: (value: number) => void;
-  setDisableNext: (value: boolean) => void;
-};
+type AuthWithRainbowkitProps = {};
 
 const capsuleWalletOpts: GetCapsuleOpts = {
   capsule: {
@@ -58,29 +58,49 @@ const wagmiConfig = createConfig({
 
 const queryClient = new QueryClient();
 
-const AuthWithRainbowkit: React.FC<AuthWithRainbowkitProps> = ({ setCurrentStep, setDisableNext }) => {
+const AuthContent: React.FC<AuthWithRainbowkitProps> = () => {
   const { isConnected } = useAccount();
+  const [internalStep, setInternalstep] = useState(0);
+  const [disableNext, setDisableNext] = useAtom(disableNextAtom);
+  const [disablePrev, setDisablePrev] = useAtom(disablePrevAtom);
 
-  useEffect(() => {
-    setDisableNext(!isConnected);
-  }, [isConnected, setDisableNext]);
+  React.useEffect(() => {
+    if (isConnected) {
+      setInternalstep(1);
+      setDisableNext(false);
+      setDisablePrev(true);
+    } else {
+      setInternalstep(0);
+      setDisableNext(true);
+      setDisablePrev(false);
+    }
+  }, [isConnected, setDisableNext, setDisablePrev]);
 
   return (
+    <Card className="w-[350px]">
+      <CardHeader>
+        <CardTitle>{internalStep === 0 ? "Connect with Rainbowkit" : "Connection Status"}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {internalStep === 0 && <ConnectButton label="Connect with Capsule Modal" />}
+        {internalStep === 1 && (
+          <SuccessMessage message="You're logged in! Click next below to continue to selecting a signer." />
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+const AuthWithRainbowkit: React.FC<AuthWithRainbowkitProps> = (props) => {
+  return (
     <div className="flex flex-col items-center justify-center h-full">
-      <Card className="w-[350px]">
-        <CardHeader>
-          <CardTitle>Connect with Capsule</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <WagmiProvider config={wagmiConfig}>
-            <QueryClientProvider client={queryClient}>
-              <RainbowKitProvider>
-                <ConnectButton label="Connect with Capsule Modal" />
-              </RainbowKitProvider>
-            </QueryClientProvider>
-          </WagmiProvider>
-        </CardContent>
-      </Card>
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
+          <RainbowKitProvider>
+            <AuthContent {...props} />
+          </RainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
     </div>
   );
 };

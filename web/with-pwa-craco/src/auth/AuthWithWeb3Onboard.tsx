@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import capsuleModule, { Environment, OAuthMethod } from "@web3-onboard/capsule";
 import { useConnectWallet, init } from "@web3-onboard/react";
-import Logo from "../assets/capsule.svg";
-import { Button } from "../components/ui/button";
+import Logo from "../assets/capsule.svg?react";
 import { CAPSULE_API_KEY } from "../capsuleClient";
+import { CapsuleInitOptions } from "@web3-onboard/capsule/dist/types";
+import { useAtom } from "jotai";
+import { disableNextAtom, isLoadingAtom } from "../state";
+import ModalTriggerCard from "../components/ui/modal-trigger-card";
 
-type AuthWithWeb3OnboardProps = {
-  setCurrentStep: (value: number) => void;
-  setDisableNext: (value: boolean) => void;
-};
-const initOptions = {
+type AuthWithWeb3OnboardProps = {};
+const initOptions: CapsuleInitOptions = {
   environment: Environment.BETA,
   apiKey: CAPSULE_API_KEY,
   modalProps: {
@@ -20,10 +20,9 @@ const initOptions = {
       OAuthMethod.DISCORD,
       OAuthMethod.FACEBOOK,
     ],
-    logo: Logo,
+    logo: Logo.src,
   },
   walletLabel: "Sign in with Capsule",
-  walletIcon: async () => (await import("../assets/capsule.svg")).default,
 };
 
 const capsule = capsuleModule(initOptions);
@@ -47,25 +46,32 @@ init({
   appMetadata,
 });
 
-const AuthWithWeb3Onboard: React.FC<AuthWithWeb3OnboardProps> = ({ setCurrentStep, setDisableNext }) => {
+const AuthWithWeb3Onboard: React.FC<AuthWithWeb3OnboardProps> = () => {
   const [{ wallet, connecting }, connect] = useConnectWallet();
+  const [internalStep, setInternalStep] = useState<number>(0);
+  const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
+  const [, setDisableNext] = useAtom(disableNextAtom);
 
   useEffect(() => {
     setDisableNext(!wallet);
   }, [wallet, setDisableNext]);
 
   const connectWallet = async () => {
+    setIsLoading(true);
     await connect();
+    setIsLoading(false);
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <Button
-        onClick={connectWallet}
-        disabled={connecting}
-        className="w-full sm:w-auto text-sm">
-        {connecting ? "Connecting to Capsule..." : "Connect with Capsule"}
-      </Button>
+      <ModalTriggerCard
+        internalStep={internalStep}
+        handleModalOpen={connectWallet}
+        isLoading={isLoading}
+        CardTitleStep0="Web3-Onboard Capsule Modal"
+        CardTitleStep1="Success!"
+        buttonLabel="Open Modal"
+      />
     </div>
   );
 };
