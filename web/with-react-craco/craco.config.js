@@ -39,16 +39,6 @@ module.exports = {
         });
       }
 
-      const fileLoaderRule = webpackConfig.module.rules.find((rule) => rule.test && rule.test.test(".svg"));
-      if (fileLoaderRule) {
-        fileLoaderRule.exclude = /\.svg$/;
-      }
-
-      webpackConfig.module.rules.push({
-        test: /\.svg$/,
-        use: ["@svgr/webpack"],
-      });
-
       return webpackConfig;
     },
   },

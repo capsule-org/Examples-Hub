@@ -17,7 +17,6 @@ const SignWithCosmJS: React.FC<SignWithCosmJSProps> = () => {
   const handleSign = async () => {
     const capsuleProtoSigner = new CapsuleProtoSigner(capsuleClient as any, "cosmos");
 
-    // 2. Create a SigningStargateClient
     const stargateClient = await SigningStargateClient.connectWithSigner(
       "https://rpc-t.cosmos.nodestake.top",
       capsuleProtoSigner
