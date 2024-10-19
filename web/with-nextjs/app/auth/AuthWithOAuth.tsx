@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Card, CardContent } from "../components/ui/card";
 import { capsuleClient } from "../capsuleClient";
 import { OAuthMethod } from "@usecapsule/web-sdk";
 import { useAtom } from "jotai";
-import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from ".state";
-import { OAuthOptions } from ".constants";
-import SuccessMessage from ".components/ui/success-message";
-import { withMinimumLoadingTime } from ".lib/utils";
+import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from "../state";
+import { OAuthOptions } from "../constants";
+import SuccessMessage from "../components/ui/success-message";
+import { withMinimumLoadingTime } from "../lib/utils";
 
 type AuthWithOAuthProps = {};
 

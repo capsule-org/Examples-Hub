@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { ethers, TransactionRequest } from "ethers";
 import { CapsuleEthersSigner } from "@usecapsule/ethers-v6-integration";
-import useTransactionManager from ".hooks/useTransactionManager";
-import { capsuleClient } from ".capsuleClient";
-import TransactionForm from ".components/ui/transaction-form";
+import useTransactionManager from "../hooks/useTransactionManager";
+import { capsuleClient } from "../capsuleClient";
+import TransactionForm from "../components/ui/transaction-form";
 
 type SignWithEthersProps = {};
 

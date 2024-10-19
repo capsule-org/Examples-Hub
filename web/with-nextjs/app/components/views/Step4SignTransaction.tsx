@@ -1,10 +1,14 @@
 import React, { PropsWithChildren } from "react";
 import StepLayout from "../layouts/stepLayout";
 import { useAtom } from "jotai";
-import { selectedSignerAtom } from ".state";
-import SignWithEthers from ".signing/SignWithEthers";
+import { selectedSignerAtom } from "../../state";
+import SignWithEthers from "../../signing/SignWithEthers";
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorComponent from ".components/ui/error";
+import ErrorComponent from "../../components/ui/error";
+import SignWithCapsule from "../../signing/SignWithCapsule";
+import SignWithViem from "../../signing/SignWithViem";
+import SignWithSolanaWeb3 from "../../signing/SignWithSolanaWeb3";
+import SignWithCosmJS from "../../signing/SignWithCosmJS";
 
 type Step4SignTransactionProps = {};
 
@@ -18,15 +22,15 @@ const Step4SignTransaction: React.FC<PropsWithChildren<Step4SignTransactionProps
   const renderSignComponent = () => {
     switch (selectedSigner) {
       case "capsule-client":
-        return <div>Sign with CosmosWasm</div>;
+        return <SignWithCapsule />;
       case "ethers":
         return <SignWithEthers />;
       case "viem":
-        return <div>Sign with EthereumWallet</div>;
+        return <SignWithViem />;
       case "solana-web3js":
-        return <div>Sign with SolanaWallet</div>;
+        return <SignWithSolanaWeb3 />;
       case "cosmjs":
-        return <div>Sign with TezosWallet</div>;
+        return <SignWithCosmJS />;
       case "alchemy-aa":
         return <div>Sign with AlchemyWallet</div>;
       default:

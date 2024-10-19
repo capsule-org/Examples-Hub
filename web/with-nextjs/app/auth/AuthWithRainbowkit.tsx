@@ -12,8 +12,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "@usecapsule/rainbowkit/styles.css";
 import { Environment } from "@usecapsule/web-sdk";
 import { useAtom } from "jotai";
-import { disableNextAtom, disablePrevAtom } from ".state";
-import SuccessMessage from ".components/ui/success-message";
+import { disableNextAtom, disablePrevAtom } from "../state";
+import SuccessMessage from "../components/ui/success-message";
 
 type AuthWithRainbowkitProps = {};
 

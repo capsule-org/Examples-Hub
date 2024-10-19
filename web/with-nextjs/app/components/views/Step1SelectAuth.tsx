@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { disableNextAtom, selectedAuthAtom } from ".state";
-import { AuthOption } from ".types";
-import { AuthMethods } from ".constants";
-import Icon from ".components/ui/icon";
+import { disableNextAtom, selectedAuthAtom } from "../../state";
+import { AuthOption } from "../../types";
+import { AuthMethods } from "../../constants";
+import Icon from "../../components/ui/icon";
 import StepLayout from "../layouts/stepLayout";
 import { Card, CardContent } from "../ui/card";
 

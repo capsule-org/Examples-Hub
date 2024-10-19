@@ -1,10 +1,10 @@
 import React from "react";
 import { useAtom } from "jotai";
 import { CheckCircle } from "lucide-react";
-import { currentStepAtom } from ".state";
-import { exampleSteps } from ".constants";
+import { currentStepAtom } from "../../state";
+import { exampleSteps } from "../../constants";
 
-const Stepper = () => {
+const Stepper: React.FC = () => {
   const [currentStep] = useAtom(currentStepAtom);
 
   return (
@@ -23,18 +23,18 @@ const Stepper = () => {
                   isCompleted
                     ? "bg-primary text-primary-foreground"
                     : isCurrent
-                    ? "bg-secondary text-secondary-foreground"
+                    ? "bg-[#FFA185] text-accent-foreground"
                     : "bg-muted text-muted-foreground"
                 }`}>
                 {isCompleted ? (
-                  <CheckCircle className="w-5 h-5" />
+                  <CheckCircle className="w-5 h-5 text-primary-foreground" />
                 ) : (
                   <span className="text-sm font-medium">{index + 1}</span>
                 )}
               </div>
               {index < exampleSteps.length - 1 && (
                 <div className="flex-1 px-2">
-                  <div className={`h-1 ${isCompleted ? "bg-primary" : "bg-muted"}`} />
+                  <div className={`h-1 ${isCompleted ? "bg-secondary" : "bg-muted"}`} />
                 </div>
               )}
             </div>

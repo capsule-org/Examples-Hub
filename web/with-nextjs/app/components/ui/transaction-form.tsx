@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ethers } from "ethers";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./card";
@@ -6,11 +6,13 @@ import { Label } from "./label";
 import { Input } from "./input";
 import { Alert, AlertDescription, AlertTitle } from "./alert";
 import { Button } from "./button";
+import { useAtom } from "jotai";
+import { disableNextAtom } from "../../state";
 
 type TransactionFormProps = {
-  fromAddress?: ethers.AddressLike;
-  to?: ethers.AddressLike;
-  setTo?: (value: ethers.AddressLike) => void;
+  fromAddress?: string;
+  to?: string;
+  setTo?: (value: string) => void;
   value?: string;
   setValue?: (value: string) => void;
   nonce?: string;
@@ -40,6 +42,11 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
   signatureResult,
   handleSign,
 }) => {
+  const [, setDisableNext] = useAtom(disableNextAtom);
+
+  useEffect(() => {
+    setDisableNext(!signatureResult);
+  }, [signatureResult]);
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
@@ -75,17 +82,17 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         )}
         {value !== undefined && setValue && (
           <div className="space-y-2">
-            <Label htmlFor="value">Value (in ethers)</Label>
+            <Label htmlFor="value">Value (in ether)</Label>
             <Input
               id="value"
               value={value}
               onChange={(e) => setValue(e.target.value)}
               placeholder="0"
             />
-            {value && (!/^\d*\.?\d+$/.test(value) || ethers.toBigInt(value) <= 0n) && (
+            {value && (!/^\d*\.?\d+$/.test(value) || parseFloat(value) <= 0) && (
               <p className="text-sm text-red-500 flex items-center">
                 <AlertCircle className="w-4 h-4 mr-1" />
-                Value must be a positive integer
+                Value must be a positive number
               </p>
             )}
           </div>
@@ -99,7 +106,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
               onChange={(e) => setNonce(e.target.value)}
               placeholder="0"
             />
-            {nonce && !/^\d*\.?\d+$/.test(nonce) && (
+            {nonce && !/^\d+$/.test(nonce) && (
               <p className="text-sm text-red-500 flex items-center">
                 <AlertCircle className="w-4 h-4 mr-1" />
                 Nonce must be a non-negative integer
@@ -109,34 +116,34 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         )}
         {gasLimit !== undefined && setGasLimit && (
           <div className="space-y-2">
-            <Label htmlFor="gasLimit">Gas Limit</Label>
+            <Label htmlFor="gasLimit">Gas Limit (in wei)</Label>
             <Input
               id="gasLimit"
               value={gasLimit}
               onChange={(e) => setGasLimit(e.target.value)}
               placeholder="21000"
             />
-            {gasLimit && (!/^\d*\.?\d+$/.test(gasLimit) || parseInt(gasLimit) <= 0) && (
+            {gasLimit && (!/^\d+$/.test(gasLimit) || parseInt(gasLimit) <= 0) && (
               <p className="text-sm text-red-500 flex items-center">
                 <AlertCircle className="w-4 h-4 mr-1" />
-                Gas limit must be a positive integer
+                Gas limit must be a positive integer in wei
               </p>
             )}
           </div>
         )}
         {gasPrice !== undefined && setGasPrice && (
           <div className="space-y-2">
-            <Label htmlFor="gasPrice">Gas Price (in wei)</Label>
+            <Label htmlFor="gasPrice">Gas Price (in gwei)</Label>
             <Input
               id="gasPrice"
               value={gasPrice}
               onChange={(e) => setGasPrice(e.target.value)}
-              placeholder="20000000000"
+              placeholder="20"
             />
             {gasPrice && (!/^\d*\.?\d+$/.test(gasPrice) || parseFloat(gasPrice) <= 0) && (
               <p className="text-sm text-red-500 flex items-center">
                 <AlertCircle className="w-4 h-4 mr-1" />
-                Gas price must be a positive integer
+                Gas price must be a positive number in gwei
               </p>
             )}
           </div>
@@ -144,11 +151,19 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         {signatureResult && (
           <Alert>
             <CheckCircle2 className="h-4 w-4" />
-            <AlertTitle>Transaction Signed</AlertTitle>
-            <AlertDescription>
-              {fromAddress && <p>From: {fromAddress.toString()}</p>}
-              <p>Transaction Hash: {signatureResult}</p>
-            </AlertDescription>
+            <div className="flex flex-col">
+              <AlertTitle>Transaction Signed</AlertTitle>
+              <AlertDescription>
+                {fromAddress && (
+                  <p>
+                    From: {fromAddress.slice(0, 12)}...{fromAddress.slice(-12)}
+                  </p>
+                )}
+                <p>
+                  Signature: {signatureResult.slice(0, 12)}...{signatureResult.slice(-12)}
+                </p>
+              </AlertDescription>
+            </div>
           </Alert>
         )}
       </CardContent>

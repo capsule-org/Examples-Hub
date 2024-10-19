@@ -3,10 +3,10 @@ import { useAtom } from "jotai";
 import { CustomCapsuleModalView } from "@leapwallet/cosmos-social-login-capsule-provider-ui";
 import "@leapwallet/cosmos-social-login-capsule-provider-ui/styles.css";
 import { OAuthMethod } from "@usecapsule/web-sdk";
-import { capsuleClient } from ".capsuleClient";
-import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from ".state";
-import ModalTriggerCard from ".components/ui/modal-trigger-card";
-import { withMinimumLoadingTime } from ".lib/utils";
+import { capsuleClient } from "../capsuleClient";
+import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from "../state";
+import ModalTriggerCard from "../components/ui/modal-trigger-card";
+import { withMinimumLoadingTime } from "../lib/utils";
 
 type AuthWithLeapSocialProps = {};
 

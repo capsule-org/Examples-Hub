@@ -1,4 +1,4 @@
-import { AuthOptionDetails, SigningOptionDetails } from ".types";
+import { AuthOptionDetails, SigningOptionDetails } from "../types";
 import { OAuthMethod } from "@leapwallet/cosmos-social-login-capsule-provider";
 import AlchemyIcon from "../assets/alchemy.svg";
 import CapsuleIcon from "../assets/capsule.svg";

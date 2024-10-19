@@ -1,22 +1,24 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { capsuleClient } from ".capsuleClient";
+import { capsuleClient } from "../capsuleClient";
 
 const useTransactionManager = () => {
-  const [to, setTo] = useState<ethers.AddressLike>("");
-  const [value, setValue] = useState<string>("");
+  const [to, setTo] = useState<string>("");
+  const [value, setValue] = useState<string>("0.1");
   const [nonce, setNonce] = useState<string>("");
-  const [gasLimit, setGasLimit] = useState<string>("");
-  const [gasPrice, setGasPrice] = useState<string>("");
+  const [gasLimit, setGasLimit] = useState<string>("21000");
+  const [gasPrice, setGasPrice] = useState<string>("20");
   const [isValid, setIsValid] = useState(false);
-  const [fromAddress, setFromAddress] = useState<ethers.AddressLike>("");
+  const [fromAddress, setFromAddress] = useState<string>("");
 
   useEffect(() => {
     const fetchFromAddress = async () => {
       try {
         const wallets = await capsuleClient.getWallets();
-        const wallet = Object.values(wallets)[0];
+        const wallet = Object.values(wallets)[1];
+        console.log("wallet", wallet);
         const address = wallet.address!;
+        console.log("address", address);
         setFromAddress(address);
       } catch (error) {
         console.error("Error fetching wallets:", error);
@@ -28,18 +30,14 @@ const useTransactionManager = () => {
 
   useEffect(() => {
     if (fromAddress) {
-      setTo(fromAddress);
-      setValue("10000000000000000");
+      setTo("");
+      setValue("0.1");
       setGasLimit("21000");
       const provider = new ethers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
       const fetchDefaults = async () => {
         try {
           const gasPriceData = await provider.getFeeData();
-          setGasPrice(
-            gasPriceData.gasPrice
-              ? ethers.formatUnits(gasPriceData.gasPrice, "ether")
-              : ethers.formatUnits("20000000000", "wei")
-          );
+          setGasPrice(gasPriceData.gasPrice ? ethers.formatUnits(gasPriceData.gasPrice, "gwei") : "20");
           const nonceValue = await provider.getTransactionCount(fromAddress);
           setNonce(nonceValue.toString());
         } catch (error) {
@@ -54,8 +52,8 @@ const useTransactionManager = () => {
     const isToValid = ethers.isAddress(to);
     const isValueValid = /^\d*\.?\d+$/.test(value) && ethers.parseUnits(value, "ether") > 0n;
     const isNonceValid = /^\d+$/.test(nonce) && parseInt(nonce, 10) >= 0;
-    const isGasLimitValid = /^\d*\.?\d+$/.test(gasLimit) && ethers.parseUnits(gasLimit, "wei") > 0n;
-    const isGasPriceValid = /^\d*\.?\d+$/.test(gasPrice) && ethers.parseUnits(gasPrice, "ether") > 0n;
+    const isGasLimitValid = /^\d+$/.test(gasLimit) && parseInt(gasLimit) > 0;
+    const isGasPriceValid = /^\d*\.?\d+$/.test(gasPrice) && parseFloat(gasPrice) > 0;
 
     setIsValid(isToValid && isValueValid && isNonceValid && isGasLimitValid && isGasPriceValid);
   }, [to, value, nonce, gasLimit, gasPrice]);

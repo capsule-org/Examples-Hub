@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import capsuleModule, { Environment, OAuthMethod } from "@web3-onboard/capsule";
 import { useConnectWallet, init } from "@web3-onboard/react";
 import Logo from "../assets/capsule.svg";
-import { Button } from "../components/ui/button";
 import { CAPSULE_API_KEY } from "../capsuleClient";
 import { CapsuleInitOptions } from "@web3-onboard/capsule/dist/types";
 import { useAtom } from "jotai";
-import { disableNextAtom, isLoadingAtom } from ".state";
-import ModalTriggerCard from ".components/ui/modal-trigger-card";
+import { disableNextAtom, isLoadingAtom } from "../state";
+import ModalTriggerCard from "../components/ui/modal-trigger-card";
 
 type AuthWithWeb3OnboardProps = {};
 const initOptions: CapsuleInitOptions = {

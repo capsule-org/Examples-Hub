@@ -5,7 +5,7 @@ import { Input } from "../components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { WalletType } from "@usecapsule/web-sdk";
 import { useAtom } from "jotai";
-import { disableNextAtom, disablePrevAtom } from ".state";
+import { disableNextAtom, disablePrevAtom } from "../state";
 
 type AuthWithPreGenProps = {};
 
@@ -50,6 +50,7 @@ const AuthWithPreGen: React.FC<AuthWithPreGenProps> = () => {
     try {
       const newIdentifier = identifier.includes("@") ? identifier : `${identifier}@test.usecapsule.com`;
       await capsuleClient.createWalletPreGen(WalletType.EVM, newIdentifier);
+
       const userShare = await capsuleClient.getUserShare();
       if (!userShare) {
         throw new Error("Failed to get user share");

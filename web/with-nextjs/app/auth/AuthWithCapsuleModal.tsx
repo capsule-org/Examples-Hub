@@ -10,9 +10,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import Logo from "../assets/capsule.svg";
 import { capsuleClient } from "../capsuleClient";
-import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from ".state";
-import ModalTriggerCard from ".components/ui/modal-trigger-card";
-import { withMinimumLoadingTime } from ".lib/utils";
+import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from "../state";
+import ModalTriggerCard from "../components/ui/modal-trigger-card";
+import { withMinimumLoadingTime } from "../lib/utils";
 
 type AuthWithCapsuleModalProps = {};
 
@@ -88,7 +88,7 @@ const AuthWithCapsuleModal: React.FC<AuthWithCapsuleModalProps> = () => {
             chain={SOLANA_NETWORK}
             appIdentity={{ name: "Capsule Modal Example", uri: `${location.protocol}//${location.host}` }}>
             <CapsuleModal
-              logo={Logo.src}
+              logo={Logo}
               theme={{
                 backgroundColor: "#FFF",
                 foregroundColor: "#000",

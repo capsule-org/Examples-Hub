@@ -1,4 +1,3 @@
-// Layout Component
 import React from "react";
 
 type LayoutProps = {
@@ -6,7 +5,7 @@ type LayoutProps = {
 };
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  return <div className="min-h-screen flex flex-col md:flex-row">{children}</div>;
+  return <div className="h-screen flex flex-col md:flex-row overflow-hidden">{children}</div>;
 };
 
 export default Layout;

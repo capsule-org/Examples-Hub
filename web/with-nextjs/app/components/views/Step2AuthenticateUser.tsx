@@ -1,9 +1,9 @@
 import React, { PropsWithChildren } from "react";
 import { useAtom } from "jotai";
-import AuthWithCosmosKit from ".auth/AuthWithCosmosKit";
-import AuthWithGraz from ".auth/AuthWithGraz";
-import AuthWithLeapSocial from ".auth/AuthWithLeapSocial";
-import { selectedAuthAtom } from ".state";
+import AuthWithCosmosKit from "../../auth/AuthWithCosmosKit";
+import AuthWithGraz from "../../auth/AuthWithGraz";
+import AuthWithLeapSocial from "../../auth/AuthWithLeapSocial";
+import { selectedAuthAtom } from "../../state";
 import AuthWithCapsuleModal from "../../auth/AuthWithCapsuleModal";
 import AuthWithEmail from "../../auth/AuthWithEmail";
 import AuthWithOAuth from "../../auth/AuthWithOAuth";
@@ -13,7 +13,7 @@ import AuthWithRainbowkit from "../../auth/AuthWithRainbowkit";
 import AuthWithWeb3Onboard from "../../auth/AuthWithWeb3Onboard";
 import StepLayout from "../layouts/stepLayout";
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorComponent from ".components/ui/error";
+import ErrorComponent from "../../components/ui/error";
 
 const TITLE = "Authenticate User";
 const SUBTITLE =

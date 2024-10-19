@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { capsuleClient } from "../capsuleClient";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import Authentication from "../components/ui/authentication";
 import {
   disableNextAtom,
@@ -11,7 +10,7 @@ import {
   isLoggedInAtom,
   verificationCodeAtom,
 } from "../state";
-import { withMinimumLoadingTime } from ".lib/utils";
+import { withMinimumLoadingTime } from "../lib/utils";
 
 type AuthWithEmailProps = {};
 

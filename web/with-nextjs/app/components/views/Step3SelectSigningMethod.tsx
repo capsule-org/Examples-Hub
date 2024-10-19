@@ -1,11 +1,11 @@
 import React, { PropsWithChildren, useState } from "react";
 import { useAtom } from "jotai";
 import StepLayout from "../layouts/stepLayout";
-import { Card, CardContent } from ".components/ui/card";
-import Icon from ".components/ui/icon";
-import { selectedSignerAtom } from ".state";
-import { SigningOption } from ".types";
-import { SigningMethods } from ".constants";
+import { Card, CardContent } from "../../components/ui/card";
+import Icon from "../../components/ui/icon";
+import { selectedSignerAtom } from "../../state";
+import { SigningOption } from "../../types";
+import { SigningMethods } from "../../constants";
 
 type Step3SelectSigningMethodProps = {};
 

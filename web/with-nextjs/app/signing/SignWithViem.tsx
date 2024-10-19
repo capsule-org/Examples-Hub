@@ -3,9 +3,9 @@ import { http, parseEther, parseGwei } from "viem";
 
 import type { SignTransactionParameters, WalletClient, Chain, Account, LocalAccount } from "viem";
 import { createCapsuleAccount, createCapsuleViemClient } from "@usecapsule/viem-v2-integration";
-import useTransactionManager from ".hooks/useTransactionManager";
-import { capsuleClient } from ".capsuleClient";
-import TransactionForm from ".components/ui/transaction-form";
+import useTransactionManager from "../hooks/useTransactionManager";
+import { capsuleClient } from "../capsuleClient";
+import TransactionForm from "../components/ui/transaction-form";
 import { sepolia } from "viem/chains";
 
 type SignWithViemProps = {};

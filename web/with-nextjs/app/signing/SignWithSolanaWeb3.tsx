@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Connection, clusterApiUrl, Transaction, SystemProgram, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { CapsuleSolanaWeb3Signer } from "@usecapsule/solana-web3.js-v1-integration";
-import useTransactionManager from ".hooks/useTransactionManager";
-import { capsuleClient } from ".capsuleClient";
-import TransactionForm from ".components/ui/transaction-form";
+import useTransactionManager from "../hooks/useTransactionManager";
+import { capsuleClient } from "../capsuleClient";
+import TransactionForm from "../components/ui/transaction-form";
 
 type SignWithSolanaWeb3Props = {};
 

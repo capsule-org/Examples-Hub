@@ -1,7 +1,7 @@
 import React from "react";
 import { useAtom } from "jotai";
 import { Button } from "./button";
-import { currentStepAtom, disableNextAtom, disablePrevAtom, isLoadingAtom } from ".state";
+import { currentStepAtom, disableNextAtom, disablePrevAtom, isLoadingAtom } from "../../state";
 
 type FooterNavigationProps = {};
 

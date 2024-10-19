@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { SigningStargateClient, StdFee, Coin, MsgSendEncodeObject } from "@cosmjs/stargate";
 import { MsgSend } from "cosmjs-types/cosmos/bank/v1beta1/tx";
 import { CapsuleProtoSigner } from "@usecapsule/cosmjs-v0-integration";
-import useTransactionManager from ".hooks/useTransactionManager";
-import TransactionForm from ".components/ui/transaction-form";
-import { capsuleClient } from ".capsuleClient";
+import useTransactionManager from "../hooks/useTransactionManager";
+import TransactionForm from "../components/ui/transaction-form";
+import { capsuleClient } from "../capsuleClient";
 
 type SignWithCosmJSProps = {};
 

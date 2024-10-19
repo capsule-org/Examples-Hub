@@ -6,11 +6,11 @@ import { wallets } from "@cosmos-kit/leap-capsule-social-login";
 import { CustomCapsuleModalView } from "@leapwallet/cosmos-social-login-capsule-provider-ui";
 import "@leapwallet/cosmos-social-login-capsule-provider-ui/styles.css";
 import { OAuthMethod } from "@usecapsule/web-sdk";
-import { capsuleClient } from ".capsuleClient";
+import { capsuleClient } from "../capsuleClient";
 import { useAtom } from "jotai";
-import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from ".state";
-import ModalTriggerCard from ".components/ui/modal-trigger-card";
-import { withMinimumLoadingTime } from ".lib/utils";
+import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from "../state";
+import ModalTriggerCard from "../components/ui/modal-trigger-card";
+import { withMinimumLoadingTime } from "../lib/utils";
 
 type AuthWithCosmosKitProps = {};
 

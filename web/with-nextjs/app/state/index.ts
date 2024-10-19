@@ -1,9 +1,9 @@
 import { atom } from "jotai";
-import { AuthOption, SigningOption } from ".types";
+import { AuthOption, SigningOption } from "../types";
 
 export const currentStepAtom = atom<number>(0);
 export const selectedAuthAtom = atom<AuthOption | "">("");
-export const selectedSignerAtom = atom<SigningOption | "">("");
+export const selectedSignerAtom = atom<SigningOption>("capsule-client");
 export const emailAtom = atom<string>("");
 export const phoneNumberAtom = atom<string>("");
 export const countryCodeAtom = atom<string>("");
