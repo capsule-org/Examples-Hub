@@ -7,6 +7,9 @@ import { signWithAlchemy } from "./handlers/signWithAlchemy";
 import { signWithCapsulePreGen } from "./handlers/signWithCapsuleClient";
 import { signWithCapsuleSession } from "./handlers/signWithCapsuleSession";
 
+/**
+ * Defines the routes for the Bun server.
+ */
 export const routes = [
   { path: "/wallets/create", method: "POST", handler: createWallet },
   { path: "/wallets/sign/capsulePreGen", method: "POST", handler: signWithCapsulePreGen },

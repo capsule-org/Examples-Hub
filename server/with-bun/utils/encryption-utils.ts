@@ -1,28 +1,30 @@
 import CryptoJS from "crypto-js";
 
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY;
+/**
+ * Retrieves the encryption key from the environment, ensuring it is valid.
+ *
+ * @returns {string} - The encryption key.
+ * @throws {Error} - If the encryption key is not set or not 32 bytes long.
+ */
+function getEncryptionKey(): string {
+  const encryptionKey = process.env.ENCRYPTION_KEY;
 
-if (!ENCRYPTION_KEY || ENCRYPTION_KEY.length !== 16) {
-  throw new Error("ENCRYPTION_KEY must be set and be 16 bytes long");
+  if (!encryptionKey || encryptionKey.length !== 32) {
+    throw new Error("ENCRYPTION_KEY must be set and be 32 bytes long");
+  }
+
+  return encryptionKey;
 }
 
-const IV_LENGTH = 16;
-
-function getKey(): CryptoJS.lib.WordArray {
-  return CryptoJS.enc.Utf8.parse(ENCRYPTION_KEY!);
-}
-
-function toHex(wordArray: CryptoJS.lib.WordArray): string {
-  return CryptoJS.enc.Hex.stringify(wordArray);
-}
-
-function fromHex(hex: string): CryptoJS.lib.WordArray {
-  return CryptoJS.enc.Hex.parse(hex);
-}
-
+/**
+ * Encrypts a given text using AES with CBC mode and PKCS7 padding.
+ *
+ * @param {string} text - The text to encrypt.
+ * @returns {string} - The encrypted text in the format "IV:Ciphertext".
+ */
 export function encrypt(text: string): string {
-  const iv = CryptoJS.lib.WordArray.random(IV_LENGTH);
-  const key = getKey();
+  const iv = CryptoJS.lib.WordArray.random(16);
+  const key = CryptoJS.enc.Utf8.parse(getEncryptionKey());
 
   const encrypted = CryptoJS.AES.encrypt(text, key, {
     iv: iv,
@@ -30,15 +32,21 @@ export function encrypt(text: string): string {
     padding: CryptoJS.pad.Pkcs7,
   });
 
-  return `${toHex(iv)}:${encrypted.ciphertext.toString()}`;
+  return `${CryptoJS.enc.Hex.stringify(iv)}:${encrypted.ciphertext.toString()}`;
 }
 
+/**
+ * Decrypts the provided encrypted text.
+ *
+ * @param {string} encryptedText - The encrypted text in the format "IV:Ciphertext".
+ * @returns {string} - The decrypted plaintext.
+ * @throws {Error} - If decryption fails.
+ */
 export function decrypt(encryptedText: string): string {
   const [ivHex, encryptedDataHex] = encryptedText.split(":");
-  const iv = fromHex(ivHex);
-  const encryptedData = fromHex(encryptedDataHex);
-
-  const key = getKey();
+  const iv = CryptoJS.enc.Hex.parse(ivHex);
+  const encryptedData = CryptoJS.enc.Hex.parse(encryptedDataHex);
+  const key = CryptoJS.enc.Utf8.parse(getEncryptionKey());
 
   const cipherParams = CryptoJS.lib.CipherParams.create({
     ciphertext: encryptedData,
