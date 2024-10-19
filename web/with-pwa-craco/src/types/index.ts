@@ -4,7 +4,7 @@ export type AuthOption = (typeof AuthOptions)[number];
 
 export type SigningOption = (typeof SigningOptions)[number];
 
-export type IconType = React.FC<React.SVGProps<SVGElement>> | string;
+export type IconType = React.FC<React.SVGProps<SVGSVGElement>> | string;
 
 export type OptionDetails = {
   icon: IconType;

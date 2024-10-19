@@ -1,27 +1,27 @@
 import { AuthOptionDetails, SigningOptionDetails } from "../types";
 import { OAuthMethod } from "@leapwallet/cosmos-social-login-capsule-provider";
-import AlchemyIcon from "../assets/alchemy.svg?react";
-import CapsuleIcon from "../assets/capsule.svg?react";
-import CosmjsIcon from "../assets/cosmjs.svg?react";
-import CosmosKitIcon from "../assets/cosmos-kit.svg?react";
-import DiscordIcon from "../assets/discord.svg?react";
-import EthersIcon from "../assets/ethers.svg?react";
-import FacebookIcon from "../assets/facebook.svg?react";
-import FarcasterIcon from "../assets/farcaster.svg?react";
-import GoogleIcon from "../assets/google.svg?react";
+import { ReactComponent as AlchemyIcon } from "../assets/alchemy.svg";
+import { ReactComponent as CapsuleIcon } from "../assets/capsule.svg";
+import { ReactComponent as CosmjsIcon } from "../assets/cosmjs.svg";
+import { ReactComponent as CosmosKitIcon } from "../assets/cosmos-kit.svg";
+import { ReactComponent as DiscordIcon } from "../assets/discord.svg";
+import { ReactComponent as EthersIcon } from "../assets/ethers.svg";
+import { ReactComponent as FacebookIcon } from "../assets/facebook.svg";
+import { ReactComponent as FarcasterIcon } from "../assets/farcaster.svg";
+import { ReactComponent as GoogleIcon } from "../assets/google.svg";
 import GrazIcon from "../assets/graz.png";
-import LeapSocialIcon from "../assets/leap.svg?react";
-import MailIcon from "../assets/mail.svg?react";
-import ModalIcon from "../assets/capsule.svg?react";
-import OAuthIcon from "../assets/oauth.svg?react";
-import PhoneIcon from "../assets/phone.svg?react";
-import RainbowIcon from "../assets/rainbow.svg?react";
-import SolanaWeb3Icon from "../assets/solana-web3.svg?react";
-import TwitterIcon from "../assets/twitter.svg?react";
-import ViemIcon from "../assets/viem.svg?react";
-import WalletIcon from "../assets/wallet.svg?react";
-import Web3Icon from "../assets/web3onboard.svg?react";
-import AppleIcon from "../assets/apple.svg?react";
+import { ReactComponent as LeapSocialIcon } from "../assets/leap.svg";
+import { ReactComponent as MailIcon } from "../assets/mail.svg";
+import { ReactComponent as ModalIcon } from "../assets/capsule.svg";
+import { ReactComponent as OAuthIcon } from "../assets/oauth.svg";
+import { ReactComponent as PhoneIcon } from "../assets/phone.svg";
+import { ReactComponent as RainbowIcon } from "../assets/rainbow.svg";
+import { ReactComponent as SolanaWeb3Icon } from "../assets/solana-web3.svg";
+import { ReactComponent as TwitterIcon } from "../assets/twitter.svg";
+import { ReactComponent as ViemIcon } from "../assets/viem.svg";
+import { ReactComponent as WalletIcon } from "../assets/wallet.svg";
+import { ReactComponent as Web3Icon } from "../assets/web3onboard.svg";
+import { ReactComponent as AppleIcon } from "../assets/apple.svg";
 
 export const AuthOptions = [
   "email",
@@ -136,7 +136,7 @@ export const SigningMethods: SigningOptionDetails = {
 export const OAuthOptions: {
   [key in OAuthMethod]: {
     label: string;
-    icon: React.FC<React.SVGProps<SVGElement>>;
+    icon: React.FC<React.SVGProps<SVGSVGElement>>;
   };
 } = {
   [OAuthMethod.GOOGLE]: {

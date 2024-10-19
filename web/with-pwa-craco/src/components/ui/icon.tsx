@@ -1,27 +1,21 @@
 import React from "react";
 
-type IconType = string | React.ComponentType<{ className?: string }>;
+type IconType = React.ComponentType<any> | string;
 
 interface IconProps {
   icon: IconType;
 }
 
 const Icon: React.FC<IconProps> = ({ icon }) => {
-  if (typeof icon === "undefined") {
-    console.warn("Icon prop is undefined");
-    return null;
-  }
-
   if (typeof icon === "string") {
     return (
       <img
         src={icon}
-        alt="Auth Icon"
-        width={24}
-        height={24}
+        alt="Icon"
+        className="h-6 w-6"
       />
     );
-  } else if (typeof icon === "function") {
+  } else if (icon) {
     const IconComponent = icon;
     return <IconComponent className="h-6 w-6" />;
   } else {
