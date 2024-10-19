@@ -13,7 +13,7 @@ const Step4SignTransactionCodeSnippet: React.FC<Step4SignTransactionCodeSnippetP
     const loadCodeItems = async () => {
       if (selectedSigner) {
         try {
-          const authModule = await import(`../../snippets/${selectedSigner}`);
+          const authModule = await import(`../../snippets/${selectedSigner}.ts`);
           setCodeItems(authModule.default[1]);
         } catch (error) {
           console.error(`Failed to load code snippets for ${selectedSigner}:`, error);
