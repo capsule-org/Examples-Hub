@@ -1,7 +1,6 @@
 import { useAtom } from "jotai";
 import { currentStepAtom } from "./state";
 import Layout from "./components/layouts/layout";
-import { Card, CardContent } from "./components/ui/card";
 import Stepper from "./components/ui/stepper";
 import Step1SelectAuth from "./components/views/Step1SelectAuth";
 import Step1SelectAuthCodeSnippet from "./components/views/Step1SelectAuthCodeSnippet";
