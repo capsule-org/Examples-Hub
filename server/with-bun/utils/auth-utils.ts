@@ -5,6 +5,10 @@
  * @returns {{ email: string } | null} - The extracted email if the token is valid, otherwise null.
  */
 export function simulateVerifyToken(token: string): { email: string } | null {
+  if (!token) {
+    return null;
+  }
+
   try {
     const match = token.match(/^([^.]+)\.(.+)$/);
 

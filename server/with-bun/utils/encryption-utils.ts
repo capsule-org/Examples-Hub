@@ -23,6 +23,10 @@ function getEncryptionKey(): string {
  * @returns {string} - The encrypted text in the format "IV:Ciphertext".
  */
 export function encrypt(text: string): string {
+  if (!text) {
+    throw new Error("Text to encrypt must be provided");
+  }
+
   const iv = CryptoJS.lib.WordArray.random(16);
   const key = CryptoJS.enc.Utf8.parse(getEncryptionKey());
 
@@ -43,6 +47,10 @@ export function encrypt(text: string): string {
  * @throws {Error} - If decryption fails.
  */
 export function decrypt(encryptedText: string): string {
+  if (!encryptedText || !encryptedText.includes(":")) {
+    throw new Error("Encrypted text must be in the format 'IV:Ciphertext'");
+  }
+
   const [ivHex, encryptedDataHex] = encryptedText.split(":");
   const iv = CryptoJS.enc.Hex.parse(ivHex);
   const encryptedData = CryptoJS.enc.Hex.parse(encryptedDataHex);
@@ -50,16 +58,19 @@ export function decrypt(encryptedText: string): string {
 
   const cipherParams = CryptoJS.lib.CipherParams.create({
     ciphertext: encryptedData,
-    iv: iv,
-    key: key,
-    algorithm: CryptoJS.algo.AES,
-    padding: CryptoJS.pad.Pkcs7,
   });
 
   const decrypted = CryptoJS.AES.decrypt(cipherParams, key, {
     iv: iv,
+    mode: CryptoJS.mode.CBC,
     padding: CryptoJS.pad.Pkcs7,
   });
 
-  return decrypted.toString(CryptoJS.enc.Utf8);
+  const decryptedText = decrypted.toString(CryptoJS.enc.Utf8);
+
+  if (!decryptedText) {
+    throw new Error("Failed to decrypt text. The provided key may be incorrect.");
+  }
+
+  return decryptedText;
 }
