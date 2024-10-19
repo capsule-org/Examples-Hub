@@ -5,15 +5,13 @@ import { ConstructorOpts } from "@usecapsule/core-sdk";
 export const CAPSULE_API_KEY = import.meta.env.VITE_CAPSULE_API_KEY || "";
 
 // Grab an Alchemy API key from https://dashboard.alchemy.com/apps
-const ALCHEMY_API_KEY = import.meta.env.VITE_ALCHEMY_API_KEY || "";
+export const ALCHEMY_API_KEY = import.meta.env.VITE_ALCHEMY_API_KEY || "";
 
 // Grab an Alchemy Gas Policy ID from https://dashboard.alchemy.com/gas-manager
-const ALCHEMY_GAS_POLICY_ID = import.meta.env.VITE_ALCHEMY_GAS_POLICY_ID || "";
+export const ALCHEMY_GAS_POLICY_ID = import.meta.env.VITE_ALCHEMY_GAS_POLICY_ID || "";
 
-if (!CAPSULE_API_KEY || !ALCHEMY_API_KEY || !ALCHEMY_GAS_POLICY_ID) {
-  throw new Error(
-    "Please provide REACT_APP_CAPSULE_API_KEY, REACT_APP_ALCHEMY_API_KEY, REACT_APP_ALCHEMY_GAS_POLICY_ID in .env file. Use .env.example as a template."
-  );
+if (!CAPSULE_API_KEY) {
+  throw new Error("Please provide REACT_APP_CAPSULE_API_KEY in .env file. Use .env.example as a template.");
 }
 
 // Configure the Capsule client options
