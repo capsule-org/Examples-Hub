@@ -2,54 +2,71 @@ import sqlite3 from "sqlite3";
 
 sqlite3.verbose();
 
-const db = new sqlite3.Database("./keyShares.db", (err) => {
+const DB_PATH = "./keyShares.db";
+const TABLE_NAME = "keyShares";
+const COLUMN_EMAIL = "email";
+const COLUMN_KEY_SHARE = "keyShare";
+
+const db = new sqlite3.Database(DB_PATH, (err) => {
   if (err) {
     console.error("Could not open database:", err.message);
+  } else {
+    db.run(
+      `CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
+        ${COLUMN_EMAIL} TEXT PRIMARY KEY,
+        ${COLUMN_KEY_SHARE} TEXT
+      )`,
+      (err) => {
+        if (err) {
+          console.error("Failed to create table:", err.message);
+        }
+      }
+    );
   }
 });
 
-function runAsync(sql: string, params?: any[]): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    db.run(sql, params || [], function (err: Error | null) {
+/**
+ * Fetches the keyShare associated with the given email.
+ *
+ * @param {string} email - The email to search for in the database.
+ * @returns {Promise<string | null>} - The keyShare if found, otherwise null.
+ */
+const getKeyShareInDB = async (email: string): Promise<string | null> => {
+  return new Promise((resolve, reject) => {
+    db.get(`SELECT ${COLUMN_KEY_SHARE} FROM ${TABLE_NAME} WHERE ${COLUMN_EMAIL} = ?`, [email], (err, row) => {
       if (err) {
-        reject(err);
+        console.error(`Failed to get keyShare for email: ${email}`, err);
+        reject(null);
       } else {
-        resolve();
+        resolve(row ? (row as any)[COLUMN_KEY_SHARE] : null);
       }
     });
   });
-}
+};
 
-function getAsync<T>(sql: string, params?: any[]): Promise<T | undefined> {
-  return new Promise<T | undefined>((resolve, reject) => {
-    db.get(sql, params || [], function (err: Error | null, row: T) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(row);
+/**
+ * Sets or updates the keyShare associated with the given email.
+ *
+ * @param {string} email - The email for which the keyShare should be set.
+ * @param {string} keyShare - The keyShare string to store in the database.
+ * @returns {Promise<void>}
+ */
+const setKeyShareInDB = async (email: string, keyShare: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    db.run(
+      `INSERT OR REPLACE INTO ${TABLE_NAME} (${COLUMN_EMAIL}, ${COLUMN_KEY_SHARE}) VALUES (?, ?)`,
+      [email, keyShare],
+      (err) => {
+        if (err) {
+          console.error(`Failed to set keyShare for email: ${email}`, err);
+          reject(err);
+        } else {
+          console.log(`Successfully set keyShare for email: ${email}`);
+          resolve();
+        }
       }
-    });
+    );
   });
-}
+};
 
-let dbInitialized = false;
-
-async function initializeDB(): Promise<void> {
-  if (!dbInitialized) {
-    await runAsync(`CREATE TABLE IF NOT EXISTS keyShares (email TEXT PRIMARY KEY, keyShare TEXT)`);
-    dbInitialized = true;
-  }
-}
-
-export async function getKeyShareInDB(email: string): Promise<string> {
-  await initializeDB();
-  console.log("Email:", email);
-  const result = await getAsync<{ keyShare: string }>("SELECT keyShare FROM keyShares WHERE email = ?", [email]);
-  console.log("Result:", result?.keyShare);
-  return result ? result.keyShare : "";
-}
-
-export async function setKeyShareInDB(email: string, keyShare: string): Promise<void> {
-  await initializeDB();
-  await runAsync("INSERT OR REPLACE INTO keyShares (email, keyShare) VALUES (?, ?)", [email, keyShare]);
-}
+export { getKeyShareInDB, setKeyShareInDB };
