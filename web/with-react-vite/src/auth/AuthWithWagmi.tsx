@@ -37,10 +37,6 @@ const AuthContent = () => {
   const { address, isConnected } = useAccount();
   const { disconnect } = useDisconnect();
 
-  console.log("Connectors", connectors);
-  console.log("Address", address);
-  console.log("IsConnected", isConnected);
-
   return (
     <div>
       <h1>AuthWithWagmi</h1>

@@ -19,7 +19,7 @@ const capsuleOpts: ConstructorOpts = {
   supportedWalletTypes: {
     EVM: true,
     COSMOS: true,
-    // SOLANA: true,
+    SOLANA: true,
   },
 };
 
