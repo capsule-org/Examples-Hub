@@ -17,9 +17,9 @@ if (!CAPSULE_API_KEY) {
 // Configure the Capsule client options
 const capsuleOpts: ConstructorOpts = {
   supportedWalletTypes: {
+    EVM: true,
     COSMOS: true,
     SOLANA: true,
-    EVM: true,
   },
 };
 

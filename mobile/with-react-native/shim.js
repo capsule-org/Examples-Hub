@@ -1,7 +1,7 @@
-if (typeof process === "undefined") {
-  global.process = require("process");
+if (typeof process === 'undefined') {
+  global.process = require('process');
 } else {
-  const bProcess = require("process");
+  const bProcess = require('process');
   for (var p in bProcess) {
     if (!(p in process)) {
       process[p] = bProcess[p];
@@ -9,4 +9,4 @@ if (typeof process === "undefined") {
   }
 }
 
-require("@usecapsule/react-native-wallet").shim();
+require('@usecapsule/react-native-wallet').shim();

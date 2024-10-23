@@ -14,6 +14,7 @@ import AuthWithWeb3Onboard from "../../auth/AuthWithWeb3Onboard";
 import StepLayout from "../layouts/stepLayout";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorComponent from "../../components/ui/error";
+import AuthWithWagmi from "../../auth/AuthWithWagmi";
 
 const TITLE = "Authenticate User";
 const SUBTITLE =
@@ -46,6 +47,8 @@ const Step2AuthenticateUser: React.FC<PropsWithChildren<Step2AuthenticateUserPro
         return <AuthWithCosmosKit />;
       case "graz":
         return <AuthWithGraz />;
+      case "wagmi":
+        return <AuthWithWagmi />;
       default:
         return <div>Please select an authentication method</div>;
     }

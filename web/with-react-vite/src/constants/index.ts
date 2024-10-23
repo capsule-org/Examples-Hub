@@ -22,6 +22,7 @@ import ViemIcon from "../assets/viem.svg?react";
 import WalletIcon from "../assets/wallet.svg?react";
 import Web3Icon from "../assets/web3onboard.svg?react";
 import AppleIcon from "../assets/apple.svg?react";
+import WagmiIcon from "../assets/wagmi.svg?react";
 
 export const AuthOptions = [
   "email",
@@ -34,6 +35,7 @@ export const AuthOptions = [
   "web3-onboard",
   "graz",
   "cosmos-kit",
+  "wagmi",
 ] as const;
 
 export const SigningOptions = ["capsule-client", "ethers", "viem", "cosmjs", "solana-web3js", "alchemy-aa"] as const;
@@ -97,6 +99,11 @@ export const AuthMethods: AuthOptionDetails = {
     icon: GrazIcon,
     label: "Graz",
     description: "Authenticate with Graz + Leap Social Modal.",
+  },
+  "wagmi": {
+    icon: WagmiIcon,
+    label: "Wagmi",
+    description: "Authenticate with Wagmi",
   },
 };
 
