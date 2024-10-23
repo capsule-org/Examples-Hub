@@ -1,4 +1,4 @@
-package com.usecapsule.expoexample
+package com.usecapsule.example.expo
 
 import android.app.Application
 import android.content.res.Configuration

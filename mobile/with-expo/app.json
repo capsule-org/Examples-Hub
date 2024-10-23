@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "capsuleExpoExample",
-    "slug": "capsuleExpoExample",
+    "name": "capsuleexpoexample",
+    "slug": "capsuleexpoexample",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.usecapsule.expoexample",
+      "bundleIdentifier": "com.usecapsule.example.expo",
       "associatedDomains": ["webcredentials:app.beta.usecapsule.com", "webcredentials:app.usecapsule.com"],
       "teamId": "FF9U73RS48"
     },
@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.usecapsule.expoexample"
+      "package": "com.usecapsule.example.expo"
     },
     "web": {
       "bundler": "metro",

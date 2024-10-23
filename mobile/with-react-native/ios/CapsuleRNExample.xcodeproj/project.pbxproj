@@ -23,20 +23,20 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = "CapsuleRNExample";
+			remoteInfo = CapsuleRNExample;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* CapsuleRNExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CapsuleRNExampleTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* CapsuleRNExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CapsuleRNExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* CapsuleRNExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CapsuleRNExampleTests.m"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* CapsuleRNExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CapsuleRNExample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = "CapsuleRNExample/AppDelegate.h"; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = "CapsuleRNExample/AppDelegate.mm"; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "CapsuleRNExample/Images.xcassets"; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "CapsuleRNExample/Info.plist"; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "CapsuleRNExample/main.m"; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* CapsuleRNExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CapsuleRNExampleTests.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* CapsuleRNExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CapsuleRNExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = CapsuleRNExample/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = CapsuleRNExample/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = CapsuleRNExample/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = CapsuleRNExample/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CapsuleRNExample/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = CapsuleRNExample/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		147CC6B1EB22C93F9DDF9638 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = CapsuleRNExample/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-CapsuleRNExample-CapsuleRNExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CapsuleRNExample-CapsuleRNExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,7 +44,7 @@
 		5709B34CF0A7D63546082F79 /* Pods-CapsuleRNExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CapsuleRNExample.release.xcconfig"; path = "Target Support Files/Pods-CapsuleRNExample/Pods-CapsuleRNExample.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-CapsuleRNExample-CapsuleRNExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CapsuleRNExample-CapsuleRNExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-CapsuleRNExample-CapsuleRNExampleTests/Pods-CapsuleRNExample-CapsuleRNExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-CapsuleRNExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CapsuleRNExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "CapsuleRNExample/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = CapsuleRNExample/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-CapsuleRNExample-CapsuleRNExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CapsuleRNExample-CapsuleRNExampleTests.release.xcconfig"; path = "Target Support Files/Pods-CapsuleRNExample-CapsuleRNExampleTests/Pods-CapsuleRNExample-CapsuleRNExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 		8C616D1E2CB71261004000E2 /* CapsuleRNExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CapsuleRNExample.entitlements; path = CapsuleRNExample/CapsuleRNExample.entitlements; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -76,7 +76,7 @@
 				00E356F21AD99517003FC87E /* CapsuleRNExampleTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = "CapsuleRNExampleTests";
+			path = CapsuleRNExampleTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -100,7 +100,7 @@
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				147CC6B1EB22C93F9DDF9638 /* PrivacyInfo.xcprivacy */,
 			);
-			name = "CapsuleRNExample";
+			name = CapsuleRNExample;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -195,8 +195,8 @@
 			);
 			dependencies = (
 			);
-			name = "CapsuleRNExample";
-			productName = "CapsuleRNExample";
+			name = CapsuleRNExample;
+			productName = CapsuleRNExample;
 			productReference = 13B07F961A680F5B00A75B9A /* CapsuleRNExample.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -425,7 +425,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "CapsuleRNExampleTests/Info.plist";
+				INFOPLIST_FILE = CapsuleRNExampleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -437,7 +437,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.usecapsule.example.reactnative";
+				PRODUCT_BUNDLE_IDENTIFIER = com.usecapsule.example.reactnative;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CapsuleRNExample.app/CapsuleRNExample";
 			};
@@ -449,7 +449,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = "CapsuleRNExampleTests/Info.plist";
+				INFOPLIST_FILE = CapsuleRNExampleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -461,7 +461,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.usecapsule.example.reactnative";
+				PRODUCT_BUNDLE_IDENTIFIER = com.usecapsule.example.reactnative;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CapsuleRNExample.app/CapsuleRNExample";
 			};
@@ -476,8 +476,8 @@
 				CODE_SIGN_ENTITLEMENTS = CapsuleRNExample/CapsuleRNExample.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = "CapsuleRNExample/Info.plist";
-             INFOPLIST_KEY_CFBundleDisplayName = "Capsule RN Example";
+				INFOPLIST_FILE = CapsuleRNExample/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Capsule RN Example";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -488,8 +488,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.usecapsule.example.reactnative";
-				PRODUCT_NAME = "CapsuleRNExample";
+				PRODUCT_BUNDLE_IDENTIFIER = com.usecapsule.example.reactnative;
+				PRODUCT_NAME = CapsuleRNExample;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -504,8 +504,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = CapsuleRNExample/CapsuleRNExample.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = "CapsuleRNExample/Info.plist";
-             INFOPLIST_KEY_CFBundleDisplayName = "Capsule RN Example";
+				INFOPLIST_FILE = CapsuleRNExample/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Capsule RN Example";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -516,8 +516,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.usecapsule.example.reactnative";
-				PRODUCT_NAME = "CapsuleRNExample";
+				PRODUCT_BUNDLE_IDENTIFIER = com.usecapsule.example.reactnative;
+				PRODUCT_NAME = CapsuleRNExample;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
