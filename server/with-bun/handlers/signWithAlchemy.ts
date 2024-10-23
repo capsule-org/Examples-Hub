@@ -36,6 +36,11 @@ export const signWithAlchemy = async (req: Request): Promise<Response> => {
 
   // Parse and validate request body
   const { email }: RequestBody = await req.json();
+
+  if (!email) {
+    return new Response("Email is required", { status: 400 });
+  }
+
   if (user.email !== email) {
     return new Response("Forbidden", { status: 403 });
   }

@@ -1,4 +1,3 @@
-import type { Request, Response, NextFunction } from "express";
 import { createWallet } from "./handlers/createWallet";
 import { signWithEthers } from "./handlers/signWithEthers";
 import { signWithViem } from "./handlers/signWithViem";
@@ -8,13 +7,10 @@ import { signWithAlchemy } from "./handlers/signWithAlchemy";
 import { signWithCapsulePreGen } from "./handlers/signWithCapsuleClient";
 import { signWithCapsuleSession } from "./handlers/signWithCapsuleSession";
 
-export interface Route {
-  path: string;
-  method: "POST";
-  handler: (req: Request, res: Response, next: NextFunction) => Promise<Response<any, Record<string, any>> | void>;
-}
-
-export const routes: Route[] = [
+/**
+ * Defines the routes for the Express server.
+ */
+export const routes = [
   { path: "/wallets/create", method: "POST", handler: createWallet },
   { path: "/wallets/sign/capsulePreGen", method: "POST", handler: signWithCapsulePreGen },
   { path: "/wallets/sign/capsuleSession", method: "POST", handler: signWithCapsuleSession },
