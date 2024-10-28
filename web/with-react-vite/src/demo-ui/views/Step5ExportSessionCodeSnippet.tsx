@@ -10,7 +10,7 @@ const Step5ExportSessionCodeSnippet: React.FC<Step5ExportSessionCodeSnippetProps
   useEffect(() => {
     const loadCodeItems = async () => {
       try {
-        const exportModule = await import(/* @vite-ignore */ "../snippets/export-session/export");
+        const exportModule = await import(/* @vite-ignore */ "../snippets/authentication/export-session");
         setCodeItems(exportModule.default);
       } catch (error) {
         console.error("Failed to load export session code snippets:", error);
