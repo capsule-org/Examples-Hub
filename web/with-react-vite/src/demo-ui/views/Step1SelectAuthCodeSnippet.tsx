@@ -28,7 +28,7 @@ const Step1SelectAuthCodeSnippet: React.FC<Step1SelectAuthCodeSnippetProps> = ()
     const loadCodeItems = async () => {
       if (selectedAuth) {
         try {
-          const authModule = await import(/* @vite-ignore */ `../../demo-ui/snippets/${selectedAuth}`);
+          const authModule = await import(/* @vite-ignore */ `../../demo-ui/snippets/authentication/${selectedAuth}`);
           setCodeItems(authModule.default[0]);
         } catch (error) {
           console.error(`Failed to load code snippets for ${selectedAuth}:`, error);

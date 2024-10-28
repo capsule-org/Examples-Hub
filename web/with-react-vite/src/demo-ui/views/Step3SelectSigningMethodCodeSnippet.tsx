@@ -14,7 +14,7 @@ const Step3SelectSigningMethodCodeSnippet: React.FC<Step3SelectSigningMethodCode
     const loadCodeItems = async () => {
       if (selectedSigner) {
         try {
-          const authModule = await import(/* @vite-ignore */ `../../demo-ui/snippets/${selectedSigner}`);
+          const authModule = await import(/* @vite-ignore */ `../../demo-ui/snippets/signers/${selectedSigner}`);
           setCodeItems(authModule.default[0]);
         } catch (error) {
           console.error(`Failed to load code snippets for ${selectedSigner}:`, error);

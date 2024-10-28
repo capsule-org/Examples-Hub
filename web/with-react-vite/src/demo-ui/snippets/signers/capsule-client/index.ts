@@ -1,4 +1,4 @@
-import { CodeStepItem } from "../../types";
+import { CodeStepItem } from "../../../types";
 import setupSteps from "./setup";
 import signSteps from "./signing";
 
