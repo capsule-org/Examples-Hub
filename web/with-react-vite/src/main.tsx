@@ -67,7 +67,7 @@ export default function Main() {
 
       {/* Code snippet section */}
       <div className="bg-muted w-full md:w-2/5 overflow-y-auto">
-        <div className="py-8 max-w-3xl mx-auto">
+        <div className="p-8 max-w-3xl mx-auto">
           <StepCodeSnippet />
         </div>
       </div>
