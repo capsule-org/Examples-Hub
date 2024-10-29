@@ -4,58 +4,36 @@
 
 @layer base {
   :root {
-    --background: 14 100% 100%;
-    --foreground: 14 5% 10%;
-    --card: 14 50% 100%;
-    --card-foreground: 14 5% 15%;
-    --popover: 14 100% 100%;
-    --popover-foreground: 14 100% 10%;
-    --primary: 14 100% 64.5%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 14 30% 90%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: -24 30% 95%;
-    --muted-foreground: 14 5% 40%;
-    --accent: -24 30% 90%;
-    --accent-foreground: 14 5% 15%;
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 14 5% 100%;
-    --border: 14 30% 82%;
-    --input: 14 30% 50%;
-    --ring: 14 100% 64.5%;
-    --radius: 0.75rem;
-  }
-  .dark {
-    --background: 14 50% 10%;
-    --foreground: 14 5% 100%;
-    --card: 14 50% 10%;
-    --card-foreground: 14 5% 100%;
-    --popover: 14 50% 5%;
-    --popover-foreground: 14 5% 100%;
-    --primary: 14 100% 64.5%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 14 30% 20%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: -24 30% 25%;
-    --muted-foreground: 14 5% 65%;
-    --accent: -24 30% 25%;
-    --accent-foreground: 14 5% 95%;
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 14 5% 100%;
-    --border: 14 30% 50%;
-    --input: 14 30% 50%;
-    --ring: 14 100% 64.5%;
-    --radius: 0.75rem;
-  }
-}
+    --background: 0 0% 98%; /* Light neutral background */
+    --foreground: 0 0% 12%; /* Darker foreground for contrast */
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    --card: 0 0% 100%; /* Neutral card background */
+    --card-foreground: 0 0% 10%; /* Text on cards */
+
+    --popover: 0 0% 98%; /* Slightly off-white for modals/popovers */
+    --popover-foreground: 0 0% 12%; /* Darker text on popovers */
+
+    /* Primary color inspired by #FAC4C4 */
+    --primary: 0 80% 92%; /* Soft pink similar to #FAC4C4 */
+    --primary-foreground: 0 0% 10%; /* Dark foreground on primary */
+
+    /* Secondary color inspired by #DEABFA */
+    --secondary: 270 65% 90%; /* Light lavender similar to #DEABFA */
+    --secondary-foreground: 0 0% 12%; /* Darker foreground on secondary */
+
+    --muted: 0 0% 96%; /* Light gray for muted backgrounds */
+    --muted-foreground: 0 0% 42%; /* Softer gray for muted text */
+
+    --accent: 0 10% 80%; /* Light accent shade */
+    --accent-foreground: 0 0% 10%; /* Dark text on accent */
+
+    --destructive: 5 80% 60%; /* A balanced red for alerts */
+    --destructive-foreground: 0 0% 98%; /* White for high contrast on red */
+
+    --border: 0 0% 85%; /* Light border color */
+    --input: 0 0% 15%; /* Slightly darker for focused input borders */
+    --ring: 0 0% 15%; /* Matches primary’s foreground for ring color */
+    --radius: 0.75rem; /* 12px for border-radius consistency */
   }
 }
 
@@ -64,7 +42,7 @@
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: var(--cpsl-font-family, "Inter", sans-serif);
 }
 
 pre {
