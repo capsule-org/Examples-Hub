@@ -3364,7 +3364,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@usecapsule/react-native-passkey@npm:2.2.0, @usecapsule/react-native-passkey@npm:^2.2.0":
+"@usecapsule/react-native-passkey@npm:2.2.0":
   version: 2.2.0
   resolution: "@usecapsule/react-native-passkey@npm:2.2.0"
   peerDependencies:
@@ -3374,14 +3374,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@usecapsule/react-native-wallet@npm:1.6.1-dev.1":
-  version: 1.6.1-dev.1
-  resolution: "@usecapsule/react-native-wallet@npm:1.6.1-dev.1"
+"@usecapsule/react-native-wallet@npm:2.2.0-dev.1":
+  version: 2.2.0-dev.1
+  resolution: "@usecapsule/react-native-wallet@npm:2.2.0-dev.1"
   dependencies:
     "@react-native-async-storage/async-storage": ^1.15.14
     "@usecapsule/core-sdk": 2.3.0
     "@usecapsule/react-native-passkey": 2.2.0
-    "@usecapsule/user-management-client": 1.25.0
+    "@usecapsule/user-management-client": 1.27.0
     "@usecapsule/web-sdk": 2.3.0
     node-forge: 1.3.1
     react-native-get-random-values: ^1.11.0
@@ -3391,7 +3391,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: f0214a6469d110515496475feeebc1c38a89901625f12ead35daf92768d28de742df45715014be041c644e8deb1145825dd9596fda31301820104abe497884de
+  checksum: 8cb2f0db34562b69e5ca8ad1b80eafc7f40ee7e8511a441c5901d631fcec6ae5f47301eb0f62cfde4c5d1e319c37cec65910d08c70c42a55af026ca012d779f3
   languageName: node
   linkType: hard
 
@@ -3402,6 +3402,16 @@ __metadata:
     axios: ^1.6.3
     qs: ^6.12.0
   checksum: 07ab607a937ca648375585f7b26335d9cc423b6542e5bd17a5539070a30427cafb8692446f844f55b350e5fbfcae72a8a574431829fb38ee5dc9b7e9ce9875c0
+  languageName: node
+  linkType: hard
+
+"@usecapsule/user-management-client@npm:1.27.0":
+  version: 1.27.0
+  resolution: "@usecapsule/user-management-client@npm:1.27.0"
+  dependencies:
+    axios: ^1.6.3
+    qs: ^6.12.0
+  checksum: a5eaeddc4ac2b634374b0d66260e24085ba3149c31871e27cdbcd8f5a7985d744561467536576abc0da04e94f1301fbd284571f5b2ec3104449a93669fa8d080
   languageName: node
   linkType: hard
 
@@ -4334,8 +4344,8 @@ __metadata:
     "@types/crypto-js": ^4.2.2
     "@types/react": ^18.2.6
     "@types/react-test-renderer": ^18.0.0
-    "@usecapsule/react-native-passkey": ^2.2.0
-    "@usecapsule/react-native-wallet": 1.6.1-dev.1
+    "@usecapsule/react-native-passkey": 2.2.0
+    "@usecapsule/react-native-wallet": 2.2.0-dev.1
     babel-jest: ^29.6.3
     crypto-js: ^4.2.0
     eslint: ^8.19.0

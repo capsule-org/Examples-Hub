@@ -82,13 +82,8 @@ function App(): React.JSX.Element {
   };
 
   const handleLoginWithPasskey = async () => {
+    setError('');
     try {
-      setError('');
-      const userExists = await capsuleClient.checkIfUserExists(email);
-      if (!userExists) {
-        setError('User does not exist. Please create an account.');
-        return;
-      }
       const wallets = await capsuleClient.login();
       console.log('wallets', wallets);
       setAuthStage('authenticated');
@@ -120,8 +115,7 @@ function App(): React.JSX.Element {
             />
             <TouchableOpacity
               style={styles.button}
-              onPress={handleLoginWithPasskey}
-              disabled={!email.trim()}>
+              onPress={handleLoginWithPasskey}>
               <Text style={styles.buttonText}>Login with Passkey</Text>
             </TouchableOpacity>
             <TouchableOpacity
