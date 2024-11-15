@@ -4,47 +4,107 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%; /* Light neutral background */
-    --foreground: 0 0% 12%; /* Darker foreground for contrast */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 98%;
 
-    --card: 0 0% 100%; /* Neutral card background */
-    --card-foreground: 0 0% 10%; /* Text on cards */
+    --primary: 7.13 90% 55%;
+    --primary-foreground: 7.13 100% 97.3%;
 
-    --popover: 0 0% 98%; /* Slightly off-white for modals/popovers */
-    --popover-foreground: 0 0% 12%; /* Darker text on popovers */
+    --secondary: 270 65% 55%;
+    --secondary-foreground: 270 65% 97.3%;
 
-    /* Primary color inspired by #FAC4C4 */
-    --primary: 0 80% 92%; /* Soft pink similar to #FAC4C4 */
-    --primary-foreground: 0 0% 10%; /* Dark foreground on primary */
+    --muted: 270 15% 14.9%;
+    --muted-foreground: 270 15% 63.9%;
 
-    /* Secondary color inspired by #DEABFA */
-    --secondary: 270 65% 90%; /* Light lavender similar to #DEABFA */
-    --secondary-foreground: 0 0% 12%; /* Darker foreground on secondary */
+    --accent: 270 50% 65%;
+    --accent-foreground: 270 65% 98%;
 
-    --muted: 0 0% 96%; /* Light gray for muted backgrounds */
-    --muted-foreground: 0 0% 42%; /* Softer gray for muted text */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
 
-    --accent: 0 10% 80%; /* Light accent shade */
-    --accent-foreground: 0 0% 10%; /* Dark text on accent */
+    --border: 270 15% 14.9%;
+    --input: 270 15% 14.9%;
+    --ring: 7.13 90% 55%;
+    --radius: 1rem;
 
-    --destructive: 5 80% 60%; /* A balanced red for alerts */
-    --destructive-foreground: 0 0% 98%; /* White for high contrast on red */
-
-    --border: 0 0% 85%; /* Light border color */
-    --input: 0 0% 15%; /* Slightly darker for focused input borders */
-    --ring: 0 0% 15%; /* Matches primary’s foreground for ring color */
-    --radius: 0.75rem; /* 12px for border-radius consistency */
+    --chart-1: 7.13 90% 55%;
+    --chart-2: 270 65% 55%;
+    --chart-3: 290 60% 50%;
+    --chart-4: 250 65% 55%;
+    --chart-5: 27.13 85% 65%;
   }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--cpsl-font-family, "Inter", sans-serif);
+  }
+
+  a {
+    color: #ff4d35;
+  }
+
+  pre {
+    font-family: "JetBrains Mono", monospace;
+  }
+}
+
+@layer utilities {
+  .delay-1 {
+    animation-delay: 100ms;
+  }
+
+  .delay-2 {
+    animation-delay: 200ms;
+  }
+
+  .delay-3 {
+    animation-delay: 300ms;
+  }
+
+  .delay-4 {
+    animation-delay: 400ms;
+  }
+
+  .fill-both {
+    animation-fill-mode: both;
+  }
+
+  .transition-smooth {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .animate-spin-reverse {
+    animation: spin-reverse 1s linear infinite;
+  }
+
+  @keyframes spin-reverse {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 #capsule-modal > cpsl-auth-modal {
   z-index: 9999999999;
-}
-
-body {
-  font-family: var(--cpsl-font-family, "Inter", sans-serif);
-}
-
-pre {
-  font-family: "JetBrains Mono", monospace;
 }

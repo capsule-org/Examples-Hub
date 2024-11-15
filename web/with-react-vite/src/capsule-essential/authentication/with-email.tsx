@@ -63,7 +63,8 @@ const AuthWithEmail: React.FC<AuthWithEmailProps> = () => {
       const { needsWallet } = await capsuleClient.waitForLoginAndSetup(popupWindow!);
 
       if (needsWallet) {
-        const [wallet, secret] = await capsuleClient.createWallet();
+        const [wallet, recoverySecret] = await capsuleClient.createWallet();
+        // do something with the wallet and
       }
 
       setIsLoggedIn(true);

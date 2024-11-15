@@ -8,13 +8,15 @@ type StepLayoutProps = {
 
 const StepLayout: React.FC<PropsWithChildren<StepLayoutProps>> = ({ title, subtitle, children }) => {
   return (
-    <div className="flex flex-col h-full">
-      <div className="border-b p-4">
-        <h2 className="text-xl font-semibold">{title}</h2>
-        <p className="text-gray-600">{subtitle}</p>
+    <div className="flex flex-col h-full animate-fade-in fill-both">
+      <div className="border-b border-border p-4 bg-card animate-slide-in-from-top fill-both delay-1">
+        <h2 className="text-xl font-semibold text-card-foreground">{title}</h2>
+        <p className="text-muted-foreground mt-1">{subtitle}</p>
       </div>
-      <div className="flex-1 p-4">{children}</div>
-      <FooterNavigation />
+      <div className="flex-1 p-4 animate-slide-in-from-top fill-both delay-2">{children}</div>
+      <div className="animate-slide-in-from-bottom fill-both delay-3">
+        <FooterNavigation />
+      </div>
     </div>
   );
 };
