@@ -1,39 +1,27 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: [
-    "@usecapsule/rainbowkit",
-    "@usecapsule/rainbowkit-wallet",
-    "@usecapsule/core-components",
-    "@usecapsule/react-components",
-    "@usecapsule/react-sdk",
-    "@usecapsule/core-sdk",
-    "@usecapsule/web-sdk",
-    "@usecapsule/wagmi-v2-integration",
-    "@usecapsule/viem-v2-integration",
-    "@usecapsule/shared-examples",
-  ],
   webpack(config) {
     const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.(".svg"));
 
     config.module.rules.push(
-      // Reapply the existing rule, but only for svg imports ending in ?url
-      {
-        ...fileLoaderRule,
-        test: /\.svg$/i,
-        resourceQuery: /url/, // *.svg?url
-      },
-      // Convert all other *.svg imports to React components
       {
         test: /\.svg$/i,
-        issuer: fileLoaderRule.issuer,
-        resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
+        issuer: /\.[jt]sx?$/,
+        resourceQuery: { not: [/url/] },
         use: ["@svgr/webpack"],
+      },
+      // Handle SVG imports with ?url
+      {
+        test: /\.svg$/i,
+        type: "asset",
+        resourceQuery: /url/,
       }
     );
 
-    // Modify the file loader rule to ignore *.svg, since we have it handled now.
-    fileLoaderRule.exclude = /\.svg$/i;
+    if (fileLoaderRule) {
+      fileLoaderRule.exclude = /\.svg$/i;
+    }
 
     return config;
   },

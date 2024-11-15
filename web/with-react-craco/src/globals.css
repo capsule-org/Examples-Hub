@@ -4,69 +4,107 @@
 
 @layer base {
   :root {
-    --background: 14 100% 100%;
-    --foreground: 14 5% 10%;
-    --card: 14 50% 100%;
-    --card-foreground: 14 5% 15%;
-    --popover: 14 100% 100%;
-    --popover-foreground: 14 100% 10%;
-    --primary: 14 100% 64.5%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 14 30% 90%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: -24 30% 95%;
-    --muted-foreground: 14 5% 40%;
-    --accent: -24 30% 90%;
-    --accent-foreground: 14 5% 15%;
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 14 5% 100%;
-    --border: 14 30% 82%;
-    --input: 14 30% 50%;
-    --ring: 14 100% 64.5%;
-    --radius: 0.75rem;
-  }
-  .dark {
-    --background: 14 50% 10%;
-    --foreground: 14 5% 100%;
-    --card: 14 50% 10%;
-    --card-foreground: 14 5% 100%;
-    --popover: 14 50% 5%;
-    --popover-foreground: 14 5% 100%;
-    --primary: 14 100% 64.5%;
-    --primary-foreground: 0 0% 0%;
-    --secondary: 14 30% 20%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: -24 30% 25%;
-    --muted-foreground: 14 5% 65%;
-    --accent: -24 30% 25%;
-    --accent-foreground: 14 5% 95%;
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 14 5% 100%;
-    --border: 14 30% 50%;
-    --input: 14 30% 50%;
-    --ring: 14 100% 64.5%;
-    --radius: 0.75rem;
-  }
-}
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 98%;
 
-@layer base {
+    --primary: 7.13 90% 55%;
+    --primary-foreground: 7.13 100% 97.3%;
+
+    --secondary: 270 65% 55%;
+    --secondary-foreground: 270 65% 97.3%;
+
+    --muted: 270 15% 14.9%;
+    --muted-foreground: 270 15% 63.9%;
+
+    --accent: 270 50% 65%;
+    --accent-foreground: 270 65% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 270 15% 14.9%;
+    --input: 270 15% 14.9%;
+    --ring: 7.13 90% 55%;
+    --radius: 1rem;
+
+    --chart-1: 7.13 90% 55%;
+    --chart-2: 270 65% 55%;
+    --chart-3: 290 60% 50%;
+    --chart-4: 250 65% 55%;
+    --chart-5: 27.13 85% 65%;
+  }
+
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: var(--cpsl-font-family, "Inter", sans-serif);
   }
+
+  a {
+    color: #ff4d35;
+  }
+
+  pre {
+    font-family: "JetBrains Mono", monospace;
+  }
+}
+
+@layer utilities {
+  .delay-1 {
+    animation-delay: 100ms;
+  }
+
+  .delay-2 {
+    animation-delay: 200ms;
+  }
+
+  .delay-3 {
+    animation-delay: 300ms;
+  }
+
+  .delay-4 {
+    animation-delay: 400ms;
+  }
+
+  .fill-both {
+    animation-fill-mode: both;
+  }
+
+  .transition-smooth {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .animate-spin-reverse {
+    animation: spin-reverse 1s linear infinite;
+  }
+
+  @keyframes spin-reverse {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 #capsule-modal > cpsl-auth-modal {
   z-index: 9999999999;
-}
-
-body {
-  font-family: "Inter", sans-serif;
-}
-
-pre {
-  font-family: "JetBrains Mono", monospace;
 }
