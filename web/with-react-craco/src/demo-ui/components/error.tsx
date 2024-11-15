@@ -1,5 +1,6 @@
+import { AlertCircle } from "lucide-react";
 import React from "react";
-import { AlertTriangle, RefreshCw } from "react-feather";
+import { Button } from "./button";
 
 type ErrorComponentProps = {
   error: Error;
@@ -8,18 +9,28 @@ type ErrorComponentProps = {
 
 const ErrorComponent: React.FC<ErrorComponentProps> = ({ error, resetErrorBoundary }) => {
   return (
-    <div className="flex flex-col items-center justify-center h-full p-4 text-center">
-      <div className="mb-4">
-        <AlertTriangle className="w-8 h-8 text-red-500" />
+    <div className="h-full flex flex-col items-center justify-center p-6 animate-fade-in fill-both">
+      <div className="w-full max-w-md mx-auto text-center space-y-6">
+        <div className="relative inline-flex">
+          <div className="absolute inset-0 bg-destructive/20 rounded-full blur-xl animate-pulse" />
+          <div className="relative bg-background border border-border rounded-full p-4">
+            <AlertCircle className="w-12 h-12 text-destructive animate-fade-in" />
+          </div>
+        </div>
+
+        <div className="space-y-2 animate-slide-in-from-bottom delay-1 fill-both">
+          <h1 className="text-2xl font-semibold text-foreground">Something went wrong</h1>
+          <p className="text-muted-foreground text-base max-w-sm mx-auto break-words">{error.message}</p>
+        </div>
+
+        {resetErrorBoundary && (
+          <Button
+            onClick={resetErrorBoundary}
+            className="animate-slide-in-from-bottom delay-2 fill-both bg-secondary hover:bg-secondary/90 transition-colors duration-200">
+            Try Again
+          </Button>
+        )}
       </div>
-      <h2 className="text-lg font-semibold text-gray-900">Something went wrong</h2>
-      <p className="mb-4 text-gray-700">{error.message}</p>
-      <button
-        onClick={resetErrorBoundary}
-        className="flex items-center px-4 py-2 font-medium text-white bg-blue-500 rounded hover:bg-blue-600">
-        <RefreshCw className="w-4 h-4 mr-2" />
-        Try again
-      </button>
     </div>
   );
 };

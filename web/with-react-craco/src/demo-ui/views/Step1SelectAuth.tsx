@@ -25,26 +25,39 @@ const Step1SelectAuth: React.FC<Step1SelectAuthProps> = () => {
     <StepLayout
       title={TITLE}
       subtitle={SUBTITLE}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {Object.entries(AuthMethods).map(([auth, details]) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 animate-fade-in fill-both">
+        {Object.entries(AuthMethods).map(([auth, details], index) => (
           <Card
             key={details.label}
-            className={`relative overflow-hidden cursor-pointer transition-all hover:shadow-md 
-              ${selectedAuth === auth ? "border-primary border" : ""}`}
+            className={`
+        relative overflow-hidden cursor-pointer transition-smooth animate-slide-in-from-bottom fill-both
+        hover:shadow-lg hover:scale-[1.02] hover:bg-accent/5
+        ${selectedAuth === auth ? "border-primary border-2 bg-primary/5" : "border-border hover:border-accent"}
+        ${`delay-${(index % 4) + 1}`}
+      `}
             onMouseEnter={() => setHoveredOption(details.label)}
             onMouseLeave={() => setHoveredOption(null)}
             onClick={() => setSelectedAuth(auth as AuthOption)}>
-            <CardContent className="p-4 h-24 flex flex-col items-center justify-center">
-              <Icon icon={details.icon} />
-              <h3 className={`mt-2 text-sm font-medium text-center ${selectedAuth === auth ? "text-primary" : ""}`}>
+            <CardContent className="p-4 h-24 flex flex-col items-center justify-center transition-smooth">
+              <div className={`transition-smooth ${selectedAuth === auth ? "text-primary" : "text-muted-foreground"}`}>
+                <Icon icon={details.icon} />
+              </div>
+              <h3
+                className={`mt-2 text-sm font-medium text-center transition-smooth ${
+                  selectedAuth === auth ? "text-primary" : "text-foreground"
+                }`}>
                 {details.label}
               </h3>
-              <p
-                className={`absolute inset-0 bg-primary/90 text-primary-foreground p-2 text-xs transition-opacity duration-200 flex items-center justify-center text-center ${
-                  hoveredOption === details.label ? "opacity-100" : "opacity-0"
-                }`}>
+              <div
+                className={`
+            absolute inset-0 bg-primary text-primary-foreground
+            p-4 text-sm transition-smooth
+            flex items-center justify-center text-center
+            backdrop-blur-sm
+            ${hoveredOption === details.label ? "opacity-100" : "opacity-0"}
+          `}>
                 {details.description}
-              </p>
+              </div>
             </CardContent>
           </Card>
         ))}

@@ -46,21 +46,33 @@ const FooterNavigation: React.FC<FooterNavigationProps> = () => {
   };
 
   return (
-    <div className="mt-8 border-t pt-4 text-primary">
-      <div className="flex justify-between">
+    <div className="mt-8 border-t border-border pt-4 animate-fade-in fill-both delay-4">
+      <div className="flex justify-between gap-4">
         <Button
+          variant="outline"
+          className={`transition-smooth ${
+            currentStep === 0 || disablePrev || isLoading
+              ? "text-muted-foreground"
+              : "text-secondary hover:text-secondary-foreground hover:bg-secondary/90"
+          }`}
           onClick={() => setCurrentStep((prev) => prev - 1)}
           disabled={currentStep === 0 || disablePrev || isLoading}>
           Previous
         </Button>
         {currentStep === 5 ? (
           <Button
+            variant="destructive"
+            className={`transition-smooth ${isLoading || disableNext ? "opacity-50" : "hover:bg-destructive/90"}`}
             onClick={resetAllStates}
             disabled={isLoading || disableNext}>
             Reset
           </Button>
         ) : (
           <Button
+            variant="default"
+            className={`transition-smooth ${
+              disableNext || isLoading ? "opacity-50" : "bg-primary text-primary-foreground hover:bg-primary/90"
+            }`}
             onClick={() => setCurrentStep((prev) => prev + 1)}
             disabled={disableNext || isLoading}>
             Next

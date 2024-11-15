@@ -56,17 +56,14 @@ export default function Main() {
   };
 
   return (
-    <div className="h-screen flex flex-col md:flex-row">
-      {/* Main content section */}
-      <div className="flex flex-col p-8 w-full md:w-3/5 overflow-y-auto">
+    <div className="h-screen flex flex-col md:flex-row animate-fade-in">
+      <div className="flex flex-col p-8 w-full md:w-3/5 overflow-y-auto bg-background animate-slide-in-from-top fill-both delay-1">
         <Stepper />
         <div className="mt-8 flex-1 min-h-0">
           <StepContent />
         </div>
       </div>
-
-      {/* Code snippet section */}
-      <div className="bg-muted w-full md:w-2/5 overflow-y-auto">
+      <div className="bg-muted rounded-2xl w-full md:w-2/5 overflow-y-auto border-l border-border animate-slide-in-from-top fill-both delay-2">
         <div className="p-8 max-w-3xl mx-auto">
           <StepCodeSnippet />
         </div>

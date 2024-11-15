@@ -64,60 +64,62 @@ const AuthWithCapsuleModal: React.FC<AuthWithCapsuleModalProps> = () => {
   };
 
   return (
-    <ModalTriggerCard
-      step={step}
-      titles={{
-        initial: "Capsule Modal",
-        success: "Success!",
-      }}
-      buttonLabel="Open Modal"
-      isLoading={isLoading}
-      onModalOpen={handleModalOpen}>
-      <QueryClientProvider client={QUERY_CLIENT}>
-        <CapsuleEvmProvider
-          config={{
-            projectId: "",
-            appName: "Capsule Modal Example",
-            chains: [sepolia],
-            wallets: [metaMaskWallet, coinbaseWallet],
-          }}>
-          <CapsuleSolanaProvider
-            endpoint={SOLANA_ENDPOINT}
-            wallets={[phantomWallet]}
-            chain={SOLANA_NETWORK}
-            appIdentity={{ name: "Capsule Modal Example", uri: `${location.protocol}//${location.host}` }}>
-            <CapsuleModal
-              logo={Logo as unknown as string}
-              theme={{
-                backgroundColor: "#FFF",
-                foregroundColor: "#000",
-                accentColor: "#FF754A",
-                mode: "light",
-                font: "Inter",
-              }}
-              capsule={capsuleClient}
-              isOpen={showCapsuleModal}
-              onClose={handleModalClose}
-              appName="Capsule Modal Example"
-              oAuthMethods={[
-                OAuthMethod.GOOGLE,
-                OAuthMethod.TWITTER,
-                OAuthMethod.FACEBOOK,
-                OAuthMethod.DISCORD,
-                OAuthMethod.APPLE,
-              ]}
-              disableEmailLogin={false}
-              disablePhoneLogin={false}
-              authLayout={[AuthLayout.AUTH_FULL, AuthLayout.EXTERNAL_FULL]}
-              externalWallets={[ExternalWallet.METAMASK, ExternalWallet.COINBASE, ExternalWallet.PHANTOM]}
-              twoFactorAuthEnabled={true}
-              recoverySecretStepEnabled={true}
-              onRampTestMode={true}
-            />
-          </CapsuleSolanaProvider>
-        </CapsuleEvmProvider>
-      </QueryClientProvider>
-    </ModalTriggerCard>
+    <div className="flex flex-col items-center justify-center h-full">
+      <ModalTriggerCard
+        step={step}
+        titles={{
+          initial: "Capsule Modal",
+          success: "Success!",
+        }}
+        buttonLabel="Open Modal"
+        isLoading={isLoading}
+        onModalOpen={handleModalOpen}>
+        <QueryClientProvider client={QUERY_CLIENT}>
+          <CapsuleEvmProvider
+            config={{
+              projectId: process.env.REACT_APP_WALLET_CONNECT_PROJECT_ID!,
+              appName: "Capsule Modal Example",
+              chains: [sepolia],
+              wallets: [metaMaskWallet, coinbaseWallet],
+            }}>
+            <CapsuleSolanaProvider
+              endpoint={SOLANA_ENDPOINT}
+              wallets={[phantomWallet]}
+              chain={SOLANA_NETWORK}
+              appIdentity={{ name: "Capsule Modal Example", uri: `${location.protocol}//${location.host}` }}>
+              <CapsuleModal
+                logo={Logo as unknown as string}
+                theme={{
+                  backgroundColor: "#1F1F1F",
+                  foregroundColor: "#FFF",
+                  accentColor: "#FF754A",
+                  mode: "dark",
+                  font: "Inter",
+                }}
+                capsule={capsuleClient}
+                isOpen={showCapsuleModal}
+                onClose={handleModalClose}
+                appName="Capsule Modal Example"
+                oAuthMethods={[
+                  OAuthMethod.GOOGLE,
+                  OAuthMethod.TWITTER,
+                  OAuthMethod.FACEBOOK,
+                  OAuthMethod.DISCORD,
+                  OAuthMethod.APPLE,
+                ]}
+                disableEmailLogin={false}
+                disablePhoneLogin={false}
+                authLayout={[AuthLayout.AUTH_FULL, AuthLayout.EXTERNAL_FULL]}
+                externalWallets={[ExternalWallet.METAMASK, ExternalWallet.COINBASE, ExternalWallet.PHANTOM]}
+                twoFactorAuthEnabled={true}
+                recoverySecretStepEnabled={true}
+                onRampTestMode={true}
+              />
+            </CapsuleSolanaProvider>
+          </CapsuleEvmProvider>
+        </QueryClientProvider>
+      </ModalTriggerCard>
+    </div>
   );
 };
 

@@ -16,7 +16,7 @@ const AuthWithOAuth: React.FC<AuthWithOAuthProps> = () => {
   const [, setIsLoading] = useAtom(isLoadingAtom);
   const [, setDisableNext] = useAtom(disableNextAtom);
   const [, setDisablePrev] = useAtom(disablePrevAtom);
-  const [, setHoveredOption] = useState<string | null>(null);
+  const [hoveredOption, setHoveredOption] = useState<string | null>(null);
 
   useEffect(() => {
     checkLoginStatus();
@@ -100,30 +100,61 @@ const AuthWithOAuth: React.FC<AuthWithOAuthProps> = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full">
-      {internalStep === 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {Object.entries(OAuthOptions).map(([key, option]) => (
+    <div>
+      {internalStep === 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+          {Object.entries(OAuthOptions).map(([key, option], index) => (
             <Card
               key={option.label}
-              className={"relative overflow-hidden cursor-pointer transition-all hover:shadow-md"}
+              className={`
+            relative overflow-hidden cursor-pointer
+            transition-smooth animate-slide-in-from-bottom fill-both
+            hover:shadow-lg hover:scale-[1.02] hover:bg-accent/5
+            border-border hover:border-accent
+            ${`delay-${(index % 4) + 1}`}
+          `}
               onMouseEnter={() => setHoveredOption(option.label)}
               onMouseLeave={() => setHoveredOption(null)}
               onClick={() => handleAuthentication(key as OAuthMethod)}>
-              <CardContent className="p-4 h-24 flex flex-col items-center justify-center">
-                <option.icon className={"h-6 w-6"} />
-                <h3 className={"mt-2 text-sm font-medium text-center"}>{option.label}</h3>
+              <CardContent className="p-4 h-24 flex flex-col items-center justify-center transition-smooth relative group">
+                <option.icon
+                  className={`
+                h-6 w-6 transition-smooth
+                text-muted-foreground
+                group-hover:text-accent
+              `}
+                />
+                <h3
+                  className={`
+              mt-2 text-sm font-medium text-center
+              text-foreground
+              group-hover:text-accent
+              transition-smooth
+            `}>
+                  {option.label}
+                </h3>
+
+                {hoveredOption === option.label && (
+                  <div
+                    className="
+                absolute inset-0 
+                bg-primary text-primary-foreground
+                flex items-center justify-center
+                text-sm font-medium
+                animate-fade-in fill-both
+                backdrop-blur-sm
+              ">
+                    Click to connect
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))}
         </div>
-      )}
-      {internalStep === 1 && (
-        <SuccessMessage
-          message={
-            "You have successfully authenticated with OAuth. Click next below to continue to selecting a signer."
-          }
-        />
+      ) : (
+        <div className="animate-fade-in fill-both delay-1">
+          <SuccessMessage message="You have successfully authenticated with OAuth. Click next below to continue to selecting a signer." />
+        </div>
       )}
     </div>
   );
