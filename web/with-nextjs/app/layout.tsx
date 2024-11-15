@@ -1,6 +1,6 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Provider as JotaiProvider } from "jotai";
-import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Capsule Example Demo",
