@@ -1,3 +1,4 @@
+import './shim';
 import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
@@ -7,10 +8,15 @@ import {
   TextInput,
   TouchableOpacity,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import PolyfillCrypto from 'react-native-webview-crypto';
 import Config from 'react-native-config';
-import {CapsuleMobile, Environment} from '@usecapsule/react-native-wallet';
+import {
+  CapsuleMobile,
+  Environment,
+  WalletType,
+} from '@usecapsule/react-native-wallet';
 import {webcrypto} from 'crypto';
 
 const capsuleClient = new CapsuleMobile(
@@ -22,81 +28,193 @@ const capsuleClient = new CapsuleMobile(
   },
 );
 
+type LoadingState = {
+  isLoading: boolean;
+  message: string;
+};
+
 function App(): React.JSX.Element {
   const [authStage, setAuthStage] = useState('initial');
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState<LoadingState>({
+    isLoading: false,
+    message: '',
+  });
+  const [biometricsId, setBiometricsId] = useState<string | null>(null);
 
   useEffect(() => {
     const initCapsule = async () => {
+      setLoading({isLoading: true, message: 'Initializing...'});
+
+      try {
+        const isLoggedIn = capsuleClient.isFullyLoggedIn();
+      } catch (error) {
+        console.error(error);
+      }
+
       try {
         await capsuleClient.init();
       } catch (error) {
         console.error('Error initializing Capsule:', error);
-        setError('Failed to initialize. Please try again.');
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : 'Unknown initialization error';
+        setError(`Failed to initialize: ${errorMessage}`);
+      } finally {
+        setLoading({isLoading: false, message: ''});
       }
     };
+
     initCapsule();
   }, []);
 
   const handleCreateAccount = async () => {
+    setLoading({isLoading: true, message: 'Creating account...'});
+
     try {
       setError('');
       const userExists = await capsuleClient.checkIfUserExists(email);
+
       if (userExists) {
-        setError('User already exists. Please login instead.');
+        setError(
+          'An account with this email already exists. Please sign in instead.',
+        );
         return;
       }
+
       await capsuleClient.createUser(email);
       setAuthStage('verification');
     } catch (error) {
-      console.error('Error creating user:', error);
-      setError('Failed to create account. Please try again.');
+      console.error('Error in handleCreateAccount:', error);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : 'Unknown error during account creation';
+      setError(`Account creation failed: ${errorMessage}`);
+    } finally {
+      setLoading({isLoading: false, message: ''});
     }
   };
 
   const handleVerifyCode = async () => {
+    setLoading({isLoading: true, message: 'Verifying code...'});
+
     try {
       setError('');
-      const biometricsId = await capsuleClient.verifyEmailBiometricsId(
+      const newBiometricsId = await capsuleClient.verifyEmailBiometricsId(
         verificationCode,
       );
-      console.log('Biometrics ID', biometricsId);
 
       await capsuleClient.registerPasskey(
         email,
-        biometricsId,
+        newBiometricsId,
         crypto as webcrypto.Crypto,
       );
 
-      const {wallets, recoverySecret} =
-        await capsuleClient.createWalletPerType();
-      console.log('wallets', wallets);
-      console.log('recoverySecret', recoverySecret);
+      setBiometricsId(newBiometricsId);
+      setAuthStage('wallet_setup');
+    } catch (error) {
+      console.error('Error in handleVerifyCode:', error);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown verification error';
+      setError(`Verification failed: ${errorMessage}`);
+    } finally {
+      setLoading({isLoading: false, message: ''});
+    }
+  };
+
+  const handleCreateWallet = async () => {
+    setLoading({isLoading: true, message: 'Creating wallet...'});
+
+    try {
+      if (!capsuleClient) {
+        throw new Error('Capsule client not initialized');
+      }
+
+      if (!biometricsId) {
+        throw new Error('Authentication required before wallet creation');
+      }
+
+      const [wallet, recoverySecret] = await capsuleClient.createWallet(
+        WalletType.EVM,
+        false,
+      );
+
+      if (!wallet) {
+        throw new Error('Wallet creation failed - no wallet returned');
+      }
+
+      if (recoverySecret) {
+        console.log('Recovery secret generated successfully');
+      }
+
       setAuthStage('authenticated');
     } catch (error) {
-      console.error('Error verifying code:', error);
-      setError('Failed to verify code. Please try again.');
+      console.error('Error in handleCreateWallet:', error);
+      let errorMessage = 'Unknown wallet creation error';
+
+      if (error instanceof Error) {
+        errorMessage = error.message;
+        console.error('Error details:', {
+          name: error.name,
+          message: error.message,
+          stack: error.stack,
+        });
+      }
+
+      setError(
+        `Wallet creation failed: ${errorMessage}. Please try again or contact support if the issue persists.`,
+      );
+    } finally {
+      setLoading({isLoading: false, message: ''});
     }
   };
 
   const handleLoginWithPasskey = async () => {
-    setError('');
+    setLoading({isLoading: true, message: 'Signing in...'});
+
     try {
+      setError('');
+      if (email) {
+        const userExists = await capsuleClient.checkIfUserExists(email);
+
+        if (!userExists) {
+          setError(
+            'No account found with this email. Please create an account first.',
+          );
+          return;
+        }
+      }
+
       const wallets = await capsuleClient.login();
-      console.log('wallets', wallets);
       setAuthStage('authenticated');
     } catch (error) {
-      console.error('Error during passkey authentication:', error);
-      setError('Login failed. Please try again.');
+      console.error('Error in handleLoginWithPasskey:', error);
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown login error';
+      setError(`Login failed: ${errorMessage}`);
+    } finally {
+      setLoading({isLoading: false, message: ''});
     }
   };
 
   const handleGetWallets = () => {
     const wallets = capsuleClient.getWallets();
-    console.log(wallets);
     Alert.alert('Wallets', JSON.stringify(wallets, null, 2));
+  };
+
+  const renderLoadingOverlay = () => {
+    if (!loading.isLoading) return null;
+
+    return (
+      <View style={styles.loadingOverlay}>
+        <ActivityIndicator size="large" color="#007AFF" />
+        <Text style={styles.loadingText}>{loading.message}</Text>
+      </View>
+    );
   };
 
   const renderContent = () => {
@@ -104,30 +222,46 @@ function App(): React.JSX.Element {
       case 'initial':
         return (
           <View>
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter your email"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={handleLoginWithPasskey}>
-              <Text style={styles.buttonText}>Login with Passkey</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.secondaryButton]}
-              onPress={handleCreateAccount}
-              disabled={!email.trim()}>
-              <Text style={[styles.buttonText, styles.secondaryButtonText]}>
-                Create Account
-              </Text>
-            </TouchableOpacity>
+            <View style={styles.signInSection}>
+              <Text style={styles.sectionTitle}>Sign In</Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={handleLoginWithPasskey}
+                disabled={loading.isLoading}>
+                <Text style={styles.buttonText}>Sign in with Passkey</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.separator}>
+              <View style={styles.separatorLine} />
+              <Text style={styles.separatorText}>or</Text>
+              <View style={styles.separatorLine} />
+            </View>
+
+            <View style={styles.createAccountSection}>
+              <Text style={styles.sectionTitle}>Create Account</Text>
+              <Text style={styles.label}>Email</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter your email"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                editable={!loading.isLoading}
+              />
+              <TouchableOpacity
+                style={[styles.button, styles.secondaryButton]}
+                onPress={handleCreateAccount}
+                disabled={loading.isLoading || !email.trim()}>
+                <Text style={[styles.buttonText, styles.secondaryButtonText]}>
+                  Create Account
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         );
+
       case 'verification':
         return (
           <View>
@@ -138,20 +272,39 @@ function App(): React.JSX.Element {
               value={verificationCode}
               onChangeText={setVerificationCode}
               keyboardType="number-pad"
+              editable={!loading.isLoading}
             />
             <TouchableOpacity
               style={styles.button}
               onPress={handleVerifyCode}
-              disabled={!verificationCode.trim()}>
-              <Text style={styles.buttonText}>Verify</Text>
+              disabled={loading.isLoading || !verificationCode.trim()}>
+              <Text style={styles.buttonText}>Verify Code</Text>
             </TouchableOpacity>
           </View>
         );
+
+      case 'wallet_setup':
+        return (
+          <View>
+            <Text style={styles.welcomeText}>Account Verified!</Text>
+            <Text style={styles.subtitle}>Set up your wallet to continue</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleCreateWallet}
+              disabled={loading.isLoading}>
+              <Text style={styles.buttonText}>Create Wallet</Text>
+            </TouchableOpacity>
+          </View>
+        );
+
       case 'authenticated':
         return (
           <View>
             <Text style={styles.welcomeText}>Welcome!</Text>
-            <TouchableOpacity style={styles.button} onPress={handleGetWallets}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleGetWallets}
+              disabled={loading.isLoading}>
               <Text style={styles.buttonText}>Get Wallets</Text>
             </TouchableOpacity>
           </View>
@@ -163,9 +316,10 @@ function App(): React.JSX.Element {
     <SafeAreaView style={styles.container}>
       <PolyfillCrypto />
       <View style={styles.content}>
-        <Text style={styles.title}>Capsule Wallet</Text>
+        <Text style={styles.title}>Capsule RN Example</Text>
         {renderContent()}
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
+        {renderLoadingOverlay()}
       </View>
     </SafeAreaView>
   );
@@ -187,6 +341,12 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 32,
     textAlign: 'center',
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 16,
   },
   label: {
     fontSize: 16,
@@ -228,6 +388,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#666',
     marginBottom: 24,
     textAlign: 'center',
   },
@@ -236,6 +402,42 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 16,
     textAlign: 'center',
+  },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: '#333',
+  },
+  separator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 24,
+  },
+  separatorLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#ccc',
+  },
+  separatorText: {
+    marginHorizontal: 16,
+    color: '#666',
+    fontSize: 16,
+  },
+  signInSection: {
+    marginBottom: 8,
+  },
+  createAccountSection: {
+    marginTop: 8,
   },
 });
 

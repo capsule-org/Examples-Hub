@@ -1,6 +1,6 @@
 PODS:
   - boost (1.84.0)
-  - capsule-react-native-wallet (2.2.0-dev.1):
+  - capsule-react-native-wallet (2.4.0-dev.1):
     - React-Core
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.75.4)
@@ -1836,7 +1836,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 4cb898d0bf20404aab1850c656dcea009429d6c1
-  capsule-react-native-wallet: 7ec8d2424bf41bca1c17e4e4f0084a1f39d1c11d
+  capsule-react-native-wallet: 3b1f24652d209fd38d33d5c9588d0a0d1e357d48
   DoubleConversion: 76ab83afb40bddeeee456813d9c04f67f78771b5
   FBLazyVector: 430e10366de01d1e3d57374500b1b150fe482e6d
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120

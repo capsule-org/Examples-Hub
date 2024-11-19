@@ -3347,20 +3347,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@usecapsule/core-sdk@npm:2.3.0":
-  version: 2.3.0
-  resolution: "@usecapsule/core-sdk@npm:2.3.0"
+"@usecapsule/core-sdk@npm:2.7.0":
+  version: 2.7.0
+  resolution: "@usecapsule/core-sdk@npm:2.7.0"
   dependencies:
     "@celo/utils": ^6.0.1
     "@cosmjs/encoding": ^0.32.4
     "@noble/hashes": ^1.5.0
-    "@usecapsule/user-management-client": 1.25.0
+    "@usecapsule/user-management-client": 1.29.0
     base64url: ^3.0.1
     buffer: 6.0.3
     ethereumjs-util: 7.1.5
     libphonenumber-js: 1.11.2
     node-forge: ^1.3.1
-  checksum: fdb4caa1c4ff5b97d02ab624120f7f03a6618ee7eed09cb06fc2e019db3deff9e6341c40c3f58ab11b98d5f376e56eec1199b6f91ed3e118122c8f59985a77a8
+    qs: ^6.12.0
+  checksum: e7a2d8a67db0635e3015bf1efa2837ed2b1f5d838e93af6088bf90e6b577d89ae066fda3a924b28710b2f8f65dded20ea2f925c39ae3216aff5a2831d4b03d8a
   languageName: node
   linkType: hard
 
@@ -3374,15 +3375,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@usecapsule/react-native-wallet@npm:2.2.0-dev.1":
-  version: 2.2.0-dev.1
-  resolution: "@usecapsule/react-native-wallet@npm:2.2.0-dev.1"
+"@usecapsule/react-native-wallet@npm:2.4.0-dev.1":
+  version: 2.4.0-dev.1
+  resolution: "@usecapsule/react-native-wallet@npm:2.4.0-dev.1"
   dependencies:
     "@react-native-async-storage/async-storage": ^1.15.14
-    "@usecapsule/core-sdk": 2.3.0
+    "@usecapsule/core-sdk": 2.7.0
     "@usecapsule/react-native-passkey": 2.2.0
-    "@usecapsule/user-management-client": 1.27.0
-    "@usecapsule/web-sdk": 2.3.0
+    "@usecapsule/user-management-client": 1.29.0
+    "@usecapsule/web-sdk": 2.7.0
     node-forge: 1.3.1
     react-native-get-random-values: ^1.11.0
     react-native-keychain: 8.0.0
@@ -3391,42 +3392,33 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 8cb2f0db34562b69e5ca8ad1b80eafc7f40ee7e8511a441c5901d631fcec6ae5f47301eb0f62cfde4c5d1e319c37cec65910d08c70c42a55af026ca012d779f3
+  checksum: 7a7824226acfa0c0bd838097ce654dcb5b135e57a5a2ec0dd85b3321770ace4d4d6fe9d6e0fc8064aa93f7bf957a3a99f21fdfcaf0ccf9b5c3c4eac348aa8259
   languageName: node
   linkType: hard
 
-"@usecapsule/user-management-client@npm:1.25.0":
-  version: 1.25.0
-  resolution: "@usecapsule/user-management-client@npm:1.25.0"
+"@usecapsule/user-management-client@npm:1.29.0":
+  version: 1.29.0
+  resolution: "@usecapsule/user-management-client@npm:1.29.0"
   dependencies:
     axios: ^1.6.3
     qs: ^6.12.0
-  checksum: 07ab607a937ca648375585f7b26335d9cc423b6542e5bd17a5539070a30427cafb8692446f844f55b350e5fbfcae72a8a574431829fb38ee5dc9b7e9ce9875c0
+  checksum: 012f43bba6e54ef065b679ac0d1f29c9b6a6b671e846fcbe7952cfed589079341240dc8f2a6a4b59894566623d005fe792405f697ee7e7870ba5b3b51a9d4341
   languageName: node
   linkType: hard
 
-"@usecapsule/user-management-client@npm:1.27.0":
-  version: 1.27.0
-  resolution: "@usecapsule/user-management-client@npm:1.27.0"
+"@usecapsule/web-sdk@npm:2.7.0":
+  version: 2.7.0
+  resolution: "@usecapsule/web-sdk@npm:2.7.0"
   dependencies:
-    axios: ^1.6.3
-    qs: ^6.12.0
-  checksum: a5eaeddc4ac2b634374b0d66260e24085ba3149c31871e27cdbcd8f5a7985d744561467536576abc0da04e94f1301fbd284571f5b2ec3104449a93669fa8d080
-  languageName: node
-  linkType: hard
-
-"@usecapsule/web-sdk@npm:2.3.0":
-  version: 2.3.0
-  resolution: "@usecapsule/web-sdk@npm:2.3.0"
-  dependencies:
-    "@usecapsule/core-sdk": 2.3.0
-    "@usecapsule/user-management-client": 1.25.0
+    "@usecapsule/core-sdk": 2.7.0
+    "@usecapsule/user-management-client": 1.29.0
     assert: ^2.1.0
     base64url: 3.0.1
     buffer: 6.0.3
     cbor-web: 8.1.0
     node-forge: 1.3.1
-  checksum: 32d15437ddd00511851e7b436d48efe12894dfaaaf6f0a3d3ef60c40875c53aab099e1978fbf59dc144bdb68234a5d455b001c496672f513bab8d1b67db5c51e
+    ua-parser-js: 1.0.39
+  checksum: d4310b6c6e97fd64596b60480489761aef82ba6ae8037f2717754bb7a0087bee19f55e610435c96629ea03d315b3160c5083d30e9afe1ab96e6cf481425186d5
   languageName: node
   linkType: hard
 
@@ -4345,7 +4337,7 @@ __metadata:
     "@types/react": ^18.2.6
     "@types/react-test-renderer": ^18.0.0
     "@usecapsule/react-native-passkey": 2.2.0
-    "@usecapsule/react-native-wallet": 2.2.0-dev.1
+    "@usecapsule/react-native-wallet": 2.4.0-dev.1
     babel-jest: ^29.6.3
     crypto-js: ^4.2.0
     eslint: ^8.19.0
@@ -10863,6 +10855,15 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: d26b6ba97b6d163c55dbdffd9bbb4c211667ebebc743accfeb2c8c0154aace7afd097b51165a72a5bad2cf65a4612259344ff60f8e642362aa1695c760d303ac
+  languageName: node
+  linkType: hard
+
+"ua-parser-js@npm:1.0.39":
+  version: 1.0.39
+  resolution: "ua-parser-js@npm:1.0.39"
+  bin:
+    ua-parser-js: script/cli.js
+  checksum: 19455df8c2348ef53f2e150e7406d3a025a619c2fd69722a1e63363d5ba8d91731ef7585f2dce7d8f14c8782734b4d704c05f246dca5f7565b5ae7d318084f2a
   languageName: node
   linkType: hard
 
