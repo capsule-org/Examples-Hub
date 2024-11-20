@@ -6,10 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "bun run build",
-    "deploy": "gh-pages -d dist"
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d dist --dest with-telegram-web-app --add true"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",

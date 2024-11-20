@@ -6,4 +6,5 @@ import svgr from "vite-plugin-svgr";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), svgr(), nodePolyfills()],
+  base: "/examples-hub/with-react-vite/",
 });
