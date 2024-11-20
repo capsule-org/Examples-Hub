@@ -89,6 +89,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
       setState(() {
         _wallet = result.wallet;
+        _address = result.wallet.address;
         _recoveryShare = result.recoveryShare;
         _currentState = AuthScreenState.success;
       });
