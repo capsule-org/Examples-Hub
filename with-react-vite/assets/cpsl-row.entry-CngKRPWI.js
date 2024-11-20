@@ -1,0 +1,1 @@
+import{r as t,h as s,H as o}from"./CapsuleModal-DdUkouQK.js";import"./index-D-c5h5Hy.js";const r=":host{display:flex;flex-wrap:wrap}",c=r,l=class{constructor(e){t(this,e)}render(){return s(o,{key:"4838989ed9025897509e5565d8624e351e716fbe"},s("slot",{key:"d1bc15f34ffed8ca3046f3ef496545e2b4a18b0e"}))}};l.style=c;export{l as cpsl_row};
