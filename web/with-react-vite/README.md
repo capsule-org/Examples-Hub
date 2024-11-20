@@ -46,27 +46,27 @@ Developers should primarily focus on the `src/capsule-essentials` folder. This f
 for different authentication and signing methods, which can be adapted based on your specific needs. The main examples
 are divided as follows:
 
-#### Authentication Methods (`src/capsule-essentials/authentication`)
+#### Authentication Methods (`src/capsule-essential/authentication`)
 
-- [AuthWithCapsuleModal.tsx](src/capsule-essentials/authentication/with-capsule-modal.tsx)
-- [AuthWithCosmosKit.tsx](src/capsule-essentials/authentication/with-cosmos-kit.tsx)
-- [AuthWithEmail.tsx](src/capsule-essentials/authentication/with-email.tsx)
-- [AuthWithGraz.tsx](src/capsule-essentials/authentication/with-graz.tsx)
-- [AuthWithLeapSocial.tsx](src/capsule-essentials/authentication/with-leap-social.tsx)
-- [AuthWithOAuth.tsx](src/capsule-essentials/authentication/with-oauth.tsx)
-- [AuthWithPhone.tsx](src/capsule-essentials/authentication/with-phone.tsx)
-- [AuthWithPreGen.tsx](src/capsule-essentials/authentication/with-pregen.tsx)
-- [AuthWithRainbowkit.tsx](src/capsule-essentials/authentication/with-rainbowkit.tsx)
-- [AuthWithWagmi.tsx](src/capsule-essentials/authentication/with-wagmi.tsx)
-- [AuthWithWeb3Onboard.tsx](src/capsule-essentials/authentication/with-web3-onboard.tsx)
+- [AuthWithCapsuleModal.tsx](src/capsule-essential/authentication/with-capsule-modal.tsx)
+- [AuthWithCosmosKit.tsx](src/capsule-essential/authentication/with-cosmos-kit.tsx)
+- [AuthWithEmail.tsx](src/capsule-essential/authentication/with-email.tsx)
+- [AuthWithGraz.tsx](src/capsule-essential/authentication/with-graz.tsx)
+- [AuthWithLeapSocial.tsx](src/capsule-essential/authentication/with-leap-social.tsx)
+- [AuthWithOAuth.tsx](src/capsule-essential/authentication/with-oauth.tsx)
+- [AuthWithPhone.tsx](src/capsule-essential/authentication/with-phone.tsx)
+- [AuthWithPreGen.tsx](src/capsule-essential/authentication/with-pregen.tsx)
+- [AuthWithRainbowkit.tsx](src/capsule-essential/authentication/with-rainbowkit.tsx)
+- [AuthWithWagmi.tsx](src/capsule-essential/authentication/with-wagmi.tsx)
+- [AuthWithWeb3Onboard.tsx](src/capsule-essential/authentication/with-web3-onboard.tsx)
 
-#### Signing Methods (`src/capsule-essentials/signers`)
+#### Signing Methods (`src/capsule-essential/signers`)
 
-- [SignWithCapsule.tsx](src/capsule-essentials/signers/with-capsule-client.tsx)
-- [SignWithCosmJS.tsx](src/capsule-essentials/signers/with-cosmjs.tsx)
-- [SignWithEthers.tsx](src/capsule-essentials/signers/with-ethers.tsx)
-- [SignWithSolanaWeb3.tsx](src/capsule-essentials/signers/with-solana-web3.tsx)
-- [SignWithViem.tsx](src/capsule-essentials/signers/with-viem.tsx)
+- [SignWithCapsule.tsx](src/capsule-essential/signers/with-capsule-client.tsx)
+- [SignWithCosmJS.tsx](src/capsule-essential/signers/with-cosmjs.tsx)
+- [SignWithEthers.tsx](src/capsule-essential/signers/with-ethers.tsx)
+- [SignWithSolanaWeb3.tsx](src/capsule-essential/signers/with-solana-web3.tsx)
+- [SignWithViem.tsx](src/capsule-essential/signers/with-viem.tsx)
 
 These files provide a variety of ways to authenticate users and sign transactions, each tailored to different tools and
 platforms. Explore them to understand how Capsule SDK integrates with various Web3 services.
