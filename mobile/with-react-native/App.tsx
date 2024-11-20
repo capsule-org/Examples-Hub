@@ -47,13 +47,6 @@ function App(): React.JSX.Element {
   useEffect(() => {
     const initCapsule = async () => {
       setLoading({isLoading: true, message: 'Initializing...'});
-
-      try {
-        const isLoggedIn = capsuleClient.isFullyLoggedIn();
-      } catch (error) {
-        console.error(error);
-      }
-
       try {
         await capsuleClient.init();
       } catch (error) {
