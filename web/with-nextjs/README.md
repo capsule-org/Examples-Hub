@@ -33,27 +33,27 @@ When working with this example, developers should focus on the `app/auth` and `a
 contain referenceable code for different authentication and signing methods, which can be copied and adapted depending
 on the auth and signer you want to use.
 
-#### Authentication Methods (`app/auth`)
+#### Authentication Methods (`app/capsule-essential/authentication`)
 
-- [AuthWithCapsuleModal.tsx](app/auth/AuthWithCapsuleModal.tsx)
-- [AuthWithCosmosKit.tsx](app/auth/AuthWithCosmosKit.tsx)
-- [AuthWithEmail.tsx](app/auth/AuthWithEmail.tsx)
-- [AuthWithGraz.tsx](app/auth/AuthWithGraz.tsx)
-- [AuthWithLeapSocial.tsx](app/auth/AuthWithLeapSocial.tsx)
-- [AuthWithOAuth.tsx](app/auth/AuthWithOAuth.tsx)
-- [AuthWithPhone.tsx](app/auth/AuthWithPhone.tsx)
-- [AuthWithPreGen.tsx](app/auth/AuthWithPreGen.tsx)
-- [AuthWithRainbowkit.tsx](app/auth/AuthWithRainbowkit.tsx)
-- [AuthWithWagmi.tsx](app/auth/AuthWithWagmi.tsx)
-- [AuthWithWeb3Onboard.tsx](app/auth/AuthWithWeb3Onboard.tsx)
+- [AuthWithCapsuleModal.tsx](app/capsule-essential/authentication/with-capsule-modal.tsx)
+- [AuthWithCosmosKit.tsx](app/capsule-essential/authentication/with-cosmos-kit.tsx)
+- [AuthWithEmail.tsx](app/capsule-essential/authentication/with-email.tsx)
+- [AuthWithGraz.tsx](app/capsule-essential/authentication/with-graz.tsx)
+- [AuthWithLeapSocial.tsx](app/capsule-essential/authentication/with-leap-social.tsx)
+- [AuthWithOAuth.tsx](app/capsule-essential/authentication/with-oauth.tsx)
+- [AuthWithPhone.tsx](app/capsule-essential/authentication/with-phone.tsx)
+- [AuthWithPreGen.tsx](app/capsule-essential/authentication/with-pregen.tsx)
+- [AuthWithRainbowkit.tsx](app/capsule-essential/authentication/with-rainbowkit.tsx)
+- [AuthWithWagmi.tsx](app/capsule-essential/authentication/with-wagmi.tsx)
+- [AuthWithWeb3Onboard.tsx](app/capsule-essential/authentication/with-web3-onboard.tsx)
 
-#### Signing Methods (`app/signing`)
+#### Signing Methods (`app/capsule-essential/signers`)
 
-- [SignWithCapsule.tsx](app/signing/SignWithCapsule.tsx)
-- [SignWithCosmJS.tsx](app/signing/SignWithCosmJS.tsx)
-- [SignWithEthers.tsx](app/signing/SignWithEthers.tsx)
-- [SignWithSolanaWeb3.tsx](app/signing/SignWithSolanaWeb3.tsx)
-- [SignWithViem.tsx](app/signing/SignWithViem.tsx)
+- [SignWithCapsule.tsx](app/capsule-essential/signers/with-capsule-client.tsx)
+- [SignWithCosmJS.tsx](app/capsule-essential/signers/with-cosmjs.tsx)
+- [SignWithEthers.tsx](app/capsule-essential/signers/with-ethers.tsx)
+- [SignWithSolanaWeb3.tsx](app/capsule-essential/signers/with-solana-web3.tsx)
+- [SignWithViem.tsx](app/capsule-essential/signers/with-viem.tsx)
 
 These files provide a variety of ways to authenticate users and sign transactions, each tailored to different tools and
 platforms. Explore them to understand how Capsule SDK integrates with various web3 services.
