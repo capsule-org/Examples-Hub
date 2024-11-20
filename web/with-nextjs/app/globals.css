@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 7.13 90% 55%;
+    --primary-foreground: 7.13 100% 97.3%;
+
+    --secondary: 270 65% 55%;
+    --secondary-foreground: 270 65% 97.3%;
+
+    --muted: 270 15% 14.9%;
+    --muted-foreground: 270 15% 63.9%;
+
+    --accent: 270 50% 65%;
+    --accent-foreground: 270 65% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 270 15% 14.9%;
+    --input: 270 15% 14.9%;
+    --ring: 7.13 90% 55%;
+    --radius: 1rem;
+
+    --chart-1: 7.13 90% 55%;
+    --chart-2: 270 65% 55%;
+    --chart-3: 290 60% 50%;
+    --chart-4: 250 65% 55%;
+    --chart-5: 27.13 85% 65%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--cpsl-font-family, "Inter", sans-serif);
+  }
+
+  a {
+    color: #ff4d35;
+  }
+
+  pre {
+    font-family: "JetBrains Mono", monospace;
+  }
+}
+
+@layer utilities {
+  .delay-1 {
+    animation-delay: 100ms;
+  }
+
+  .delay-2 {
+    animation-delay: 200ms;
+  }
+
+  .delay-3 {
+    animation-delay: 300ms;
+  }
+
+  .delay-4 {
+    animation-delay: 400ms;
+  }
+
+  .fill-both {
+    animation-fill-mode: both;
+  }
+
+  .transition-smooth {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .animate-spin-reverse {
+    animation: spin-reverse 1s linear infinite;
+  }
+
+  @keyframes spin-reverse {
+    from {
+      transform: rotate(360deg);
+    }
+    to {
+      transform: rotate(0deg);
+    }
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+#capsule-modal > cpsl-auth-modal {
+  z-index: 9999999999;
+}
