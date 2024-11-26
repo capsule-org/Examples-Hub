@@ -1,5 +1,6 @@
 import 'package:capsule/capsule.dart';
 import 'package:flutter/material.dart';
+import 'package:with_flutter/widgets/phone_verification_form.dart';
 import 'widgets/auth_form.dart';
 import 'widgets/verification_form.dart';
 import 'widgets/success_screen.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 enum AuthScreenState {
   initial,
   verification,
+  phoneVerification,
   success,
 }
 
@@ -21,6 +23,8 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   AuthScreenState _currentState = AuthScreenState.initial;
   String? _email;
+  String? _phoneNumber;
+  String? _countryCode;
   late Capsule _capsule;
   Wallet? _wallet;
   String? _address;
@@ -28,13 +32,18 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   void initState() {
-    _capsule = Capsule(environment: Environment.beta, apiKey: dotenv.env['CAPSULE_API_KEY']!);
+    _capsule = Capsule(
+        environment:
+            EnvironmentExtension.fromString(dotenv.env['CAPSULE_ENV']!),
+        apiKey: dotenv.env['CAPSULE_API_KEY']!,
+        relyingPartyId: dotenv.env['CAPSULE_RELYING_PARTY_ID']);
     _capsule.init();
     super.initState();
   }
 
 // On Email submitted, check if user exists, create user if not, and move to verification screen
-  void _handleEmailSubmitted(String email, void Function(String) setErrorMessage) async {
+  void _handleEmailSubmitted(
+      String email, void Function(String) setErrorMessage) async {
     bool userExists;
     try {
       userExists = await _capsule.checkIfUserExists(email);
@@ -61,8 +70,40 @@ class _AuthScreenState extends State<AuthScreen> {
     });
   }
 
+  void _handlePhoneNumberSubmitted(
+      String phoneNumber, void Function(String) setErrorMessage) async {
+    bool userExists;
+    try {
+      userExists = await _capsule.checkIfUserExistsByPhone(phoneNumber, "+1");
+    } catch (e) {
+      setErrorMessage(
+          'Error checking if user exists with phone number: $phoneNumber');
+      return;
+    }
+
+    if (userExists) {
+      setErrorMessage('User already exists, please use passkey login');
+      return;
+    }
+
+    try {
+      await _capsule.createUserByPhone(phoneNumber, "+1");
+    } catch (e) {
+      setErrorMessage(
+          'Error creating new user with phone number: $phoneNumber');
+      return;
+    }
+
+    setState(() {
+      _phoneNumber = phoneNumber;
+      _countryCode = "+1";
+      _currentState = AuthScreenState.phoneVerification;
+    });
+  }
+
 // On verification success, generate passkey, create wallet, and move to success screen
-  void _handleVerificationSuccess(String verificationCode, void Function(String) setErrorMessage) async {
+  void _handleVerificationSuccess(
+      String verificationCode, void Function(String) setErrorMessage) async {
     String? biometricsId;
 
     try {
@@ -81,6 +122,46 @@ class _AuthScreenState extends State<AuthScreen> {
       await _capsule.generatePasskey(_email!, biometricsId);
     } catch (e) {
       setErrorMessage('Error generating passkey for email: $_email');
+      return;
+    }
+
+    try {
+      final result = await _capsule.createWallet(skipDistribute: false);
+
+      setState(() {
+        _wallet = result.wallet;
+        _address = result.wallet.address;
+        _recoveryShare = result.recoveryShare;
+        _currentState = AuthScreenState.success;
+      });
+    } catch (e) {
+      setErrorMessage('Error getting wallet');
+      return;
+    }
+  }
+
+  void _handlePhoneVerificationSuccess(
+      String verificationCode, void Function(String) setErrorMessage) async {
+    String? biometricsId;
+
+    try {
+      biometricsId = await _capsule.verifyPhone(verificationCode);
+    } catch (e) {
+      setErrorMessage(
+          'Error verifying phone number with code: $verificationCode');
+      return;
+    }
+
+    if (_phoneNumber == null || _phoneNumber!.isEmpty) {
+      setErrorMessage('Phone number is not set or is empty');
+      return;
+    }
+
+    try {
+      await _capsule.generatePasskey(_phoneNumber!, biometricsId);
+    } catch (e) {
+      setErrorMessage(
+          'Error generating passkey for phone number: $_phoneNumber');
       return;
     }
 
@@ -154,14 +235,22 @@ class _AuthScreenState extends State<AuthScreen> {
     return switch (_currentState) {
       AuthScreenState.initial => AuthForm(
           onEmailSubmitted: _handleEmailSubmitted,
+          onPhoneNumberSubmitted: _handlePhoneNumberSubmitted,
           onExistingPasskeyAuth: _handleExistingPasskeyAuth,
         ),
       AuthScreenState.verification => VerificationForm(
           email: _email!,
           onVerificationSuccess: _handleVerificationSuccess,
         ),
-      AuthScreenState.success =>
-        SuccessScreen(onLogout: _handleLogout, wallet: _wallet!, address: _address!, recoveryShare: _recoveryShare!),
+      AuthScreenState.phoneVerification => PhoneVerificationForm(
+          phone: _phoneNumber!,
+          countryCode: _countryCode!,
+          onVerificationSuccess: _handlePhoneVerificationSuccess),
+      AuthScreenState.success => SuccessScreen(
+          onLogout: _handleLogout,
+          wallet: _wallet!,
+          address: _address!,
+          recoveryShare: _recoveryShare!),
     };
   }
 }

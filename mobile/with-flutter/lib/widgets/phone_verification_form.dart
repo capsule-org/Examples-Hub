@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:with_flutter/widgets/info_card.dart';
 
-class VerificationForm extends StatefulWidget {
-  final String email;
+class PhoneVerificationForm extends StatefulWidget {
+  final String phone;
+  final String countryCode;
   final void Function(
           String verificationCode, void Function(String) setErrorMessage)
       onVerificationSuccess;
 
-  const VerificationForm({
+  const PhoneVerificationForm({
     super.key,
-    required this.email,
+    required this.phone,
+    required this.countryCode,
     required this.onVerificationSuccess,
   });
 
   @override
-  State<VerificationForm> createState() => _VerificationFormState();
+  State<PhoneVerificationForm> createState() => _PhoneVerificationFormState();
 }
 
-class _VerificationFormState extends State<VerificationForm> {
+class _PhoneVerificationFormState extends State<PhoneVerificationForm> {
   final _formKey = GlobalKey<FormState>();
   final _codeController = TextEditingController();
   String? _errorMessage;
@@ -43,10 +45,9 @@ class _VerificationFormState extends State<VerificationForm> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const InfoCard(
-              title: 'Email Verification',
+              title: 'SMS Verification',
               description:
-                  'After calling "createUser", a verification code will be sent to the email. '
-                  'If the email uses a "@test.usecapsule.com" domain, you can enter any random OTP for testing and speed of development.',
+                  'After calling "createUser", a verification code will be sent to the phone number. ',
             ),
             const SizedBox(height: 32),
             Text(
@@ -55,7 +56,7 @@ class _VerificationFormState extends State<VerificationForm> {
             ),
             const SizedBox(height: 8),
             Text(
-              widget.email,
+              widget.phone,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 24),

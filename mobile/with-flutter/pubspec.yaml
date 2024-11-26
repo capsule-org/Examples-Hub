@@ -9,7 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  capsule: ^0.3.0-dev.1
+  capsule:
+    path: ../../../flutter-sdk
 
 dev_dependencies:
   flutter_test:
