@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'auth_screen.dart';
+import 'widgets/demo_auth_selector.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'theme/app_theme.dart';
 
-Future main() async {
+void main() async {
   await dotenv.load(fileName: ".env");
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const CapsuleDemoApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class CapsuleDemoApp extends StatelessWidget {
+  const CapsuleDemoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Passkey Auth Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
-      home: const AuthScreen(),
+      title: 'Capsule SDK Demo',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.darkTheme,
+      home: const DemoAuthSelector(),
     );
   }
 }
