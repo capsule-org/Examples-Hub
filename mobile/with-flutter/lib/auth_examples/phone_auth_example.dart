@@ -196,7 +196,6 @@ class _CapsulePhoneExampleState extends State<CapsulePhoneExample> {
                       child: TextFormField(
                         controller: _countryCodeController,
                         decoration: const InputDecoration(
-                          labelText: 'Code',
                           hintText: '1',
                           prefixIcon: Icon(Icons.add),
                         ),
@@ -219,7 +218,6 @@ class _CapsulePhoneExampleState extends State<CapsulePhoneExample> {
                       child: TextFormField(
                         controller: _phoneController,
                         decoration: const InputDecoration(
-                          labelText: 'Phone Number',
                           hintText: 'Enter your phone number',
                           prefixIcon: Icon(Icons.phone_outlined),
                         ),

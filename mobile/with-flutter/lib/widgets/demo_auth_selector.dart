@@ -1,10 +1,23 @@
-import 'package:cpsl_flutter/capsule_examples/capsule_email_example.dart';
-import 'package:cpsl_flutter/capsule_examples/capsule_oauth_example.dart';
-import 'package:cpsl_flutter/capsule_examples/capsule_phone_example.dart';
+import 'package:cpsl_flutter/auth_examples/email_auth_example.dart';
+import 'package:cpsl_flutter/auth_examples/oauth_auth_example.dart';
+import 'package:cpsl_flutter/auth_examples/phone_auth_example.dart';
+import 'package:cpsl_flutter/auth_examples/pregen_auth_examle.dart';
+import 'package:cpsl_flutter/client/capsule.dart';
 import 'package:flutter/material.dart';
 
-class DemoAuthSelector extends StatelessWidget {
+class DemoAuthSelector extends StatefulWidget {
   const DemoAuthSelector({super.key});
+
+  @override
+  State<DemoAuthSelector> createState() => _DemoAuthSelectorState();
+}
+
+class _DemoAuthSelectorState extends State<DemoAuthSelector> {
+  @override
+  void initState() {
+    super.initState();
+    capsuleClient.logout();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +76,16 @@ class DemoAuthSelector extends StatelessWidget {
                 description: 'Integrate popular OAuth providers (Google, Apple, X, Discord) into your app.',
                 route: const CapsuleOAuthExample(),
                 icon: Icons.account_circle_outlined,
+              ),
+              const SizedBox(height: 16),
+
+              // Pregen Example
+              _buildExampleCard(
+                context: context,
+                title: 'Pregen Wallet Authentication',
+                description: 'Create and manage pre-generated wallets using various identifier types.',
+                route: const CapsulePregenExample(),
+                icon: Icons.wallet_outlined,
               ),
             ],
           ),

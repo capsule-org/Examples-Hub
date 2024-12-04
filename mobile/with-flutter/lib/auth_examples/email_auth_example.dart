@@ -88,15 +88,16 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
                     final biometricsId = await capsuleClient.verifyEmail(code);
                     await capsuleClient.generatePasskey(email, biometricsId);
                     final result = await capsuleClient.createWallet(skipDistribute: false);
-
-                    if (!mounted) return false;
+                    print("Wallet created: ${result.wallet.address}");
                     setState(() {
                       _wallet = result.wallet;
                       _address = result.wallet.address;
                       _recoveryShare = result.recoveryShare;
                     });
+                    print("Returning true");
                     return true;
                   } catch (e) {
+                    print("Exception: $e");
                     return false;
                   }
                 },
@@ -112,6 +113,7 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
         );
       }
     } catch (e) {
+      print("Error: $e");
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${e.toString()}')),

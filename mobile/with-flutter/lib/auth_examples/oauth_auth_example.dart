@@ -253,38 +253,38 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
                 textColor: Colors.white,
               ),
               const SizedBox(height: 32),
-              const Row(
-                children: [
-                  Expanded(child: Divider()),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      'OR',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  Expanded(child: Divider()),
-                ],
-              ),
-              const SizedBox(height: 32),
-              OutlinedButton(
-                onPressed: _isLoading ? null : _handlePasskeyLogin,
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                child: _isLoading
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Text('Login with Passkey'),
-              ),
+              // const Row(
+              //   children: [
+              //     Expanded(child: Divider()),
+              //     Padding(
+              //       padding: EdgeInsets.symmetric(horizontal: 16),
+              //       child: Text(
+              //         'OR',
+              //         style: TextStyle(
+              //           color: Colors.grey,
+              //           fontWeight: FontWeight.w500,
+              //         ),
+              //       ),
+              //     ),
+              //     Expanded(child: Divider()),
+              //   ],
+              // ),
+              // const SizedBox(height: 32),
+              // OutlinedButton(
+              //   onPressed: _isLoading ? null : _handlePasskeyLogin,
+              //   style: OutlinedButton.styleFrom(
+              //     side: BorderSide(
+              //       color: Theme.of(context).colorScheme.primary,
+              //     ),
+              //   ),
+              //   child: _isLoading
+              //       ? const SizedBox(
+              //           height: 20,
+              //           width: 20,
+              //           child: CircularProgressIndicator(strokeWidth: 2),
+              //         )
+              //       : const Text('Login with Passkey'),
+              // ),
             ],
           ),
         ),
