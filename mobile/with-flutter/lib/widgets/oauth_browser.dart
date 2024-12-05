@@ -116,7 +116,6 @@ class _OAuthBrowserState extends State<OAuthBrowser> {
                           error.description,
                         );
                       } else {
-                        // This is a subresource error; log it and ignore.
                         debugPrint('Subresource error (ignored): ${error.description}');
                       }
                     },

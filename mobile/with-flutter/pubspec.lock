@@ -36,10 +36,11 @@ packages:
   capsule:
     dependency: "direct main"
     description:
-      path: "../../../flutter-sdk"
-      relative: true
-    source: path
-    version: "0.5.0"
+      name: capsule
+      sha256: f922fc5570a02e42d292c13e89255b5ff92533bdf38efd84edcc7f94a02767c2
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.1"
   characters:
     dependency: transitive
     description:

@@ -104,8 +104,6 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
 
       final oauthResult = await oauthFuture;
 
-      print("OAuth result: $oauthResult");
-
       if (!mounted) return;
 
       if (oauthResult.isError == true) {
