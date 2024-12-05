@@ -1,8 +1,9 @@
 // ignore_for_file: unused_field, unused_local_variable
 
 import 'package:cpsl_flutter/widgets/demo_home.dart';
+import 'package:cpsl_flutter/widgets/oauth_browser.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:capsule/capsule.dart';
 import 'package:cpsl_flutter/client/capsule.dart';
@@ -51,24 +52,61 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
   }
 
   Future<void> _handleOAuthLogin(OAuthMethod provider) async {
+    if (!mounted) return;
+
     setState(() {
       _isLoading = true;
       _loadingProvider = provider.value;
     });
 
-    ChromeSafariBrowser? browser;
     try {
       final oauthUrl = await capsuleClient.getOAuthURL(provider);
       final oauthFuture = capsuleClient.waitForOAuth();
 
-      browser = ChromeSafariBrowser();
-      await browser.open(url: WebUri(oauthUrl));
+// Google policy restricts webviews for OAuth, so we need to use a custom user agent to bypass it.
+      String? googleUserAgent;
+      if (provider == OAuthMethod.google) {
+        if (defaultTargetPlatform == TargetPlatform.iOS) {
+          googleUserAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) '
+              'AppleWebKit/605.1.15 (KHTML, like Gecko) '
+              'CriOS/119.0.6045.109 Mobile/15E148 Safari/604.1';
+        } else if (defaultTargetPlatform == TargetPlatform.android) {
+          googleUserAgent = 'Mozilla/5.0 (Linux; Android 13; Pixel 6) '
+              'AppleWebKit/537.36 (KHTML, like Gecko) '
+              'Chrome/119.0.6045.109 Mobile Safari/537.36';
+        }
+      }
+
+      if (!mounted) return;
+
+// This example use a bottom sheet to display a custom OAuth browser that wraps the flutter_inappwebview. If using this library as the webview to launch the OAuth URL check the OAuthBrowser widget implementation.
+      bool webViewClosed = false;
+      await showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        isDismissible: true,
+        enableDrag: false,
+        builder: (BuildContext context) => OAuthBrowser(
+          url: oauthUrl,
+          providerName: provider.value,
+          userAgent: googleUserAgent,
+          onBrowserClosed: (closed) async {
+            webViewClosed = closed;
+            if (closed) {
+              await capsuleClient.cancelOperation('waitForOAuth');
+            }
+          },
+        ),
+      );
+
+      if (webViewClosed) return;
 
       final oauthResult = await oauthFuture;
 
-      try {
-        await browser.close();
-      } catch (_) {}
+      print("OAuth result: $oauthResult");
+
+      if (!mounted) return;
 
       if (oauthResult.isError == true) {
         throw Exception('OAuth authentication failed');
@@ -100,10 +138,6 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
         MaterialPageRoute(builder: (context) => const DemoHome()),
       );
     } catch (e) {
-      try {
-        await browser?.close();
-      } catch (_) {}
-
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${e.toString()}')),
