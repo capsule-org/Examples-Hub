@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:capsule/capsule.dart';
 import 'package:cpsl_flutter/client/capsule.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CapsuleOAuthExample extends StatefulWidget {
   const CapsuleOAuthExample({super.key});
@@ -60,10 +61,16 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
     });
 
     try {
-      final oauthUrl = await capsuleClient.getOAuthURL(provider);
-      final oauthFuture = capsuleClient.waitForOAuth();
+      final isFarcaster = provider == OAuthMethod.farcaster;
 
-// Google policy restricts webviews for OAuth, so we need to use a custom user agent to bypass it.
+      //Farcaster methods are different from OAuth methods
+      final authUrl =
+          isFarcaster ? await capsuleClient.getFarcasterConnectURL() : await capsuleClient.getOAuthURL(provider);
+
+      final Future<dynamic> authStatusFuture =
+          isFarcaster ? capsuleClient.waitForFarcasterStatus() : capsuleClient.waitForOAuth();
+
+      // Google policy restricts webviews for OAuth, so we need to use a custom user agent to bypass it. This is dependent on using an in app webview vs an in app browser.
       String? googleUserAgent;
       if (provider == OAuthMethod.google) {
         if (defaultTargetPlatform == TargetPlatform.iOS) {
@@ -79,8 +86,9 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
 
       if (!mounted) return;
 
-// This example use a bottom sheet to display a custom OAuth browser that wraps the flutter_inappwebview. If using this library as the webview to launch the OAuth URL check the OAuthBrowser widget implementation.
       bool webViewClosed = false;
+
+      //Wraps the inappwebview in a modal bottom sheet for a custom browser experience
       await showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -88,13 +96,13 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
         isDismissible: true,
         enableDrag: false,
         builder: (BuildContext context) => OAuthBrowser(
-          url: oauthUrl,
+          url: authUrl,
           providerName: provider.value,
           userAgent: googleUserAgent,
           onBrowserClosed: (closed) async {
             webViewClosed = closed;
             if (closed) {
-              await capsuleClient.cancelOperation('waitForOAuth');
+              await capsuleClient.cancelOperation(isFarcaster ? 'waitForFarcasterStatus' : 'waitForOAuth');
             }
           },
         ),
@@ -102,39 +110,34 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
 
       if (webViewClosed) return;
 
-      final oauthResult = await oauthFuture;
+      final authResult = await authStatusFuture;
 
       if (!mounted) return;
 
-      if (oauthResult.isError == true) {
-        throw Exception('OAuth authentication failed');
+      if (isFarcaster) {
+        // Handle Farcaster auth result
+        final farcasterResult = authResult as FarcasterStatus;
+        if (!farcasterResult.userExists) {
+          await _handleNewUserSetup(farcasterResult.username);
+        } else {
+          await _handlePasskeyLogin();
+        }
+      } else {
+        // Handle OAuth result
+        final oauthResult = authResult as OAuthResponse;
+        if (oauthResult.isError == true) {
+          throw Exception('OAuth authentication failed');
+        }
+
+        if (oauthResult.userExists) {
+          await _handlePasskeyLogin();
+        } else {
+          if (oauthResult.email == null) {
+            throw Exception('Email is required for new user registration');
+          }
+          await _handleNewUserSetup(oauthResult.email!);
+        }
       }
-
-      if (oauthResult.userExists) {
-        await _handlePasskeyLogin();
-        return;
-      }
-
-      if (oauthResult.email == null) {
-        throw Exception('Email is required for new user registration');
-      }
-
-      final biometricsId = await capsuleClient.verifyOAuth();
-      await capsuleClient.generatePasskey(oauthResult.email!, biometricsId);
-      final result = await capsuleClient.createWallet(skipDistribute: false);
-
-      if (!mounted) return;
-
-      setState(() {
-        _wallet = result.wallet;
-        _address = result.wallet.address;
-        _recoveryShare = result.recoveryShare;
-      });
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const DemoHome()),
-      );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -148,6 +151,25 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
         });
       }
     }
+  }
+
+  Future<void> _handleNewUserSetup(String identifier) async {
+    final biometricsId = await capsuleClient.verifyOAuth();
+    await capsuleClient.generatePasskey(identifier, biometricsId);
+    final result = await capsuleClient.createWallet(skipDistribute: false);
+
+    if (!mounted) return;
+
+    setState(() {
+      _wallet = result.wallet;
+      _address = result.wallet.address;
+      _recoveryShare = result.recoveryShare;
+    });
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const DemoHome()),
+    );
   }
 
   Future<void> _handlePasskeyLogin() async {
@@ -181,7 +203,7 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
   Widget _buildOAuthButton({
     required OAuthMethod provider,
     required String label,
-    required IconData icon,
+    required dynamic icon,
     required Color backgroundColor,
     required Color textColor,
   }) {
@@ -202,7 +224,16 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
         ),
         child: Row(
           children: [
-            Icon(icon),
+            // Handle both IconData and SVG paths
+            if (icon is IconData)
+              Icon(icon)
+            else if (icon is String)
+              SvgPicture.asset(
+                icon,
+                width: 24,
+                height: 24,
+                colorFilter: ColorFilter.mode(textColor, BlendMode.srcIn),
+              ),
             const SizedBox(width: 16),
             Expanded(
               child: Text(
@@ -284,39 +315,13 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
                 backgroundColor: const Color(0xFF5865F2),
                 textColor: Colors.white,
               ),
-              const SizedBox(height: 32),
-              // const Row(
-              //   children: [
-              //     Expanded(child: Divider()),
-              //     Padding(
-              //       padding: EdgeInsets.symmetric(horizontal: 16),
-              //       child: Text(
-              //         'OR',
-              //         style: TextStyle(
-              //           color: Colors.grey,
-              //           fontWeight: FontWeight.w500,
-              //         ),
-              //       ),
-              //     ),
-              //     Expanded(child: Divider()),
-              //   ],
-              // ),
-              // const SizedBox(height: 32),
-              // OutlinedButton(
-              //   onPressed: _isLoading ? null : _handlePasskeyLogin,
-              //   style: OutlinedButton.styleFrom(
-              //     side: BorderSide(
-              //       color: Theme.of(context).colorScheme.primary,
-              //     ),
-              //   ),
-              //   child: _isLoading
-              //       ? const SizedBox(
-              //           height: 20,
-              //           width: 20,
-              //           child: CircularProgressIndicator(strokeWidth: 2),
-              //         )
-              //       : const Text('Login with Passkey'),
-              // ),
+              _buildOAuthButton(
+                provider: OAuthMethod.farcaster,
+                label: 'Farcaster',
+                icon: 'lib/assets/farcaster.svg',
+                backgroundColor: const Color(0xFF855DCD),
+                textColor: Colors.white,
+              ),
             ],
           ),
         ),
