@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
 import Separator from "../../components/Separator";
 import { capsuleClient } from "../../client/capsule";
 import { OAuthMethod } from "@usecapsule/web-sdk";
-import { WebView } from "react-native-webview";
 import { webcrypto } from "crypto";
 import ErrorMessage from "../../components/ErrorMessage";
 import { NavigationProps } from "../../types";
+import StyledModalWebView from "../../components/StyledModalWebView";
 
 /**
  * This example shows how to authenticate a user with Capsule using OAuth providers (e.g., Google, Apple).
@@ -45,9 +45,13 @@ const OAuthSelectionScreen: React.FC<NavigationProps> = ({ goToScreen }) => {
   const [showWebview, setShowWebview] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const abortedRef = useRef(false);
+
   const handleOAuthPress = async (provider: OAuthMethod) => {
     setLoading(true);
     setError(null);
+    abortedRef.current = false;
+
     try {
       // Get the OAuth URL for the selected provider
       const url = await capsuleClient.getOAuthURL(provider);
@@ -63,10 +67,14 @@ const OAuthSelectionScreen: React.FC<NavigationProps> = ({ goToScreen }) => {
       // Wait for OAuth to complete on the backend. waitForOAuth() begins polling the backend for the OAuth process to complete.
       const { isError, email, userExists } = await capsuleClient.waitForOAuth();
 
+      if (abortedRef.current) {
+        // The user cancelled the flow early
+        setError("User cancelled the OAuth flow");
+        return;
+      }
+
       if (isError) {
         setError("OAuth process failed");
-        setShowWebview(false);
-        setLoading(false);
         return;
       }
 
@@ -93,10 +101,16 @@ const OAuthSelectionScreen: React.FC<NavigationProps> = ({ goToScreen }) => {
         goToScreen("Home");
       }
     } catch (e: any) {
-      setError(e?.message || "An error occurred during OAuth");
+      if (!abortedRef.current) {
+        setError(e?.message || "An error occurred during OAuth");
+      }
+    } finally {
+      setLoading(false);
+      // If we finished without abort, webview should close as well
+      if (!abortedRef.current) {
+        setShowWebview(false);
+      }
     }
-    setLoading(false);
-    setShowWebview(false);
   };
 
   const handlePasskeyLogin = async () => {
@@ -110,6 +124,16 @@ const OAuthSelectionScreen: React.FC<NavigationProps> = ({ goToScreen }) => {
       setError(error?.message || "An error occurred during passkey login");
     }
     setLoading(false);
+  };
+
+  const handleWebviewClose = () => {
+    abortedRef.current = true;
+    setShowWebview(false);
+    if (loading) {
+      // We were still waiting for OAuth, now user canceled early
+      setError("User cancelled the OAuth flow");
+      setLoading(false);
+    }
   };
 
   return (
@@ -189,10 +213,12 @@ const OAuthSelectionScreen: React.FC<NavigationProps> = ({ goToScreen }) => {
           )}
         </TouchableOpacity>
       </View>
-      {showWebview && oauthURL && (
-        <WebView
-          source={{ uri: oauthURL }}
-          style={{ flex: 1 }}
+
+      {oauthURL && (
+        <StyledModalWebView
+          uri={oauthURL}
+          visible={showWebview}
+          onClose={handleWebviewClose}
         />
       )}
     </>
