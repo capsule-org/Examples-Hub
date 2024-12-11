@@ -92,12 +92,12 @@ const PhoneAuthScreen: React.FC<NavigationProps> = ({ goToScreen }) => {
     setLoading(false);
   };
 
-  const handlePasskeyLogin = async (p?: string, c?: CountryCallingCode) => {
+  const handlePasskeyLogin = async (phoneNumber?: string, countryCode?: CountryCallingCode) => {
     setLoading(true);
     setError(null);
     try {
       // Attempt passkey login. Providing `phoneNumber` and `countryCode` filters the passkeys.
-      await capsuleClient.login(undefined, p, c as CountryCallingCode);
+      await capsuleClient.login(undefined, phoneNumber, countryCode as CountryCallingCode);
       goToScreen("Home");
     } catch (err: any) {
       setError(err?.message || "An error occurred during passkey login");
