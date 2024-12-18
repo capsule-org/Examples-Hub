@@ -95,7 +95,7 @@ const OAuthSelectionScreen: React.FC<NavigationProps> = ({ goToScreen }) => {
 
           if (biometricsId) {
             // Register a passkey, linking this user’s email to a secure passkey on their device.
-            await capsuleClient.registerPasskey(email, biometricsId, webcrypto, "email");
+            await capsuleClient.registerPasskey(email, biometricsId, crypto as any, "email");
           }
         }
         goToScreen("Home");

@@ -80,7 +80,7 @@ const PhoneAuthScreen: React.FC<NavigationProps> = ({ goToScreen }) => {
         await capsuleClient.registerPasskey(
           phoneNumber,
           biometricsId,
-          webcrypto,
+          crypto as any,
           "phone",
           countryCode as CountryCallingCode
         );

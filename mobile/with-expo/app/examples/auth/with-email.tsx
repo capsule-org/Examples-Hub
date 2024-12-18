@@ -79,7 +79,7 @@ const EmailAuthScreen: React.FC<NavigationProps> = ({ goToScreen }) => {
       const biometricsId = await capsuleClient.verifyEmailBiometricsId(otp);
       if (biometricsId) {
         // Register a passkey, linking this user's email to a secure passkey on their device.
-        await capsuleClient.registerPasskey(email, biometricsId, webcrypto, "email");
+        await capsuleClient.registerPasskey(email, biometricsId, crypto as any, "email");
         // Now the user can log in with a passkey in the future without needing another OTP.
         goToScreen("Home");
       }
