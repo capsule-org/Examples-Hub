@@ -8,6 +8,7 @@ config.resolver.extraNodeModules = {
   ...nodeLibs,
   crypto: require.resolve("react-native-quick-crypto"),
   buffer: require.resolve("@craftzdog/react-native-buffer"),
+  stream: require.resolve("readable-stream"),
 };
 
 module.exports = config;
