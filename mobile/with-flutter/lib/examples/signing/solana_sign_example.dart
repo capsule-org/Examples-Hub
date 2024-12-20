@@ -50,10 +50,8 @@ class _SolanaSignExampleState extends State<SolanaSignExample> {
 
       final blockhash = await connection.getLatestBlockhash();
 
-      // Convert amount to lamports
       final lamports = web3.solToLamports(double.parse(_amountController.text));
 
-      // Create transaction
       final transaction = web3.Transaction.v0(
         payer: publicKey,
         recentBlockhash: blockhash.blockhash,
@@ -66,13 +64,10 @@ class _SolanaSignExampleState extends State<SolanaSignExample> {
         ],
       );
 
-      // Serialize the message
       final message = Uint8List.fromList(transaction.serializeMessage().toList());
 
-      // Convert to base64 for Capsule API
       final messageBase64 = base64Encode(message);
 
-      // Sign the message using Capsule
       final result = await capsuleClient.signMessage(
         walletId: widget.wallet.id!,
         messageBase64: messageBase64,
@@ -87,10 +82,8 @@ class _SolanaSignExampleState extends State<SolanaSignExample> {
         throw Exception('Signature denied');
       }
 
-      // Add the signature to the transaction
       transaction.addSignature(publicKey, signature);
 
-      // Get the signature as a base58 string
       final signatureString = web3.base58.encode(transaction.signature!);
 
       setState(() {

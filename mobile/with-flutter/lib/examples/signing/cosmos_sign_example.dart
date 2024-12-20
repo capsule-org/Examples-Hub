@@ -1,4 +1,3 @@
-// cosmos_sign_example.dart
 import 'package:flutter/material.dart';
 import 'package:capsule/capsule.dart';
 
@@ -47,7 +46,6 @@ class _CosmosSignExampleState extends State<CosmosSignExample> {
                 ),
               ),
               const SizedBox(height: 32),
-              // TODO: Add signing examples
               const Center(
                 child: Text('Coming soon: Cosmos signing examples'),
               ),

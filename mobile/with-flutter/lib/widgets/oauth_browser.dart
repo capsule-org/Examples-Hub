@@ -26,7 +26,6 @@ class _OAuthBrowserState extends State<OAuthBrowser> {
 
   Future<NavigationActionPolicy> _handleNavigationAction(
       InAppWebViewController controller, NavigationAction action) async {
-    // Always allow navigation; we handle callback logic in onLoadStop.
     return NavigationActionPolicy.ALLOW;
   }
 
@@ -97,7 +96,7 @@ class _OAuthBrowserState extends State<OAuthBrowser> {
                       });
 
                       final currentUrl = url?.toString() ?? '';
-                      // Detect if this is the OAuth callback URL
+
                       if ((currentUrl.contains('/auth/') && currentUrl.contains('/callback')) ||
                           RegExp(r'https://api\..*\.usecapsule\.com/').hasMatch(currentUrl)) {
                         widget.onBrowserClosed(false);
@@ -107,7 +106,6 @@ class _OAuthBrowserState extends State<OAuthBrowser> {
                       }
                     },
                     onReceivedError: (controller, request, error) {
-                      // Check if the error is for the main frame. If not, ignore.
                       if (request.isForMainFrame == true) {
                         _handleMainFrameError(
                           controller,
@@ -115,9 +113,7 @@ class _OAuthBrowserState extends State<OAuthBrowser> {
                           error.type.toNativeValue() ?? -1,
                           error.description,
                         );
-                      } else {
-                        debugPrint('Subresource error (ignored): ${error.description}');
-                      }
+                      } else {}
                     },
                   ),
                   if (_progress < 1.0)

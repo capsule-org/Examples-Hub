@@ -1,4 +1,3 @@
-// ignore_for_file: unused_field, unused_local_variable
 import 'package:cpsl_flutter/client/capsule.dart';
 import 'package:cpsl_flutter/widgets/demo_home.dart';
 import 'package:cpsl_flutter/widgets/demo_otp_verification.dart';
@@ -46,11 +45,6 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
             _recoveryShare = "";
           });
         }
-
-        // Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => const DemoHome()),
-        // );
       }
     } catch (e) {
       if (mounted) {
@@ -162,7 +156,6 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Title Section
                 const Text(
                   'Email Authentication',
                   style: TextStyle(
@@ -179,8 +172,6 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
                   ),
                 ),
                 const SizedBox(height: 48),
-
-                // Email Input
                 TextFormField(
                   controller: _emailController,
                   decoration: const InputDecoration(
@@ -201,8 +192,6 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
                   },
                 ),
                 const SizedBox(height: 24),
-
-                // Create New User Button
                 ElevatedButton(
                   onPressed: _isLoading ? null : _handleCreateNewUser,
                   child: _isLoading
@@ -214,8 +203,6 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
                       : const Text('Create New User'),
                 ),
                 const SizedBox(height: 32),
-
-                // Separator
                 const Row(
                   children: [
                     Expanded(child: Divider()),
@@ -233,8 +220,6 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
                   ],
                 ),
                 const SizedBox(height: 32),
-
-                // Login with Passkey Button
                 OutlinedButton(
                   onPressed: _isLoading ? null : _handlePasskeyLogin,
                   style: OutlinedButton.styleFrom(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cpsl_flutter/widgets/demo_transactions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -67,6 +69,18 @@ class _DemoHomeState extends State<DemoHome> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Address copied to clipboard')),
     );
+  }
+
+  Future<void> _signMessage() async {
+    final wallet = _wallets.firstWhere((w) => w.type == WalletType.evm);
+
+    if (wallet.id != null && wallet.id!.isNotEmpty) {
+      final messageBytes = utf8.encode("28A484&iasdf#!@#");
+      final messageBase64 = base64.encode(messageBytes);
+      final signature = await capsuleClient.signMessage(walletId: wallet.id!, messageBase64: messageBase64);
+
+      if (signature is SuccessfulSignatureResult) {}
+    }
   }
 
   Widget _buildWalletSection(WalletType type) {

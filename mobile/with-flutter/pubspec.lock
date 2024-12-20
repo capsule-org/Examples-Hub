@@ -36,18 +36,11 @@ packages:
   capsule:
     dependency: "direct main"
     description:
-<<<<<<< Updated upstream
       name: capsule
-      sha256: f922fc5570a02e42d292c13e89255b5ff92533bdf38efd84edcc7f94a02767c2
+      sha256: bb2fcd67ee0fb667b51996d0bd2b8ff895985413057dc9a242161cca1b3ee8e9
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.1"
-=======
-      path: "../../../flutter-sdk"
-      relative: true
-    source: path
     version: "0.6.0"
->>>>>>> Stashed changes
   characters:
     dependency: transitive
     description:
