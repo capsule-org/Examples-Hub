@@ -1,13 +1,13 @@
 // ignore_for_file: unused_field, unused_local_variable
-
+import 'dart:async';
 import 'package:cpsl_flutter/widgets/demo_home.dart';
-import 'package:cpsl_flutter/widgets/oauth_browser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:capsule/capsule.dart';
 import 'package:cpsl_flutter/client/capsule.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class CapsuleOAuthExample extends StatefulWidget {
   const CapsuleOAuthExample({super.key});
@@ -34,7 +34,6 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
       final isLoggedIn = await capsuleClient.isFullyLoggedIn();
       if (isLoggedIn && mounted) {
         final wallets = await capsuleClient.getWallets();
-
         if (wallets.isNotEmpty) {
           setState(() {
             _wallet = wallets.values.first;
@@ -45,9 +44,8 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error checking login status: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Error checking login status: ${e.toString()}')));
       }
     }
   }
@@ -60,62 +58,27 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
       _loadingProvider = provider.value;
     });
 
+    final chromeSafariBrowser = ChromeSafariBrowser();
+
     try {
       final isFarcaster = provider == OAuthMethod.farcaster;
-
-      //Farcaster methods are different from OAuth methods
       final authUrl =
           isFarcaster ? await capsuleClient.getFarcasterConnectURL() : await capsuleClient.getOAuthURL(provider);
 
-      final Future<dynamic> authStatusFuture =
-          isFarcaster ? capsuleClient.waitForFarcasterStatus() : capsuleClient.waitForOAuth();
+      final authStatusFuture = isFarcaster ? capsuleClient.waitForFarcasterStatus() : capsuleClient.waitForOAuth();
 
-      // Google policy restricts webviews for OAuth, so we need to use a custom user agent to bypass it. This is dependent on using an in app webview vs an in app browser.
-      String? googleUserAgent;
-      if (provider == OAuthMethod.google) {
-        if (defaultTargetPlatform == TargetPlatform.iOS) {
-          googleUserAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) '
-              'AppleWebKit/605.1.15 (KHTML, like Gecko) '
-              'CriOS/119.0.6045.109 Mobile/15E148 Safari/604.1';
-        } else if (defaultTargetPlatform == TargetPlatform.android) {
-          googleUserAgent = 'Mozilla/5.0 (Linux; Android 13; Pixel 6) '
-              'AppleWebKit/537.36 (KHTML, like Gecko) '
-              'Chrome/119.0.6045.109 Mobile Safari/537.36';
-        }
-      }
-
-      if (!mounted) return;
-
-      bool webViewClosed = false;
-
-      //Wraps the inappwebview in a modal bottom sheet for a custom browser experience
-      await showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        backgroundColor: Colors.transparent,
-        isDismissible: true,
-        enableDrag: false,
-        builder: (BuildContext context) => OAuthBrowser(
-          url: authUrl,
-          providerName: provider.value,
-          userAgent: googleUserAgent,
-          onBrowserClosed: (closed) async {
-            webViewClosed = closed;
-            if (closed) {
-              await capsuleClient.cancelOperation(isFarcaster ? 'waitForFarcasterStatus' : 'waitForOAuth');
-            }
-          },
-        ),
+      chromeSafariBrowser.open(
+        url: WebUri(authUrl),
+        settings: ChromeSafariBrowserSettings(),
       );
-
-      if (webViewClosed) return;
 
       final authResult = await authStatusFuture;
 
-      if (!mounted) return;
+      if (chromeSafariBrowser.isOpened()) {
+        await chromeSafariBrowser.close();
+      }
 
       if (isFarcaster) {
-        // Handle Farcaster auth result
         final farcasterResult = authResult as FarcasterStatus;
         if (!farcasterResult.userExists) {
           await _handleNewUserSetup(farcasterResult.username);
@@ -123,8 +86,8 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
           await _handlePasskeyLogin();
         }
       } else {
-        // Handle OAuth result
         final oauthResult = authResult as OAuthResponse;
+
         if (oauthResult.isError == true) {
           throw Exception('OAuth authentication failed');
         }
@@ -177,7 +140,7 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
 
     try {
       final wallet = await capsuleClient.login();
-
+      
       if (!mounted) return;
 
       setState(() {
@@ -224,7 +187,6 @@ class _CapsuleOAuthExampleState extends State<CapsuleOAuthExample> {
         ),
         child: Row(
           children: [
-            // Handle both IconData and SVG paths
             if (icon is IconData)
               Icon(icon)
             else if (icon is String)

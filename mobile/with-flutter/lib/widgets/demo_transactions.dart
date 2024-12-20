@@ -1,4 +1,3 @@
-// demo_transactions.dart
 import 'package:cpsl_flutter/examples/signing/cosmos_sign_example.dart';
 import 'package:cpsl_flutter/examples/signing/evm_sign_example.dart';
 import 'package:cpsl_flutter/examples/signing/solana_sign_example.dart';

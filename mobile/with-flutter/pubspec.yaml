@@ -9,11 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-<<<<<<< Updated upstream
-  capsule: 0.5.1
-=======
   capsule: ^0.6.0
->>>>>>> Stashed changes
   flutter_dotenv: ^5.2.1
   flutter_inappwebview: ^6.1.5
   font_awesome_flutter: ^10.8.0

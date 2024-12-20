@@ -48,8 +48,6 @@ class _DemoAuthSelectorState extends State<DemoAuthSelector> {
                 ),
               ),
               const SizedBox(height: 32),
-
-              // Email + Passkey Example
               _buildExampleCard(
                 context: context,
                 title: 'Email + Passkey Authentication',
@@ -58,8 +56,6 @@ class _DemoAuthSelectorState extends State<DemoAuthSelector> {
                 icon: Icons.email_outlined,
               ),
               const SizedBox(height: 16),
-
-              // Phone + Passkey Example
               _buildExampleCard(
                 context: context,
                 title: 'Phone + Passkey Authentication',
@@ -68,8 +64,6 @@ class _DemoAuthSelectorState extends State<DemoAuthSelector> {
                 icon: Icons.phone_android_outlined,
               ),
               const SizedBox(height: 16),
-
-              // OAuth Example
               _buildExampleCard(
                 context: context,
                 title: 'OAuth Authentication',
@@ -78,8 +72,6 @@ class _DemoAuthSelectorState extends State<DemoAuthSelector> {
                 icon: Icons.account_circle_outlined,
               ),
               const SizedBox(height: 16),
-
-              // Pregen Example
               _buildExampleCard(
                 context: context,
                 title: 'Pregen Wallet Authentication',
