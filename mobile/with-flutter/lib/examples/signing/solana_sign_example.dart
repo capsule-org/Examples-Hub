@@ -34,6 +34,7 @@ class _SolanaSignExampleState extends State<SolanaSignExample> {
     super.dispose();
   }
 
+// This method assumes usage of solan_web3 (https://pub.dev/packages/solana_web3) package but can be adapted to other Solana libraries like the solana package (https://pub.dev/packages/solana). The key when signing a transaction is to first construct the transaction and then sign on the raw message bytes by calling the signMessage method on the Capsule client. The message bytes can be obtained by serializing the transaction message. The signature returned by the signMessage method can then be added to the transaction object. The transaction can then be sent to the Solana network.
   Future<void> _signTransaction() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -88,6 +89,53 @@ class _SolanaSignExampleState extends State<SolanaSignExample> {
 
       setState(() {
         _lastSignature = signatureString;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+        _isLoading = false;
+      });
+    }
+  }
+
+// This method
+  Future<void> _signWithSolanaWeb3Adaptter() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      _isLoading = true;
+      _lastSignature = null;
+      _error = null;
+    });
+
+    try {
+      final connection = web3.Connection(web3.Cluster.devnet);
+
+      final solanaWeb3Signer = CapsuleSolanaWeb3Signer(capsule: capsuleClient, connection: connection);
+
+      final publicKey = web3.Pubkey.fromBase58(widget.wallet.address!);
+
+      final blockhash = await connection.getLatestBlockhash();
+
+      final lamports = web3.solToLamports(double.parse(_amountController.text));
+
+      final transaction = web3.Transaction.v0(
+        payer: publicKey,
+        recentBlockhash: blockhash.blockhash,
+        instructions: [
+          programs.SystemProgram.transfer(
+            fromPubkey: publicKey,
+            toPubkey: web3.Pubkey.fromBase58(_recipientController.text),
+            lamports: lamports,
+          ),
+        ],
+      );
+
+      final signedTransaction = await solanaWeb3Signer.signTransaction(transaction);
+
+      setState(() {
+        _lastSignature = signedTransaction.signature.toString();
         _isLoading = false;
       });
     } catch (e) {
