@@ -1,6 +1,6 @@
 PODS:
   - boost (1.84.0)
-  - capsule-react-native-wallet (2.12.0-dev.0):
+  - capsule-react-native-wallet (2.12.0-dev.4):
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
@@ -13,6 +13,8 @@ PODS:
   - Expo (52.0.23):
     - ExpoModulesCore
   - ExpoAsset (11.0.1):
+    - ExpoModulesCore
+  - ExpoClipboard (7.0.0):
     - ExpoModulesCore
   - ExpoFileSystem (18.0.6):
     - ExpoModulesCore
@@ -1778,6 +1780,7 @@ DEPENDENCIES:
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoAsset (from `../node_modules/expo-asset/ios`)
+  - ExpoClipboard (from `../node_modules/expo-clipboard/ios`)
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
   - ExpoFont (from `../node_modules/expo-font/ios`)
   - ExpoHead (from `../node_modules/expo-router/ios`)
@@ -1877,6 +1880,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo"
   ExpoAsset:
     :path: "../node_modules/expo-asset/ios"
+  ExpoClipboard:
+    :path: "../node_modules/expo-clipboard/ios"
   ExpoFileSystem:
     :path: "../node_modules/expo-file-system/ios"
   ExpoFont:
@@ -2035,11 +2040,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 1dca942403ed9342f98334bf4c3621f011aa7946
-  capsule-react-native-wallet: 23ad17078f2a6d63525ec57094fb7ba018eeafe0
+  capsule-react-native-wallet: 781337827602476be05cb0f7e4b3f8587fbdeccd
   DoubleConversion: f16ae600a246532c4020132d54af21d0ddb2a385
   EXConstants: dd2fe64c6cdb1383b694c309a63028a8e9f2be6d
   Expo: 37cea4167605a3a1b88fa0caf8349ae76c0d389c
   ExpoAsset: 8138f2a9ec55ae1ad7c3871448379f7d97692d15
+  ExpoClipboard: 166ca8c13ca1041f5ba619a211f59427ab5da8a7
   ExpoFileSystem: 179a0661fd6d3c4e5d7e500a99a9cd8b295d9566
   ExpoFont: 260fb85279912421894060d9aea453cee4ffc01c
   ExpoHead: 83465614d1af3df77a0db724a24a43648e3daefa
