@@ -34,19 +34,15 @@ export default function OTPVerificationComponent({ onVerify, resendOTP }: OTPVer
   };
 
   return (
-    <View style={styles.container}>
-      <Text
-        h4
-        style={styles.title}>
-        Enter OTP
-      </Text>
-      <Text style={styles.subtitle}>Please enter the one-time password sent to your email/phone.</Text>
+    <View>
       <Input
         placeholder="Enter OTP"
         value={otp}
         onChangeText={setOtp}
         keyboardType="number-pad"
         maxLength={6}
+        containerStyle={styles.inputContainer}
+        inputContainerStyle={styles.input}
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <Button
@@ -54,36 +50,55 @@ export default function OTPVerificationComponent({ onVerify, resendOTP }: OTPVer
         onPress={handleVerify}
         disabled={otp.length !== 6 || isVerifying}
         loading={isVerifying}
+        buttonStyle={styles.button}
+        containerStyle={styles.buttonContainer}
       />
       <Button
         title="Resend OTP"
         onPress={handleResend}
         type="clear"
         containerStyle={styles.resendButton}
+        titleStyle={styles.resendButtonText}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-  },
-  title: {
-    textAlign: "center",
-    marginBottom: 8,
-  },
   subtitle: {
-    textAlign: "center",
+    fontSize: 16,
+    color: "#666666",
+    lineHeight: 22,
+    marginBottom: 24,
+  },
+  inputContainer: {
+    paddingHorizontal: 0,
     marginBottom: 16,
-    color: "#666",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 8,
+    paddingHorizontal: 12,
   },
   error: {
-    color: "red",
-    textAlign: "center",
+    color: "#dc3545",
     marginBottom: 16,
+    fontSize: 14,
+  },
+  button: {
+    backgroundColor: "#ff3c22",
+    borderRadius: 8,
+    paddingVertical: 12,
+  },
+  buttonContainer: {
+    width: "100%",
   },
   resendButton: {
     marginTop: 16,
+  },
+  resendButtonText: {
+    color: "#ff3c22",
+    fontSize: 14,
   },
 });

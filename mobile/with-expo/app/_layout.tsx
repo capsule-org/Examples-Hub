@@ -1,8 +1,22 @@
 import "@usecapsule/react-native-wallet/dist/shim";
-import React from "react";
+import React, { useEffect } from "react";
 import { Stack } from "expo-router";
+import { capsuleClient } from "@/client/capsule";
 
 export default function RootLayout() {
+  useEffect(() => {
+    const initializeCapsuleClient = async () => {
+      try {
+        await capsuleClient.logout();
+        await capsuleClient.clearStorage("all");
+        await capsuleClient.init();
+      } catch (error) {
+        console.error("Failed to initialize capsule client:", error);
+      }
+    };
+
+    initializeCapsuleClient();
+  }, []);
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="home" />

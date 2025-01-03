@@ -56,7 +56,7 @@ export default function SolanaSendScreen() {
       fromAddress={fromAddress}
       amountLabel="Amount (SOL)"
       onSign={handleSign}
-      onBack={() => router.push("/")}
+      onBack={() => router.push("/home")}
     />
   );
 }

@@ -55,7 +55,7 @@ export default function CosmosSendScreen() {
       fromAddress={fromAddress}
       amountLabel="Amount (uATOM)"
       onSign={handleSign}
-      onBack={() => router.push("/")}
+      onBack={() => router.push("/home")}
     />
   );
 }

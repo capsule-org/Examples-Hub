@@ -1,6 +1,6 @@
 PODS:
   - boost (1.84.0)
-  - capsule-react-native-wallet (2.12.0-dev.4):
+  - capsule-react-native-wallet (2.12.0):
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
@@ -1294,9 +1294,6 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-blob-jsi-helper (0.3.1):
-    - React
-    - React-Core
   - react-native-modpow (1.1.0):
     - React
   - react-native-passkey (3.0.0):
@@ -1823,7 +1820,6 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
-  - react-native-blob-jsi-helper (from `../node_modules/react-native-blob-jsi-helper`)
   - react-native-modpow (from `../node_modules/react-native-modpow`)
   - react-native-passkey (from `../node_modules/react-native-passkey`)
   - react-native-quick-base64 (from `../node_modules/react-native-quick-base64`)
@@ -1963,8 +1959,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   React-microtasksnativemodule:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
-  react-native-blob-jsi-helper:
-    :path: "../node_modules/react-native-blob-jsi-helper"
   react-native-modpow:
     :path: "../node_modules/react-native-modpow"
   react-native-passkey:
@@ -2040,7 +2034,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: 1dca942403ed9342f98334bf4c3621f011aa7946
-  capsule-react-native-wallet: 781337827602476be05cb0f7e4b3f8587fbdeccd
+  capsule-react-native-wallet: fb769da24b99fd80a7f18242cb9312e64f4bb551
   DoubleConversion: f16ae600a246532c4020132d54af21d0ddb2a385
   EXConstants: dd2fe64c6cdb1383b694c309a63028a8e9f2be6d
   Expo: 37cea4167605a3a1b88fa0caf8349ae76c0d389c
@@ -2088,7 +2082,6 @@ SPEC CHECKSUMS:
   React-logger: 697873f06b8ba436e3cddf28018ab4741e8071b6
   React-Mapbuffer: c174e11bdea12dce07df8669d6c0dc97eb0c7706
   React-microtasksnativemodule: 8a80099ad7391f4e13a48b12796d96680f120dc6
-  react-native-blob-jsi-helper: 13c10135af4614dbc0712afba5960784cd44f043
   react-native-modpow: cddb1fde29eba5f7acc5cc57398075f7caeeddc4
   react-native-passkey: b3f76dc1f14b7170307ae4f995cdeda251cb1122
   react-native-quick-base64: 6ddd4121d8dcb412ad32ca5fa67633dbea8d3761

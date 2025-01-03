@@ -826,26 +826,27 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@celo/base@^6.0.1":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@celo/base/-/base-6.1.0.tgz#58a7a7cfb5d47bc9e680fe2e0eee58c234cb570b"
-  integrity sha512-R6ko2QCfEU32akBsaSNsDYduktgwIKHcJ61SbR7EsXA1VE31/44Qh8kMzfgeahyk375DUCe3pJIKwx5zg1tFHg==
+"@celo/base@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@celo/base/-/base-7.0.0.tgz#0b1a2bf5d513455d16d5a4543fe0a30389934601"
+  integrity sha512-/FQdvxGP32YX95wm66LFUcY/cNTRm9AT61gyQlvbLWDqxyOihygbBM1TBRL3SgDnCWRRnDKT6XPDcUXLm5dqWg==
 
-"@celo/utils@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/@celo/utils/-/utils-6.0.1.tgz#07dea921cb091af20f9c37250bd1ad24b9e7e151"
-  integrity sha512-X9iK4R4USSgHG87PxpLGHqgKL33bKtBiKZGgPwx4gMM7X+nwpB6Ify/YO1/I+mt9+NN9epPb8/kmYYoWOPYShw==
+"@celo/utils@^8.0.0":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@celo/utils/-/utils-8.0.0.tgz#4bd1ecf8699d34a8d0f511a38aaddf336e7f17c7"
+  integrity sha512-zxU24ZiFVeiqjSLn8AHW/cexHPpKWPSl7yXjcsloAG24KWNUHOVchxsm5Q3je9z8PHnlDHrMhODQFkdiAFWtPA==
   dependencies:
-    "@celo/base" "^6.0.1"
+    "@celo/base" "^7.0.0"
+    "@ethereumjs/rlp" "^5.0.2"
     "@ethereumjs/util" "8.0.5"
-    "@types/elliptic" "^6.4.9"
+    "@noble/ciphers" "0.4.1"
+    "@noble/curves" "1.3.0"
+    "@noble/hashes" "1.3.3"
+    "@types/bn.js" "^5.1.0"
     "@types/node" "^18.7.16"
     bignumber.js "^9.0.0"
-    elliptic "^6.5.4"
-    ethereum-cryptography "1.2.0"
     fp-ts "2.1.1"
     io-ts "2.0.1"
-    rlp "^2.2.4"
     web3-eth-abi "1.10.4"
     web3-utils "1.10.4"
 
@@ -991,7 +992,7 @@
   resolved "https://registry.yarnpkg.com/@cosmjs/utils/-/utils-0.32.4.tgz#a9a717c9fd7b1984d9cefdd0ef6c6f254060c671"
   integrity sha512-D1Yc+Zy8oL/hkUkFUL/bwxvuDBzRGpc4cF7/SkdhxX4iHpSLgdOuTt1mhCh9+kl6NQREy9t7SYZ6xeW5gFe60w==
 
-"@craftzdog/react-native-buffer@^6.0.5":
+"@craftzdog/react-native-buffer@6.0.5", "@craftzdog/react-native-buffer@^6.0.5":
   version "6.0.5"
   resolved "https://registry.yarnpkg.com/@craftzdog/react-native-buffer/-/react-native-buffer-6.0.5.tgz#0d4fbe0dd104186d2806655e3c0d25cebdae91d3"
   integrity sha512-Av+YqfwA9e7jhgI9GFE/gTpwl/H+dRRLmZyJPOpKTy107j9Oj7oXlm3/YiMNz+C/CEGqcKAOqnXDLs4OL6AAFw==
@@ -1003,6 +1004,11 @@
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@ethereumjs/rlp/-/rlp-4.0.1.tgz#626fabfd9081baab3d0a3074b0c7ecaf674aaa41"
   integrity sha512-tqsQiBQDQdmPWE1xkkBq4rlSW5QZpLOUJ5RJh2/9fug+q9tnUhuZoVLk7s0scUIKTOzEtR72DFBXI4WiZcMpvw==
+
+"@ethereumjs/rlp@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@ethereumjs/rlp/-/rlp-5.0.2.tgz#c89bd82f2f3bec248ab2d517ae25f5bbc4aac842"
+  integrity sha512-DziebCdg4JpGlEqEdGgXmjqcFoJi+JGulUXwEjsZGAscAQ7MyD/7LE/GVCP29vEQxKc7AAwjT3A2ywHp2xfoCA==
 
 "@ethereumjs/util@8.0.5":
   version "8.0.5"
@@ -1810,12 +1816,24 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@noble/ciphers@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@noble/ciphers/-/ciphers-0.4.1.tgz#977fc35f563a4ca315ebbc4cbb1f9b670bd54456"
+  integrity sha512-QCOA9cgf3Rc33owG0AYBB9wszz+Ul2kramWN8tXG44Gyciud/tbkEqvxRF/IpqQaBpRBNi9f4jdNxqB2CQCIXg==
+
 "@noble/curves@1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.2.0.tgz#92d7e12e4e49b23105a2555c6984d41733d65c35"
   integrity sha512-oYclrNgRaM9SsBUBVbb8M6DTV7ZHRTKugureoYEncY5c65HOmRzvSiTE3y5CYaPYJA/GVkrhXEoF0M3Ya9PMnw==
   dependencies:
     "@noble/hashes" "1.3.2"
+
+"@noble/curves@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.3.0.tgz#01be46da4fd195822dab821e72f71bf4aeec635e"
+  integrity sha512-t01iSXPuN+Eqzb4eBX0S5oubSqXbK/xXa1Ne18Hj8f9pStxztHCE2gfboSp/dZRLSqfuLpRK2nDXDK+W9puocA==
+  dependencies:
+    "@noble/hashes" "1.3.3"
 
 "@noble/curves@1.4.2", "@noble/curves@~1.4.0":
   version "1.4.2"
@@ -1840,6 +1858,11 @@
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.3.2.tgz#6f26dbc8fbc7205873ce3cee2f690eba0d421b39"
   integrity sha512-MVC8EAQp7MvEcm30KWENFjgR+Mkmf+D189XJTkFIlwohU5hcBbn1ZkKq7KVTi2Hme3PMGF390DaL52beVrIihQ==
+
+"@noble/hashes@1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.3.3.tgz#39908da56a4adc270147bb07968bf3b16cfe1699"
+  integrity sha512-V7/fPHgl+jsVPXqqeOzT8egNj2iBIVt+ECeMMG8TdcnTikP3oaBtUVqpT/gYCR68aEBJSF+XbYUxStjbFMqIIA==
 
 "@noble/hashes@1.4.0", "@noble/hashes@~1.4.0":
   version "1.4.0"
@@ -2451,7 +2474,7 @@
   dependencies:
     "@babel/types" "^7.20.7"
 
-"@types/bn.js@*", "@types/bn.js@^5.1.0":
+"@types/bn.js@^5.1.0":
   version "5.1.6"
   resolved "https://registry.yarnpkg.com/@types/bn.js/-/bn.js-5.1.6.tgz#9ba818eec0c85e4d3c679518428afdf611d03203"
   integrity sha512-Xh8vSwUeMKeYYrj3cX4lGQgFSF/N03r+tv4AiLl1SucqV+uTQpxRcnM8AkXKHwYP9ZPXOYXRr2KPXpVlIvqh9w==
@@ -2469,13 +2492,6 @@
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@types/cookie/-/cookie-0.6.0.tgz#eac397f28bf1d6ae0ae081363eca2f425bedf0d5"
   integrity sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==
-
-"@types/elliptic@^6.4.9":
-  version "6.4.18"
-  resolved "https://registry.yarnpkg.com/@types/elliptic/-/elliptic-6.4.18.tgz#bc96e26e1ccccbabe8b6f0e409c85898635482e1"
-  integrity sha512-UseG6H5vjRiNpQvrhy4VF/JXdA3V/Fp5amvveaL+fs28BZ6xIKJBPnUPRlEaZpysD9MbpfaLi8lbl7PGUAkpWw==
-  dependencies:
-    "@types/bn.js" "*"
 
 "@types/graceful-fs@^4.1.3":
   version "4.1.9"
@@ -2676,15 +2692,15 @@
     "@urql/core" "^5.0.0"
     wonka "^6.3.2"
 
-"@usecapsule/core-sdk@2.14.0":
-  version "2.14.0"
-  resolved "https://registry.yarnpkg.com/@usecapsule/core-sdk/-/core-sdk-2.14.0.tgz#1a3a3f6f8352097f5675180b99903c098181ad8e"
-  integrity sha512-vumPLG4RARfXVqcjRn/+TnH8H6qW5Z3oJC1O7bgKa6eLeCnYKSQpc3j2V1hHUIVBfI0CObcIOV7yjXVDFegxQA==
+"@usecapsule/core-sdk@2.15.0":
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/core-sdk/-/core-sdk-2.15.0.tgz#793e5f1142a8eaa479458c58f92f4f18c34c041a"
+  integrity sha512-bojNKIcrcgau7KS2LHIue7Kfy/u0NI2jpxotiAUpGbQ1XlaLdH5201CkITHQcruwhW3NstUGnem5gmFZLst9UA==
   dependencies:
-    "@celo/utils" "^6.0.1"
+    "@celo/utils" "^8.0.0"
     "@cosmjs/encoding" "^0.32.4"
     "@noble/hashes" "^1.5.0"
-    "@usecapsule/user-management-client" "1.36.0"
+    "@usecapsule/user-management-client" "1.37.0"
     base64url "^3.0.1"
     buffer "6.0.3"
     ethereumjs-util "7.1.5"
@@ -2692,65 +2708,64 @@
     node-forge "^1.3.1"
     qs "^6.12.0"
 
-"@usecapsule/cosmjs-v0-integration@^2.14.0":
-  version "2.14.0"
-  resolved "https://registry.yarnpkg.com/@usecapsule/cosmjs-v0-integration/-/cosmjs-v0-integration-2.14.0.tgz#0793cdbebe4de8aae162b056faf67ac8651ea61d"
-  integrity sha512-GVxCYSw4wdxy18uqiKYp2qDuL04F+y4nXfs1ETyhYujCU3BeI388GZYYVB2ArZdMekg4zCIm4oMgQ0kbX08uLA==
+"@usecapsule/cosmjs-v0-integration@2.15.0":
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/cosmjs-v0-integration/-/cosmjs-v0-integration-2.15.0.tgz#cd78f9802478f77300cab85bb9107463dc433aac"
+  integrity sha512-cfvRw9whsp22/q205DpjlQTaXc7t0eELbkHXydXzRuyzkR3jQQWDz6WmAixUm6BpIwpWCQf8TQaB/AwQ2vXZ3Q==
   dependencies:
-    "@usecapsule/core-sdk" "2.14.0"
+    "@usecapsule/core-sdk" "2.15.0"
 
-"@usecapsule/ethers-v6-integration@^2.14.0":
-  version "2.14.0"
-  resolved "https://registry.yarnpkg.com/@usecapsule/ethers-v6-integration/-/ethers-v6-integration-2.14.0.tgz#06225df1e0e0c6dc705b5c6efa2432af08aba917"
-  integrity sha512-mM07WkxYvMpp179zDI+KlBXBcgFdseWjinwWLIpAfCBW1fS9Z4+VIAkksMJS6t/9pBmyofgrUmw4nIypWPaQ5Q==
+"@usecapsule/ethers-v6-integration@2.15.0":
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/ethers-v6-integration/-/ethers-v6-integration-2.15.0.tgz#95e8e0ddc3b823ce3176adf8c6657680dd06a2e2"
+  integrity sha512-ZoQsaEPLAsi+xIT+/6ww7sIS6DvbxP1CYckpzhiea66jQBnA9kPOV3BGt+CUSrUpmVLAzOjuP9fWxG+tvqyiVg==
   dependencies:
-    "@usecapsule/core-sdk" "2.14.0"
+    "@usecapsule/core-sdk" "2.15.0"
 
-"@usecapsule/react-native-wallet@2.12.0-dev.5":
-  version "2.12.0-dev.5"
-  resolved "https://registry.yarnpkg.com/@usecapsule/react-native-wallet/-/react-native-wallet-2.12.0-dev.5.tgz#e364254b4b5ed5ac9021bd1a0a30edc82b841612"
-  integrity sha512-Vto1li9i2eXLwQgTDnRRDnwOnMo/QbCAJfAIyP6fJZCNV2q3z45wlOkVDWMHem94L9qvB6jSEMGYgwPILuGmlA==
+"@usecapsule/react-native-wallet@2.12.0":
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/react-native-wallet/-/react-native-wallet-2.12.0.tgz#a17f3d32739fa10013ebd3776a7c690469a10b1c"
+  integrity sha512-mTLXhT5bBYhed5zDin/A+V4hbBhHMb79XIHjNALXwVh/AWVOyd6T2qaFA0MASRbzXiH+KAtjqH6zpTgFWkRarA==
   dependencies:
     "@peculiar/webcrypto" "^1.5.0"
-    "@usecapsule/core-sdk" "2.14.0"
-    "@usecapsule/user-management-client" "1.36.0"
-    "@usecapsule/web-sdk" "2.14.0"
+    "@usecapsule/core-sdk" "2.15.0"
+    "@usecapsule/user-management-client" "1.37.0"
+    "@usecapsule/web-sdk" "2.15.0"
     fastestsmallesttextencoderdecoder "1.0.22"
     node-forge "1.3.1"
     react-native-url-polyfill "2.0.0"
-    web-streams-polyfill "4.0.0"
 
-"@usecapsule/solana-web3.js-v1-integration@^1.14.0":
-  version "1.14.0"
-  resolved "https://registry.yarnpkg.com/@usecapsule/solana-web3.js-v1-integration/-/solana-web3.js-v1-integration-1.14.0.tgz#864a132e37fc85f2fb0279c2637945a72b630b2f"
-  integrity sha512-DtawFo8P2ucpzNSEBAvYwtZ23mE0x2fJC9x8YSrUMyr/CNHxGNJYqtCwyp2Rzixqedim6PczfKMQZhvOurqi/A==
+"@usecapsule/solana-web3.js-v1-integration@1.15.0":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/solana-web3.js-v1-integration/-/solana-web3.js-v1-integration-1.15.0.tgz#b45b923bc84a4d3f6c06d5f265e49ed12b5f8c43"
+  integrity sha512-xkMgO/U/0T+98X0UuPunXH8Fj7W3Wn2DnVj/4/JfL4aJJFMDhqMnZgRCVDqeefST6iUITQzyA1ZX964XkTOmtQ==
   dependencies:
     "@solana/web3.js" "^1.95.8"
-    "@usecapsule/core-sdk" "2.14.0"
+    "@usecapsule/core-sdk" "2.15.0"
 
-"@usecapsule/user-management-client@1.36.0":
-  version "1.36.0"
-  resolved "https://registry.yarnpkg.com/@usecapsule/user-management-client/-/user-management-client-1.36.0.tgz#42dac9b554ebf3836713f73cc6be9697d8f2a9f1"
-  integrity sha512-eMU1ouFxH0WVSkrJGuQ9OGP42NwYcgSQhOSqtvAr+WZdeYBGkWmc6fi6fca6Ipjbxm8eCNfByf+xid7Ay0mdhg==
+"@usecapsule/user-management-client@1.37.0":
+  version "1.37.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/user-management-client/-/user-management-client-1.37.0.tgz#192eb72929739f49d984146d19eaa6d129278445"
+  integrity sha512-RVaxVhGvlJj+pWZdQ/8V0vRZYMeSFJeTIiPJ11P1t8Ehf0FJeXEj+3/n98gMDMmZTNXYR5HLI8Y0paA34cFtFg==
   dependencies:
     axios "^1.6.3"
     libphonenumber-js "1.11.2"
     qs "^6.12.0"
 
-"@usecapsule/viem-v2-integration@^2.14.0":
-  version "2.14.0"
-  resolved "https://registry.yarnpkg.com/@usecapsule/viem-v2-integration/-/viem-v2-integration-2.14.0.tgz#de7dbd44a60b2fbeb2c76157d25906e488e7f259"
-  integrity sha512-3/nycYi6z6RuKm5NI/KG/0kfekRMu+o/hY9Yjb13Mfse8r8y08JGunUw646OEW0UEoa7y2E7hV6e6BagxpE3mw==
+"@usecapsule/viem-v2-integration@2.15.0":
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/viem-v2-integration/-/viem-v2-integration-2.15.0.tgz#f4e4aa74bc683d01f35e63dd6524a89119060c75"
+  integrity sha512-uzTOgfRkC8HLMb6AFsF3PwxMmOBoF1jIq3nxrskaAELYCMrSHOUCJ4V6KkvpLCnD04Vpl9JrsUvsZPjNIGIJAQ==
   dependencies:
-    "@usecapsule/core-sdk" "2.14.0"
+    "@usecapsule/core-sdk" "2.15.0"
 
-"@usecapsule/web-sdk@2.14.0":
-  version "2.14.0"
-  resolved "https://registry.yarnpkg.com/@usecapsule/web-sdk/-/web-sdk-2.14.0.tgz#f4e9aabf21d46997bc013b35258aedb6c4eb24d2"
-  integrity sha512-h5xIwB2bonc2UU5NHSTzueiUrxk505v5ksHx4HyFqaZj9SFkebl+KsijizU39HsGPHAy4rGSjHLsWiJTPNtGVg==
+"@usecapsule/web-sdk@2.15.0":
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/@usecapsule/web-sdk/-/web-sdk-2.15.0.tgz#fa6c373f8cad6d1714407df3dfcddb759d32f233"
+  integrity sha512-0P7/TmPb0HJS9tehRzN6WcPyR0Gt2gN+e7MDWoTYaGwS70VcNaejAov5tQfeRqnnqC0fMzUm8aZy/ZQ0pC2vvg==
   dependencies:
-    "@usecapsule/core-sdk" "2.14.0"
-    "@usecapsule/user-management-client" "1.36.0"
+    "@usecapsule/core-sdk" "2.15.0"
+    "@usecapsule/user-management-client" "1.37.0"
     assert "^2.1.0"
     base64url "3.0.1"
     buffer "6.0.3"
@@ -4310,16 +4325,6 @@ ethereum-bloom-filters@^1.0.6:
   dependencies:
     "@noble/hashes" "^1.4.0"
 
-ethereum-cryptography@1.2.0, ethereum-cryptography@^1.1.2:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/ethereum-cryptography/-/ethereum-cryptography-1.2.0.tgz#5ccfa183e85fdaf9f9b299a79430c044268c9b3a"
-  integrity sha512-6yFQC9b5ug6/17CQpCyE3k9eKBMdhyVjzUy1WkiuY/E4vj/SXDBbCw8QEIaXqf0Mf2SnY6RmpDcwlUmBSS0EJw==
-  dependencies:
-    "@noble/hashes" "1.2.0"
-    "@noble/secp256k1" "1.7.1"
-    "@scure/bip32" "1.1.5"
-    "@scure/bip39" "1.1.1"
-
 ethereum-cryptography@^0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/ethereum-cryptography/-/ethereum-cryptography-0.1.3.tgz#8d6143cfc3d74bf79bbd8edecdf29e4ae20dd191"
@@ -4340,6 +4345,16 @@ ethereum-cryptography@^0.1.3:
     scrypt-js "^3.0.0"
     secp256k1 "^4.0.1"
     setimmediate "^1.0.5"
+
+ethereum-cryptography@^1.1.2:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/ethereum-cryptography/-/ethereum-cryptography-1.2.0.tgz#5ccfa183e85fdaf9f9b299a79430c044268c9b3a"
+  integrity sha512-6yFQC9b5ug6/17CQpCyE3k9eKBMdhyVjzUy1WkiuY/E4vj/SXDBbCw8QEIaXqf0Mf2SnY6RmpDcwlUmBSS0EJw==
+  dependencies:
+    "@noble/hashes" "1.2.0"
+    "@noble/secp256k1" "1.7.1"
+    "@scure/bip32" "1.1.5"
+    "@scure/bip39" "1.1.1"
 
 ethereum-cryptography@^2.0.0, ethereum-cryptography@^2.1.2:
   version "2.2.1"
@@ -7396,11 +7411,6 @@ react-is@^16.13.1, react-is@^16.7.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-native-blob-jsi-helper@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/react-native-blob-jsi-helper/-/react-native-blob-jsi-helper-0.3.1.tgz#582d982d76c1b51aa259b1c569aade4cfc148694"
-  integrity sha512-/stY23PFePcJMwQsnnySLC4aNWiJnje0i/9tQFK6JCFOE8QclgWvCvUITS5Im0SO8mR3VzDLwAhbppWBjYWpLA==
-
 react-native-dropdown-select-list@2.0.5:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/react-native-dropdown-select-list/-/react-native-dropdown-select-list-2.0.5.tgz#3626b2bf9b9c5e157b02f60cf36174cde7550056"
@@ -8875,11 +8885,6 @@ web-encoding@1.1.5:
     util "^0.12.3"
   optionalDependencies:
     "@zxing/text-encoding" "0.9.0"
-
-web-streams-polyfill@4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/web-streams-polyfill/-/web-streams-polyfill-4.0.0.tgz#74cedf168339ee6e709532f76c49313a8c7acdac"
-  integrity sha512-0zJXHRAYEjM2tUfZ2DiSOHAa2aw1tisnnhU3ufD57R8iefL+DcdJyRBRyJpG+NUimDgbTI/lH+gAE1PAvV3Cgw==
 
 web-streams-polyfill@^3.1.1, web-streams-polyfill@^3.3.2:
   version "3.3.3"

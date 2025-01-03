@@ -96,7 +96,7 @@ export default function EVMSendScreen() {
       amountLabel="Amount (ETH)"
       defaultSigningMethod="ethers"
       onSign={handleSign}
-      onBack={() => router.push("/")}
+      onBack={() => router.push("/home")}
     />
   );
 }

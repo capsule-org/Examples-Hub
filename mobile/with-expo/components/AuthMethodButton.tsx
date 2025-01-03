@@ -26,13 +26,19 @@ const AuthMethodButton: React.FC<AuthMethodButtonProps> = ({ type, title, descri
         <MaterialIcons
           name={icon}
           size={24}
-          color="#2089dc"
+          color="#fc6c58"
           style={styles.icon}
         />
         <View style={styles.textContainer}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.description}>{description}</Text>
         </View>
+        <MaterialIcons
+          name="chevron-right"
+          size={24}
+          color="#888"
+          style={styles.chevron}
+        />
       </View>
     </Button>
   );
@@ -40,39 +46,41 @@ const AuthMethodButton: React.FC<AuthMethodButtonProps> = ({ type, title, descri
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    marginVertical: 8,
-    borderRadius: 8,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    borderRadius: 12,
+    marginBottom: 8,
   },
   button: {
-    backgroundColor: "white",
-    padding: 16,
-    borderRadius: 8,
+    backgroundColor: "#ffffff",
+    paddingHorizontal: 12,
+    paddingVertical: 16,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#f0f0f0",
   },
   content: {
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
+    gap: 8,
   },
   icon: {
-    marginRight: 12,
+    marginRight: 8,
   },
   textContainer: {
     flex: 1,
   },
   title: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
-    color: "#000",
-    marginBottom: 4,
+    color: "#333333",
+    letterSpacing: 0.1,
   },
   description: {
     fontSize: 14,
-    color: "#888",
+    color: "#666666",
+  },
+  chevron: {
+    marginLeft: 12,
   },
 });
 

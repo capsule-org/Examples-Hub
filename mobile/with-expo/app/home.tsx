@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, ScrollView } from "react-native";
+import { SafeAreaView, StyleSheet, ScrollView, View } from "react-native";
 import { Text } from "@rneui/themed";
 import { useRouter } from "expo-router";
 import WalletCard from "@/components/WalletCard";
@@ -18,15 +18,13 @@ export default function HomeScreen() {
     try {
       const updatedWallets = Object.values(WalletType).reduce((acc, type) => {
         try {
-          const wallet = capsuleClient.getWalletsByType(type)[0];
+          const wallet = capsuleClient.getWalletsByType(WalletType[type])[0];
           acc[type] = wallet;
         } catch (error) {
-          console.error(`Error fetching ${type} wallet:`, error);
           acc[type] = null;
         }
         return acc;
       }, {} as Record<WalletType, Wallet | null>);
-
       setWalletsByType(updatedWallets);
     } catch (error) {
       console.error("Error fetching wallets:", error);
@@ -51,11 +49,9 @@ export default function HomeScreen() {
     }
   };
 
-  const handleReceive = (type: WalletType) => {};
-
   const handleCreate = async (type: WalletType) => {
     try {
-      await capsuleClient.createWallet(type);
+      await capsuleClient.createWallet(type, false);
       await fetchWallets();
     } catch (error) {
       console.error(`Error creating ${type} wallet:`, error);
@@ -76,35 +72,60 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text
-        h3
-        style={styles.title}>
-        Your Wallets
-      </Text>
-      {Object.entries(walletsByType).map(([type, wallet]) => (
-        <WalletCard
-          key={type}
-          type={type as WalletType}
-          address={wallet?.address}
-          networkName={getNetworkName(type as WalletType)}
-          onSend={() => wallet?.address && handleSend(type as WalletType, wallet.address)}
-          onReceive={() => handleReceive(type as WalletType)}
-          onCreate={() => handleCreate(type as WalletType)}
-        />
-      ))}
-    </ScrollView>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        keyboardShouldPersistTaps="handled">
+        <View style={styles.headerContainer}>
+          <Text
+            h2
+            h2Style={styles.title}>
+            Your Wallets
+          </Text>
+          <Text style={styles.subtitle}>
+            Test all three wallet types in this demo. Each type can be enabled or disabled in your developer portal.
+            Create new wallets of any enabled type directly from this interface. Note: Wallet creation requires the
+            corresponding wallet types to be enabled in your portal settings.
+          </Text>
+        </View>
+        {Object.entries(walletsByType).map(([type, wallet]) => (
+          <WalletCard
+            key={type}
+            type={type as WalletType}
+            address={type === WalletType.COSMOS ? wallet?.addressSecondary : wallet?.address}
+            networkName={getNetworkName(type as WalletType)}
+            onSend={() => wallet?.address && handleSend(type as WalletType, wallet.address)}
+            onCreate={() => handleCreate(type as WalletType)}
+          />
+        ))}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    padding: 16,
-    backgroundColor: "#f5f5f5",
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#f0f0f0",
+  },
+  scrollContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 24,
+  },
+  headerContainer: {
+    marginBottom: 32,
   },
   title: {
-    textAlign: "center",
-    marginBottom: 24,
+    color: "#333333",
+    textAlign: "left",
+    fontWeight: "bold",
+    fontSize: 32,
+    marginBottom: 8,
+  },
+  subtitle: {
+    textAlign: "left",
+    fontSize: 16,
+    color: "#666666",
+    lineHeight: 22,
   },
 });

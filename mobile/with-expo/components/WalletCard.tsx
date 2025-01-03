@@ -9,15 +9,14 @@ interface WalletCardProps {
   address?: string;
   networkName: string;
   onSend: () => void;
-  onReceive: () => void;
   onCreate: () => void;
 }
 
 const truncateAddress = (address: string) => {
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  return `${address.slice(0, 12)}...${address.slice(-8)}`;
 };
 
-export default function WalletCard({ type, address, networkName, onSend, onReceive, onCreate }: WalletCardProps) {
+export default function WalletCard({ type, address, networkName, onSend, onCreate }: WalletCardProps) {
   const copyToClipboard = async () => {
     if (address) {
       await Clipboard.setStringAsync(address);
@@ -25,9 +24,9 @@ export default function WalletCard({ type, address, networkName, onSend, onRecei
   };
 
   return (
-    <Card containerStyle={styles.card}>
+    <View style={styles.card}>
       <View style={styles.header}>
-        <Text h4>{type} Wallet</Text>
+        <Text style={styles.cardTitle}>{type} Wallet</Text>
         <Badge
           value={networkName}
           status="primary"
@@ -38,18 +37,14 @@ export default function WalletCard({ type, address, networkName, onSend, onRecei
           <TouchableOpacity onPress={copyToClipboard}>
             <Text style={styles.address}>{truncateAddress(address)}</Text>
           </TouchableOpacity>
-          <View style={styles.buttonContainer}>
+          <View style={styles.buttonContainerRow}>
             <Button
-              title="Send"
+              title="Sign Test Tx"
               onPress={onSend}
               type="outline"
-              containerStyle={styles.button}
-            />
-            <Button
-              title="Receive"
-              onPress={onReceive}
-              type="outline"
-              containerStyle={styles.button}
+              containerStyle={styles.buttonContainer}
+              buttonStyle={styles.outlineButton}
+              titleStyle={styles.outlineButtonTitle}
             />
           </View>
         </>
@@ -57,16 +52,22 @@ export default function WalletCard({ type, address, networkName, onSend, onRecei
         <Button
           title="Create Wallet"
           onPress={onCreate}
+          buttonStyle={styles.createButton}
+          containerStyle={styles.createButtonContainer}
         />
       )}
-    </Card>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
+    padding: 16,
     borderRadius: 8,
-    marginBottom: 16,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: "#f0f0f0",
+    backgroundColor: "#ffffff",
   },
   header: {
     flexDirection: "row",
@@ -74,17 +75,40 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 8,
   },
+  cardTitle: {
+    color: "#333333",
+    textAlign: "left",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
   address: {
     fontSize: 16,
+    color: "#666666",
     marginBottom: 16,
     textAlign: "center",
   },
-  buttonContainer: {
+  buttonContainerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  button: {
+  buttonContainer: {
     flex: 1,
     marginHorizontal: 4,
+  },
+  outlineButton: {
+    borderColor: "#fc6c58",
+    borderWidth: 1,
+    borderRadius: 8,
+  },
+  outlineButtonTitle: {
+    color: "#fc6c58",
+  },
+  createButtonContainer: {
+    width: "100%",
+  },
+  createButton: {
+    backgroundColor: "#fc6c58",
+    borderRadius: 8,
+    paddingVertical: 12,
   },
 });

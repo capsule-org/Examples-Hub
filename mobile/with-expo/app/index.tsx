@@ -17,31 +17,28 @@ const authMethods = [
     title: "Phone Authentication",
     description: "Test phone number-based authentication flow",
     icon: "phone",
-    route: "./auth/phone",
+    route: "./auth/with-phone",
   },
-  // {
-  //   type: "oauth",
-  //   title: "OAuth Authentication",
-  //   description: "Test OAuth-based authentication flow",
-  //   icon: "key",
-  //   route: "./auth/oauth",
-  // },
 ] as const;
 
 export default function AuthSelectionScreen() {
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <Text
-          h3
-          style={styles.title}>
-          Capsule SDK Demo
-        </Text>
-        <Text style={styles.subtitle}>
-          This app demonstrates various authentication methods. Select a method below to test the corresponding SDK
-          functionality.
-        </Text>
-        <View style={styles.buttonContainer}>
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.headerContainer}>
+          <Text
+            h2
+            h2Style={styles.title}>
+            Capsule Auth SDK Demo
+          </Text>
+          <Text style={styles.subtitle}>
+            Test user authentication via email or phone. Upon first authentication, a passkey is created to secure the
+            user's wallets. This passkey becomes their primary authentication method for future logins. Explore our
+            documentation at docs.usecapsule.com for implementation details.
+          </Text>
+        </View>
+
+        <View style={styles.buttonList}>
           {authMethods.map((method) => (
             <AuthMethodButton
               key={method.type}
@@ -59,26 +56,43 @@ export default function AuthSelectionScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#f0f0f0",
   },
-  scrollView: {
-    flexGrow: 1,
-    padding: 16,
+  scrollContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 24,
+  },
+  headerContainer: {
+    marginBottom: 32,
   },
   title: {
-    textAlign: "center",
-    marginBottom: 8,
+    color: "#333333",
+    textAlign: "left",
+    fontWeight: "bold",
+    fontSize: 32,
   },
   subtitle: {
-    textAlign: "center",
-    marginBottom: 24,
+    textAlign: "left",
     fontSize: 16,
-    color: "#666",
-    paddingHorizontal: 16,
+    color: "#666666",
+    lineHeight: 22,
   },
-  buttonContainer: {
-    gap: 8, // Added gap between buttons
+  buttonList: {
+    // you could add alignItems or justifyContent if you want a certain layout
+  },
+  buttonWrapper: {
+    marginBottom: 16,
+    borderRadius: 8,
+    backgroundColor: "#fafafa",
+    // Optional shadow for iOS
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    // For Android shadow
+    elevation: 2,
+    overflow: "hidden",
   },
 });

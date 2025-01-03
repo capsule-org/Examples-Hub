@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { SafeAreaView, StyleSheet, ScrollView, View } from "react-native";
 import { Input, Button, Text } from "@rneui/themed";
-import { webcrypto } from "crypto";
 import { router } from "expo-router";
+import { webcrypto } from "crypto";
 import OTPVerificationComponent from "@/components/OTPVerificationComponent";
 import { capsuleClient } from "@/client/capsule";
 import { CountryCallingCode } from "libphonenumber-js";
+import { randomTestPhone } from "@/util/random";
 
 export default function PhoneAuthScreen() {
-  const [countryCode, setCountryCode] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [countryCode, setCountryCode] = useState("+1");
+  const [phoneNumber, setPhoneNumber] = useState(randomTestPhone());
   const [showOTP, setShowOTP] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,7 +34,6 @@ export default function PhoneAuthScreen() {
 
   const handleVerify = async (code: string) => {
     if (!code) return;
-
     try {
       const biometricsId = await capsuleClient.verifyEmailBiometricsId(code);
       if (biometricsId) {
@@ -56,75 +56,115 @@ export default function PhoneAuthScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text
-        h3
-        style={styles.title}>
-        Phone Authentication
-      </Text>
-      <Text style={styles.subtitle}>
-        This screen demonstrates phone-based authentication. Enter a country code and phone number to test the SDK's
-        phone auth functionality.
-      </Text>
-      {!showOTP ? (
-        <>
-          <View style={styles.phoneInputContainer}>
-            <Input
-              containerStyle={styles.countryCodeInput}
-              placeholder="Country Code"
-              value={countryCode}
-              onChangeText={setCountryCode}
-              keyboardType="phone-pad"
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        keyboardShouldPersistTaps="handled">
+        <View style={styles.headerContainer}>
+          <Text
+            h2
+            h2Style={styles.title}>
+            {showOTP ? "Enter Verification Code" : "Phone Authentication Demo"}
+          </Text>
+          <Text style={styles.subtitle}>
+            {showOTP
+              ? "Enter the code sent to your phone. When using a +1-XXX-555-XXXX test number, a random 6-digit code is auto-filled for rapid testing. For personal numbers, check your phone for the actual code."
+              : "Test the Capsule Auth SDK. A random test number (+1-XXX-555-XXXX) is pre-filled for quick testing with auto-generated codes. Use your phone number instead to test actual SMS delivery. Test users can be managed in your portal's API key section."}
+          </Text>
+        </View>
+
+        {!showOTP ? (
+          <>
+            <View style={styles.phoneInputContainer}>
+              <Input
+                label="Code"
+                placeholder="+1"
+                value={countryCode}
+                onChangeText={setCountryCode}
+                keyboardType="phone-pad"
+                containerStyle={styles.countryCodeInput}
+                inputContainerStyle={styles.input}
+              />
+              <Input
+                label="Number"
+                placeholder="Phone Number"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+                keyboardType="phone-pad"
+                containerStyle={styles.phoneNumberInput}
+                inputContainerStyle={styles.input}
+              />
+            </View>
+            <Button
+              title="Continue"
+              onPress={handleContinue}
+              disabled={!countryCode || !phoneNumber || isLoading}
+              loading={isLoading}
+              buttonStyle={styles.button}
+              containerStyle={styles.buttonContainer}
             />
-            <Input
-              containerStyle={styles.phoneNumberInput}
-              placeholder="Phone Number"
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-              keyboardType="phone-pad"
-            />
-          </View>
-          <Button
-            title="Continue"
-            onPress={handleContinue}
-            disabled={!countryCode || !phoneNumber || isLoading}
-            loading={isLoading}
+          </>
+        ) : (
+          <OTPVerificationComponent
+            onVerify={handleVerify}
+            resendOTP={resendOTP}
           />
-        </>
-      ) : (
-        <OTPVerificationComponent
-          onVerify={handleVerify}
-          resendOTP={resendOTP}
-        />
-      )}
-    </ScrollView>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    padding: 16,
-    justifyContent: "center",
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#f0f0f0",
+  },
+  scrollContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 24,
+  },
+  headerContainer: {
+    marginBottom: 32,
   },
   title: {
-    textAlign: "center",
+    color: "#333333",
+    textAlign: "left",
+    fontWeight: "bold",
+    fontSize: 32,
     marginBottom: 8,
   },
   subtitle: {
-    textAlign: "center",
-    marginBottom: 24,
+    textAlign: "left",
     fontSize: 16,
-    color: "#666",
+    color: "#666666",
+    lineHeight: 22,
   },
   phoneInputContainer: {
     flexDirection: "row",
+    marginBottom: 16,
   },
   countryCodeInput: {
     flex: 1,
     marginRight: 8,
+    paddingHorizontal: 0,
   },
   phoneNumberInput: {
     flex: 3,
+    paddingHorizontal: 0,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#e0e0e0",
+    borderRadius: 8,
+    paddingHorizontal: 12,
+  },
+  button: {
+    backgroundColor: "#fc6c58",
+    borderRadius: 8,
+    paddingVertical: 12,
+  },
+  buttonContainer: {
+    width: "100%",
   },
 });
