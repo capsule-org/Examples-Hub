@@ -1,31 +1,31 @@
-import "../shim";
-import App from "./App";
-import "react-native-url-polyfill/auto";
-import React, { useEffect, useState } from "react";
-import {
-  SafeAreaView,
-  Text,
-  StyleSheet,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  ActivityIndicator,
-} from "react-native";
-import PolyfillCrypto from "react-native-webview-crypto";
-import { CapsuleMobile, Environment, WalletType } from "@usecapsule/react-native-wallet";
+import "@usecapsule/react-native-wallet/dist/shim";
+import React, { useEffect } from "react";
+import { Stack } from "expo-router";
+import { capsuleClient } from "@/client/capsule";
 
-const capsuleClient = new CapsuleMobile(Environment.BETA, process.env.EXPO_PUBLIC_CAPSULE_API_KEY, undefined, {
-  disableWorkers: true,
-});
+export default function RootLayout() {
+  useEffect(() => {
+    const initializeCapsuleClient = async () => {
+      try {
+        await capsuleClient.logout();
+        await capsuleClient.clearStorage("all");
+        await capsuleClient.init();
+      } catch (error) {
+        console.error("Failed to initialize capsule client:", error);
+      }
+    };
 
-type LoadingState = {
-  isLoading: boolean;
-  message: string;
-};
-
-function RootLayout(): React.JSX.Element {
-  return <App />;
+    initializeCapsuleClient();
+  }, []);
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="home" />
+      <Stack.Screen name="auth/with-email" />
+      <Stack.Screen name="auth/with-phone" />
+      {/* <Stack.Screen name="auth/with-oauth" /> */}
+      <Stack.Screen name="sign/with-evm" />
+      <Stack.Screen name="sign/with-cosmos" />
+      <Stack.Screen name="sign/with-solana" />
+    </Stack>
+  );
 }
-
-export default RootLayout;

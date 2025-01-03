@@ -36,10 +36,9 @@ packages:
   capsule:
     dependency: "direct main"
     description:
-      name: capsule
-      sha256: bb2fcd67ee0fb667b51996d0bd2b8ff895985413057dc9a242161cca1b3ee8e9
-      url: "https://pub.dev"
-    source: hosted
+      path: "../../../flutter-sdk"
+      relative: true
+    source: path
     version: "0.6.0"
   characters:
     dependency: transitive
