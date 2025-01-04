@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "expo-router";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import { WalletType } from "@usecapsule/react-native-wallet";
 import { CapsuleProtoSigner } from "@usecapsule/cosmjs-v0-integration";
-import { capsuleClient } from "@/client/capsule";
-import TransactionScreen from "@/components/TransactionScreen";
+import { capsuleClient } from "../../client/capsule";
+import TransactionScreen from "../../components/TransactionScreen";
+import { RootStackParamList } from "../../types";
 
 const RPC_ENDPOINT = "https://cosmos-rpc.publicnode.com:443";
 
 export default function CosmosSendScreen() {
   const [fromAddress, setFromAddress] = useState("");
-
-  const router = useRouter();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     const initializeAddress = async () => {
@@ -57,7 +57,7 @@ export default function CosmosSendScreen() {
       fromAddress={fromAddress}
       amountLabel="Amount (uATOM)"
       onSign={handleSign}
-      onBack={() => router.push("/home")}
+      onBack={() => navigation.navigate("Home")}
     />
   );
 }

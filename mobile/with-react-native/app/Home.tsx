@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, StyleSheet, ScrollView, View } from "react-native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Text } from "@rneui/themed";
-import { useRouter } from "expo-router";
 import { Wallet, WalletType } from "@usecapsule/react-native-wallet";
-import WalletCard from "@/components/WalletCard";
-import { capsuleClient } from "@/client/capsule";
+import WalletCard from "../components/WalletCard";
+import { capsuleClient } from "../client/capsule";
+import { RootStackParamList } from "../types";
 
 export default function HomeScreen() {
   const [walletsByType, setWalletsByType] = useState<Record<WalletType, Wallet | null>>({
@@ -12,7 +13,7 @@ export default function HomeScreen() {
     [WalletType.SOLANA]: null,
     [WalletType.COSMOS]: null,
   });
-  const router = useRouter();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const fetchWallets = () => {
     try {
@@ -38,13 +39,13 @@ export default function HomeScreen() {
   const handleSend = (type: WalletType, address: string) => {
     switch (type) {
       case WalletType.EVM:
-        router.push({ pathname: "./sign/with-evm" });
+        navigation.navigate("SignEVM");
         break;
       case WalletType.COSMOS:
-        router.push({ pathname: "./sign/with-cosmos" });
+        navigation.navigate("SignCosmos");
         break;
       case WalletType.SOLANA:
-        router.push({ pathname: "./sign/with-solana" });
+        navigation.navigate("SignSolana");
         break;
     }
   };

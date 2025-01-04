@@ -1,11 +1,3 @@
 <resources>
-    <string name="app_name">Capsule RN Example</string>
-    <string name="asset_statements" translatable="false">
-    [{
-      \"include\": \"https://app.beta.usecapsule.com/.well-known/assetlinks.json\"
-    },
-    {
-      \"include\": \"https://app.usecapsule.com/.well-known/assetlinks.json\"
-    }]
-    </string>
+    <string name="app_name">capsule-rn</string>
 </resources>

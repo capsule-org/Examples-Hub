@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "expo-router";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Connection, clusterApiUrl, SystemProgram, LAMPORTS_PER_SOL, PublicKey, Transaction } from "@solana/web3.js";
-import { CapsuleSolanaWeb3Signer } from "@usecapsule/solana-web3.js-v1-integration";
-import { capsuleClient } from "@/client/capsule";
 import { WalletType } from "@usecapsule/react-native-wallet";
-import TransactionScreen from "@/components/TransactionScreen";
+import { CapsuleSolanaWeb3Signer } from "@usecapsule/solana-web3.js-v1-integration";
+import TransactionScreen from "../../components/TransactionScreen";
+import { capsuleClient } from "../../client/capsule";
+import { RootStackParamList } from "../../types";
 
 export default function SolanaSendScreen() {
   const [fromAddress, setFromAddress] = useState("");
-
-  const router = useRouter();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     const initializeAddress = async () => {
@@ -58,7 +58,7 @@ export default function SolanaSendScreen() {
       fromAddress={fromAddress}
       amountLabel="Amount (SOL)"
       onSign={handleSign}
-      onBack={() => router.push("/home")}
+      onBack={() => navigation.navigate("Home")}
     />
   );
 }

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, ScrollView, View } from "react-native";
 import { Input, Button, Text } from "@rneui/themed";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { webcrypto } from "crypto";
-import { useRouter } from "expo-router";
+import OTPVerificationComponent from "../../components/OTPVerificationComponent";
+import { capsuleClient } from "../../client/capsule";
+import { RootStackParamList } from "../../types";
 import { CountryCallingCode } from "libphonenumber-js";
-import OTPVerificationComponent from "@/components/OTPVerificationComponent";
-import { capsuleClient } from "@/client/capsule";
-import { randomTestPhone } from "@/util/random";
+import { randomTestPhone } from "../../util/random";
 
 export default function PhoneAuthScreen() {
   const [countryCode, setCountryCode] = useState("+1");
@@ -14,7 +15,7 @@ export default function PhoneAuthScreen() {
   const [showOTP, setShowOTP] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const router = useRouter();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handleContinue = async () => {
     if (!countryCode || !phoneNumber) return;
@@ -23,7 +24,7 @@ export default function PhoneAuthScreen() {
       const userExists = await capsuleClient.checkIfUserExistsByPhone(phoneNumber, countryCode as CountryCallingCode);
       if (userExists) {
         await capsuleClient.login(undefined, phoneNumber, countryCode as CountryCallingCode);
-        router.navigate("../home");
+        navigation.navigate("Home");
       } else {
         await capsuleClient.createUserByPhone(phoneNumber, countryCode as CountryCallingCode);
         setShowOTP(true);
@@ -46,7 +47,7 @@ export default function PhoneAuthScreen() {
           "phone",
           countryCode as CountryCallingCode
         );
-        router.navigate("../home");
+        navigation.navigate("Home");
       }
     } catch (error) {
       console.error("Verification error:", error);

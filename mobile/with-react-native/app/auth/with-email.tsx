@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, ScrollView, View } from "react-native";
 import { Input, Button, Text } from "@rneui/themed";
-import { useRouter } from "expo-router";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
 import { webcrypto } from "crypto";
-import OTPVerificationComponent from "@/components/OTPVerificationComponent";
-import { capsuleClient } from "@/client/capsule";
-import { randomTestEmail } from "@/util/random";
+import OTPVerificationComponent from "../../components/OTPVerificationComponent";
+import { capsuleClient } from "../../client/capsule";
+import { randomTestEmail } from "../../util/random";
+import { RootStackParamList } from "../../types";
 
 export default function EmailAuthScreen() {
   const [email, setEmail] = useState(randomTestEmail());
   const [showOTP, setShowOTP] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const router = useRouter();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handleContinue = async () => {
     if (!email) return;
@@ -21,7 +21,7 @@ export default function EmailAuthScreen() {
       const userExists = await capsuleClient.checkIfUserExists(email);
       if (userExists) {
         await capsuleClient.login(email);
-        router.navigate("../home");
+        navigation.navigate("Home");
       } else {
         await capsuleClient.createUser(email);
         setShowOTP(true);
@@ -38,7 +38,7 @@ export default function EmailAuthScreen() {
       const biometricsId = await capsuleClient.verifyEmailBiometricsId(code);
       if (biometricsId) {
         await capsuleClient.registerPasskey(email, biometricsId, webcrypto);
-        router.navigate("../home");
+        navigation.navigate("Home");
       }
     } catch (error) {
       console.error("Verification error:", error);

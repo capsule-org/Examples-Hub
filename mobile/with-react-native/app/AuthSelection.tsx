@@ -1,8 +1,9 @@
 import React from "react";
 import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Text } from "@rneui/themed";
-import { useRouter } from "expo-router";
-import AuthMethodButton from "@/components/AuthMethodButton";
+import AuthMethodButton from "../components/AuthMethodButton";
+import { RootStackParamList } from "../types";
 
 const authMethods = [
   {
@@ -10,19 +11,19 @@ const authMethods = [
     title: "Email Authentication",
     description: "Test email-based authentication flow",
     icon: "mail",
-    route: "./auth/with-email",
+    route: "EmailAuth",
   },
   {
     type: "phone",
     title: "Phone Authentication",
     description: "Test phone number-based authentication flow",
     icon: "phone",
-    route: "./auth/with-phone",
+    route: "PhoneAuth",
   },
 ] as const;
 
 export default function AuthSelectionScreen() {
-  const router = useRouter();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -48,7 +49,7 @@ export default function AuthSelectionScreen() {
               title={method.title}
               description={method.description}
               icon={method.icon}
-              onPress={() => router.push(method.route)}
+              onPress={() => navigation.navigate(method.route)}
             />
           ))}
         </View>

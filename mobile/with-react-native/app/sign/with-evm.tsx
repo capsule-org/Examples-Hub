@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { CapsuleEthersSigner } from "@usecapsule/ethers-v6-integration";
 import { createCapsuleViemClient, createCapsuleAccount } from "@usecapsule/viem-v2-integration";
-import { capsuleClient } from "@/client/capsule";
+import { capsuleClient } from "../../client/capsule";
 import { WalletType } from "@usecapsule/react-native-wallet";
 import { http, parseEther, parseGwei } from "viem";
 import { sepolia } from "viem/chains";
-import TransactionScreen from "@/components/TransactionScreen";
-import { useRouter } from "expo-router";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import TransactionScreen from "../../components/TransactionScreen";
+import { RootStackParamList } from "../../types";
 
 const RPC_URL = "https://ethereum-sepolia-rpc.publicnode.com";
 const signingOptions = [
@@ -17,8 +18,7 @@ const signingOptions = [
 
 export default function EVMSendScreen() {
   const [fromAddress, setFromAddress] = useState("");
-
-  const router = useRouter();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     const initializeAddress = async () => {
@@ -98,7 +98,7 @@ export default function EVMSendScreen() {
       amountLabel="Amount (ETH)"
       defaultSigningMethod="ethers"
       onSign={handleSign}
-      onBack={() => router.push("/home")}
+      onBack={() => navigation.navigate("Home")}
     />
   );
 }
