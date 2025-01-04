@@ -10,6 +10,7 @@ import EVMSendScreen from "./sign/with-evm";
 import CosmosSendScreen from "./sign/with-cosmos";
 import SolanaSendScreen from "./sign/with-solana";
 import { RootStackParamList } from "../types";
+import AuthSelectionScreen from "./AuthSelection";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -31,10 +32,14 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="AuthSelection"
         screenOptions={{
           headerShown: false,
         }}>
+        <Stack.Screen
+          name="AuthSelection"
+          component={AuthSelectionScreen}
+        />
         <Stack.Screen
           name="Home"
           component={HomeScreen}

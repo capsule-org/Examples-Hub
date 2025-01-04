@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { Card, Text, Button, Badge } from "@rneui/themed";
-import * as Clipboard from "expo-clipboard";
+import { Text, Button, Badge } from "@rneui/themed";
+import Clipboard from "@react-native-clipboard/clipboard";
 import { WalletType } from "@usecapsule/react-native-wallet";
 
 interface WalletCardProps {
@@ -19,7 +19,7 @@ const truncateAddress = (address: string) => {
 export default function WalletCard({ type, address, networkName, onSend, onCreate }: WalletCardProps) {
   const copyToClipboard = async () => {
     if (address) {
-      await Clipboard.setStringAsync(address);
+      await Clipboard.setString(address);
     }
   };
 

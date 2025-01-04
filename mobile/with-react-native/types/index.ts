@@ -1,4 +1,5 @@
 export type RootStackParamList = {
+  AuthSelection: undefined;
   Home: undefined;
   EmailAuth: undefined;
   PhoneAuth: undefined;

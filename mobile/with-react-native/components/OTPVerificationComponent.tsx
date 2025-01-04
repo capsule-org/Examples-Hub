@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Input, Button, Text } from "@rneui/themed";
-import { randomTestOTP } from "@/util/random";
+import { randomTestOTP } from "../util/random";
 
 interface OTPVerificationProps {
   onVerify: (code: string) => Promise<void>;
