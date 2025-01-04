@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { Card, Text, Button, Badge } from "@rneui/themed";
+import { Text, Button, Badge } from "@rneui/themed";
 import * as Clipboard from "expo-clipboard";
 import { WalletType } from "@usecapsule/react-native-wallet";
 

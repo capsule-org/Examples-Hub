@@ -1,7 +1,7 @@
 import React from "react";
 import { SafeAreaView, ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "@rneui/themed";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import AuthMethodButton from "@/components/AuthMethodButton";
 
 const authMethods = [
@@ -22,6 +22,8 @@ const authMethods = [
 ] as const;
 
 export default function AuthSelectionScreen() {
+  const router = useRouter();
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>

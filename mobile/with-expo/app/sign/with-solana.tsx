@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { Connection, clusterApiUrl, SystemProgram, LAMPORTS_PER_SOL, PublicKey, Transaction } from "@solana/web3.js";
 import { CapsuleSolanaWeb3Signer } from "@usecapsule/solana-web3.js-v1-integration";
 import { capsuleClient } from "@/client/capsule";
@@ -8,6 +8,8 @@ import TransactionScreen from "@/components/TransactionScreen";
 
 export default function SolanaSendScreen() {
   const [fromAddress, setFromAddress] = useState("");
+
+  const router = useRouter();
 
   useEffect(() => {
     const initializeAddress = async () => {

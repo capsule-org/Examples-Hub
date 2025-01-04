@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, ScrollView, View } from "react-native";
 import { Input, Button, Text } from "@rneui/themed";
-import { router } from "expo-router";
 import { webcrypto } from "crypto";
+import { useRouter } from "expo-router";
+import { CountryCallingCode } from "libphonenumber-js";
 import OTPVerificationComponent from "@/components/OTPVerificationComponent";
 import { capsuleClient } from "@/client/capsule";
-import { CountryCallingCode } from "libphonenumber-js";
 import { randomTestPhone } from "@/util/random";
 
 export default function PhoneAuthScreen() {
@@ -13,6 +13,8 @@ export default function PhoneAuthScreen() {
   const [phoneNumber, setPhoneNumber] = useState(randomTestPhone());
   const [showOTP, setShowOTP] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleContinue = async () => {
     if (!countryCode || !phoneNumber) return;

@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { SafeAreaView, StyleSheet, ScrollView, View } from "react-native";
 import { Input, Button, Text } from "@rneui/themed";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
+import { webcrypto } from "crypto";
 import OTPVerificationComponent from "@/components/OTPVerificationComponent";
 import { capsuleClient } from "@/client/capsule";
 import { randomTestEmail } from "@/util/random";
-import { webcrypto } from "crypto";
 
 export default function EmailAuthScreen() {
   const [email, setEmail] = useState(randomTestEmail());
   const [showOTP, setShowOTP] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleContinue = async () => {
     if (!email) return;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { router } from "expo-router";
 import { ethers } from "ethers";
 import { CapsuleEthersSigner } from "@usecapsule/ethers-v6-integration";
 import { createCapsuleViemClient, createCapsuleAccount } from "@usecapsule/viem-v2-integration";
@@ -8,6 +7,7 @@ import { WalletType } from "@usecapsule/react-native-wallet";
 import { http, parseEther, parseGwei } from "viem";
 import { sepolia } from "viem/chains";
 import TransactionScreen from "@/components/TransactionScreen";
+import { useRouter } from "expo-router";
 
 const RPC_URL = "https://ethereum-sepolia-rpc.publicnode.com";
 const signingOptions = [
@@ -17,6 +17,8 @@ const signingOptions = [
 
 export default function EVMSendScreen() {
   const [fromAddress, setFromAddress] = useState("");
+
+  const router = useRouter();
 
   useEffect(() => {
     const initializeAddress = async () => {

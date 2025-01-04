@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView, StyleSheet, ScrollView, View } from "react-native";
 import { Text } from "@rneui/themed";
 import { useRouter } from "expo-router";
-import WalletCard from "@/components/WalletCard";
 import { Wallet, WalletType } from "@usecapsule/react-native-wallet";
+import WalletCard from "@/components/WalletCard";
 import { capsuleClient } from "@/client/capsule";
 
 export default function HomeScreen() {

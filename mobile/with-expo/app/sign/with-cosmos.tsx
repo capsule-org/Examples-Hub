@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import { SigningStargateClient } from "@cosmjs/stargate";
+import { WalletType } from "@usecapsule/react-native-wallet";
 import { CapsuleProtoSigner } from "@usecapsule/cosmjs-v0-integration";
 import { capsuleClient } from "@/client/capsule";
-import { WalletType } from "@usecapsule/react-native-wallet";
 import TransactionScreen from "@/components/TransactionScreen";
 
 const RPC_ENDPOINT = "https://cosmos-rpc.publicnode.com:443";
 
 export default function CosmosSendScreen() {
   const [fromAddress, setFromAddress] = useState("");
+
+  const router = useRouter();
 
   useEffect(() => {
     const initializeAddress = async () => {
