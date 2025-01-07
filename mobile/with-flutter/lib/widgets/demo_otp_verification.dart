@@ -1,3 +1,4 @@
+import 'package:cpsl_flutter/util/random.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -22,6 +23,12 @@ class _DemoOtpVerificationState extends State<DemoOtpVerification> {
   String? _error;
 
   static const int _otpLength = 6;
+
+  @override
+  void initState() {
+    super.initState();
+    _otpController.text = randomTestOTP(length: _otpLength, allowZeroStart: true);
+  }
 
   @override
   void dispose() {

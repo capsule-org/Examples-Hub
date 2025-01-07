@@ -1,4 +1,5 @@
 // ignore_for_file: unused_field, unused_local_variable
+import 'package:cpsl_flutter/util/random.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:capsule/capsule.dart';
@@ -25,6 +26,8 @@ class _CapsulePhoneExampleState extends State<CapsulePhoneExample> {
   @override
   void initState() {
     super.initState();
+    _countryCodeController.text = '1';
+    _phoneController.text = randomTestPhone();
     _checkLoginStatus();
   }
 
