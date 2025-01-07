@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useAtom } from "jotai";
 import { currentStepAtom } from "./state";
 
@@ -15,16 +15,13 @@ import Step5ExportSession from "./views/Step5/Step5ExportSession";
 import Step5ExportSessionCodeSnippet from "./views/Step5/Step5ExportSessionCodeSnippet";
 import Step6Logout from "./views/Step6/Step6Logout";
 import Step6LogoutCodeSnippet from "./views/Step6/Step6LogoutCodeSnippet";
-
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./components/dialog";
-import { DialogFooter } from "./components/dialog";
-import { Button } from "./components/button";
 import { LoadingState } from "./components/loader";
+import { WelcomeDialog } from "./components/welcome-dialog";
 
 export default function Main() {
   const [currentStep] = useAtom(currentStepAtom);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [_, setIsLoading] = useState(true);
   const [showLoader, setShowLoader] = useState(true);
   const [showWelcomeDialog, setShowWelcomeDialog] = useState(false);
 
@@ -35,7 +32,7 @@ export default function Main() {
         setIsLoading(false);
         setShowWelcomeDialog(true);
       }, 300);
-    }, 1500);
+    }, 1250);
 
     return () => clearTimeout(loadTimer);
   }, []);
@@ -87,24 +84,11 @@ export default function Main() {
         <LoadingState message="Loading Capsule Demo..." />
       </div>
 
-      <Dialog
-        open={showWelcomeDialog}
-        onOpenChange={setShowWelcomeDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Welcome to the Capsule Demo</DialogTitle>
-            <DialogDescription>
-              This tutorial will walk you through using Capsule for authentication and signing. Code snippets will
-              update dynamically based on your selections—feel free to copy them into your own application.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button onClick={() => setShowWelcomeDialog(false)}>Get Started</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <WelcomeDialog
+        showWelcomeDialog={showWelcomeDialog}
+        setShowWelcomeDialog={setShowWelcomeDialog}
+      />
 
-      {/* Main App Content */}
       <div className="flex flex-col md:flex-row h-full animate-fade-in">
         <div className="flex flex-col p-8 w-full md:w-3/5 overflow-y-auto bg-background animate-slide-in-from-top fill-both delay-1">
           <Stepper />
