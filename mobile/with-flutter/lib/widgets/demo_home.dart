@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cpsl_flutter/widgets/demo_transactions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,6 +26,7 @@ class _DemoHomeState extends State<DemoHome> {
     setState(() => _isLoading = true);
     try {
       final wallets = await capsuleClient.fetchWallets();
+      debugPrint('DemoHome: Fetched ${wallets.length} wallets');
       setState(() => _wallets = wallets);
     } catch (e) {
       if (mounted) {
