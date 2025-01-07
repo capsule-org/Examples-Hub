@@ -1,4 +1,7 @@
+// ignore_for_file: unused_field, unused_local_variable
+
 import 'package:cpsl_flutter/client/capsule.dart';
+import 'package:cpsl_flutter/util/random.dart';
 import 'package:cpsl_flutter/widgets/demo_home.dart';
 import 'package:cpsl_flutter/widgets/demo_otp_verification.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +25,7 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
   @override
   void initState() {
     super.initState();
+    _emailController.text = randomTestEmail();
     _checkLoginStatus();
   }
 
