@@ -18,6 +18,24 @@ import Step6LogoutCodeSnippet from "./views/Step6/Step6LogoutCodeSnippet";
 import { LoadingState } from "./components/loader";
 import { WelcomeDialog } from "./components/welcome-dialog";
 
+const STEP_CONTENT_MAP = {
+  0: Step1SelectAuth,
+  1: Step2AuthenticateUser,
+  2: Step3SelectSigningMethod,
+  3: Step4SignTransaction,
+  4: Step5ExportSession,
+  5: Step6Logout,
+} as const;
+
+const STEP_CODE_SNIPPET_MAP = {
+  0: Step1SelectAuthCodeSnippet,
+  1: Step2AuthenticateUserCodeSnippet,
+  2: Step3SelectSigningMethodCodeSnippet,
+  3: Step4SignTransactionCodeSnippet,
+  4: Step5ExportSessionCodeSnippet,
+  5: Step6LogoutCodeSnippet,
+} as const;
+
 export default function Main() {
   const [currentStep] = useAtom(currentStepAtom);
 
@@ -37,42 +55,14 @@ export default function Main() {
     return () => clearTimeout(loadTimer);
   }, []);
 
-  const stepContentElement = useMemo<JSX.Element | null>(() => {
-    switch (currentStep) {
-      case 0:
-        return <Step1SelectAuth />;
-      case 1:
-        return <Step2AuthenticateUser />;
-      case 2:
-        return <Step3SelectSigningMethod />;
-      case 3:
-        return <Step4SignTransaction />;
-      case 4:
-        return <Step5ExportSession />;
-      case 5:
-        return <Step6Logout />;
-      default:
-        return null;
-    }
+  const stepContentElement = useMemo(() => {
+    const StepComponent = STEP_CONTENT_MAP[currentStep as keyof typeof STEP_CONTENT_MAP];
+    return StepComponent ? <StepComponent /> : null;
   }, [currentStep]);
 
-  const stepCodeSnippetElement = useMemo<JSX.Element | null>(() => {
-    switch (currentStep) {
-      case 0:
-        return <Step1SelectAuthCodeSnippet />;
-      case 1:
-        return <Step2AuthenticateUserCodeSnippet />;
-      case 2:
-        return <Step3SelectSigningMethodCodeSnippet />;
-      case 3:
-        return <Step4SignTransactionCodeSnippet />;
-      case 4:
-        return <Step5ExportSessionCodeSnippet />;
-      case 5:
-        return <Step6LogoutCodeSnippet />;
-      default:
-        return null;
-    }
+  const stepCodeSnippetElement = useMemo(() => {
+    const SnippetComponent = STEP_CODE_SNIPPET_MAP[currentStep as keyof typeof STEP_CODE_SNIPPET_MAP];
+    return SnippetComponent ? <SnippetComponent /> : null;
   }, [currentStep]);
 
   return (
