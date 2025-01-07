@@ -1,4 +1,4 @@
-import { AuthOptionDetails, SigningOptionDetails } from "../types";
+import { AuthDetailsType, DemoDetailsType, OAuthDetailsType, SigningDetailsType } from "../types";
 import { OAuthMethod } from "@leapwallet/cosmos-social-login-capsule-provider";
 import AlchemyIcon from "../assets/alchemy.svg?react";
 import CapsuleIcon from "../assets/capsule.svg?react";
@@ -25,89 +25,100 @@ import AppleIcon from "../assets/apple.svg?react";
 import WagmiIcon from "../assets/wagmi.svg?react";
 
 export const AuthOptions = [
-  "capsule-modal",
-  "cosmos-kit",
-  "email",
-  "graz",
-  "leap-social",
-  "oauth",
-  "phone",
-  "pre-gen",
-  "rainbowkit",
-  "wagmi",
-  "web3-onboard",
+  "capsule-modal-basic",
+  "capsule-modal-evm",
+  "capsule-modal-solana",
+  "capsule-modal-cosmos",
+  "email-auth",
+  "phone-auth",
+  "oauth-auth",
+  "pregen-auth",
+  "rainbowkit-connector",
+  "web3-onboard-connector",
+  "wagmi-connector",
+  "graz-connector",
+  "cosmos-kit-connector",
+  "leap-social-wrapper",
 ] as const;
 
 export const SigningOptions = ["capsule-client", "ethers", "viem", "cosmjs", "solana-web3js", "alchemy-aa"] as const;
 
-export const exampleSteps = [
-  { label: "Select Auth" },
-  { label: "Auth" },
-  { label: "Select Signer" },
-  { label: "Sign" },
-  { label: "Bonus" },
-  { label: "Session" },
-];
+export const DemoOptions = ["select-auth", "auth", "select-signer", "sign", "bonus", "session"] as const;
 
-export const AuthMethods: AuthOptionDetails = {
-  "capsule-modal": {
+export const AuthDetails: AuthDetailsType = {
+  "capsule-modal-basic": {
     icon: ModalIcon,
     label: "Capsule Modal",
-    description: "Authenticate with the Capsule Modal.",
+    description: "Authenticate with the Capsule Modal and social logins.",
   },
-  "email": {
+  "capsule-modal-evm": {
+    icon: ModalIcon,
+    label: "Capsule + EVM Wallets",
+    description: "Authenticate with Capsule Modal using EVM wallets.",
+  },
+  "capsule-modal-solana": {
+    icon: ModalIcon,
+    label: "Capsule + Solana Wallets",
+    description: "Authenticate with Capsule Modal using Solana wallets.",
+  },
+  "capsule-modal-cosmos": {
+    icon: ModalIcon,
+    label: "Capsule + Cosmos Wallets",
+    description: "Authenticate with Capsule Modal using Cosmos wallets.",
+  },
+  "email-auth": {
     icon: MailIcon,
     label: "Email",
-    description: "Authenticate with your email address.",
+    description: "Authenticate with your email address using a custom UI.",
   },
-  "oauth": {
+  "oauth-auth": {
     icon: OAuthIcon,
     label: "OAuth",
-    description: "Authenticate with a third-party OAuth provider.",
+    description: "Authenticate with a third-party OAuth provider using a custom UI.",
   },
-  "phone": {
+  "phone-auth": {
     icon: PhoneIcon,
     label: "Phone",
-    description: "Authenticate with your mobile phone.",
+    description: "Authenticate with your mobile phone number using a custom UI.",
   },
-  "pre-gen": {
+  "pregen-auth": {
     icon: WalletIcon,
     label: "PreGen",
-    description: "Authenticate with a Capsule PreGen wallet.",
+    description: "Authenticate with a Capsule using a pregenerated wallet.",
   },
-  "rainbowkit": {
+  "rainbowkit-connector": {
     icon: RainbowIcon,
     label: "RainbowKit",
-    description: "Authenticate with RainbowKit.",
+    description: "Authenticate with RainbowKit's wallet connector.",
   },
-  "leap-social": {
+  "leap-social-wrapper": {
     icon: LeapSocialIcon,
     label: "Leap Social",
     description: "Authenticate with Leap Social Modal.",
   },
-  "web3-onboard": {
+  "web3-onboard-connector": {
     icon: Web3Icon,
     label: "Web3 Onboard",
-    description: "Authenticate with Blocknative's Web3 Onboard.",
+    description: "Authenticate with Blocknative's Web3 Onboard wallet connector.",
   },
-  "cosmos-kit": {
+  "cosmos-kit-connector": {
     icon: CosmosKitIcon,
     label: "Cosmos Kit",
     description: "Authenticate with Cosmos Kit + Leap Social Modal.",
   },
-  "graz": {
+  "graz-connector": {
     icon: GrazIcon,
     label: "Graz",
     description: "Authenticate with Graz + Leap Social Modal.",
   },
-  "wagmi": {
+  "wagmi-connector": {
     icon: WagmiIcon,
     label: "Wagmi",
-    description: "Authenticate with Wagmi",
+    description: "Authenticate with Wagmi wallet connector.",
   },
 };
 
-export const SigningMethods: SigningOptionDetails = {
+export const SigningDetails: SigningDetailsType = {
   "capsule-client": {
     icon: CapsuleIcon,
     label: "Capsule",
@@ -140,12 +151,40 @@ export const SigningMethods: SigningOptionDetails = {
   },
 };
 
-export const OAuthOptions: {
-  [key in OAuthMethod]: {
-    label: string;
-    icon: React.FC<React.SVGProps<SVGElement>>;
-  };
-} = {
+export const DemoDetails: DemoDetailsType = {
+  "select-auth": {
+    label: "Select Auth",
+    title: "Select Authentication Method",
+    subtitle: "Capsule supports multiple authentication methods. Select the method you want to demo with.",
+  },
+  "auth": {
+    label: "Auth",
+    title: "Authenticate User",
+    subtitle:
+      "Depending on the authentication method you selected, authentication may require multiple steps. Reference the code snippets on the right to see how to authenticate a user with the selected method.",
+  },
+  "select-signer": {
+    label: "Select Signer",
+    title: "Select Signing Method",
+    subtitle:
+      "Capsule integrates with multiple libraries to sign transactions. Select the library you want to demo with.",
+  },
+  "sign": {
+    label: "Sign",
+    title: "Sign Transaction",
+    subtitle:
+      "Sign a transaction or UserOperation with the selected library. Reference the code snippets on the right to see how to sign a transaction.",
+  },
+  "bonus": { label: "Bonus", title: "Bonus", subtitle: "Bonus step to show additional features or integrations." },
+  "session": {
+    label: "Session",
+    title: "Session",
+    subtitle:
+      "Session management is an important part of any application. Capsule provides a session management API to manage user sessions.",
+  },
+};
+
+export const OAuthDetails: OAuthDetailsType = {
   [OAuthMethod.GOOGLE]: {
     label: "Google",
     icon: GoogleIcon,

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { capsuleClient } from "../../capsule-essential/capsule-client";
+import { capsuleClient } from "../../examples/capsule-client";
 import { WalletType } from "@usecapsule/web-sdk";
 
 const useTransactionManager = () => {

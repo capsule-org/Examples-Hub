@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { disableNextAtom, disablePrevAtom } from "../state";
-import { capsuleClient } from "../../capsule-essential/capsule-client";
-import StepLayout from "../layouts/stepLayout";
-import { Card, CardContent, CardHeader, CardTitle } from "../components/card";
-import { Button } from "../components/button";
-import { Alert, AlertDescription } from "../components/alert";
+import { disableNextAtom, disablePrevAtom } from "../../state";
+import { capsuleClient } from "../../../examples/capsule-client";
+import StepLayout from "../../layouts/stepLayout";
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/card";
+import { Button } from "../../components/button";
+import { Alert, AlertDescription } from "../../components/alert";
 import { RefreshCw, LogOut } from "react-feather";
+import { DemoDetails } from "../../constants";
 
 type Step6LogoutProps = {};
-
-const TITLE = "Session Management";
-const SUBTITLE = "Logout from the session or refresh the session to keep it active.";
 
 const withMinimumLoadingTime = async (
   fn: () => Promise<void>,
@@ -74,8 +72,8 @@ const Step6Logout: React.FC<Step6LogoutProps> = () => {
 
   return (
     <StepLayout
-      title={TITLE}
-      subtitle={SUBTITLE}>
+      title={DemoDetails["session"].title}
+      subtitle={DemoDetails["session"].subtitle}>
       <Card className="w-full max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle>Session Management</CardTitle>

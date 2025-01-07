@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { CodeStepItem } from "../types";
-import { selectedAuthAtom } from "../state";
-import CodeStepLayout from "../layouts/codeStepLayout";
+import { CodeStepItem } from "../../types";
+import { selectedAuthAtom } from "../../state";
+import CodeStepLayout from "../../layouts/codeStepLayout";
 
 type Step2AuthenticateUserCodeSnippetProps = {};
 
@@ -14,7 +14,9 @@ const Step2AuthenticateUserCodeSnippet: React.FC<Step2AuthenticateUserCodeSnippe
     const loadCodeItems = async () => {
       if (selectedAuth) {
         try {
-          const authModule = await import(/* @vite-ignore */ `../../demo-ui/snippets/authentication/${selectedAuth}`);
+          const authModule = await import(
+            /* @vite-ignore */ `../../../examples/snippets/authentication/${selectedAuth}`
+          );
           setCodeItems(authModule.default[1]);
         } catch (error) {
           console.error(`Failed to load code snippets for ${selectedAuth}:`, error);

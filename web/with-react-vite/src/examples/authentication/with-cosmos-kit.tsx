@@ -68,7 +68,7 @@ const AuthWithCosmosKit: React.FC<AuthWithCosmosKitProps> = () => {
       isLoading={isLoading}
       onModalOpen={() => setShowCapsuleModal(true)}>
       <ChainProvider
-        chains={chains}
+        chains={chains as any}
         assetLists={assets}
         wallets={wallets}>
         <div className="leap-ui">

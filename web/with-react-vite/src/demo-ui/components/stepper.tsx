@@ -2,20 +2,20 @@ import React from "react";
 import { useAtom } from "jotai";
 import { CheckCircle } from "lucide-react";
 import { currentStepAtom } from "../state";
-import { exampleSteps } from "../constants";
+import { DemoOptions } from "../constants";
 
 const Stepper: React.FC = () => {
   const [currentStep] = useAtom(currentStepAtom);
 
   return (
     <div className="w-full flex mb-2 animate-fade-in">
-      {exampleSteps.map((_, index) => {
+      {DemoOptions.map((option, index) => {
         const isCompleted = index < currentStep;
         const isCurrent = index === currentStep;
 
         return (
           <div
-            key={index}
+            key={option}
             className="flex flex-col items-start flex-1">
             <div className="flex items-center w-full">
               <div
@@ -32,7 +32,7 @@ const Stepper: React.FC = () => {
                   <span className="text-sm font-medium">{index + 1}</span>
                 )}
               </div>
-              {index < exampleSteps.length - 1 && (
+              {index < DemoOptions.length - 1 && (
                 <div className="flex-1 px-2">
                   <div className={`h-1 transition-smooth ${isCompleted ? "bg-primary animate-fade-in" : "bg-muted"}`} />
                 </div>

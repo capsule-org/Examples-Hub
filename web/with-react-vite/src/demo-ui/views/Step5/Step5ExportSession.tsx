@@ -1,17 +1,14 @@
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { capsuleClient } from "../../capsule-essential/capsule-client";
-import { disableNextAtom, disablePrevAtom } from "../state";
-import StepLayout from "../layouts/stepLayout";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/card";
-import { Button } from "../components/button";
-import { Alert, AlertDescription, AlertTitle } from "../components/alert";
+import { capsuleClient } from "../../../examples/capsule-client";
+import { disableNextAtom, disablePrevAtom } from "../../state";
+import StepLayout from "../../layouts/stepLayout";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/card";
+import { Button } from "../../components/button";
+import { Alert, AlertDescription, AlertTitle } from "../../components/alert";
+import { DemoDetails } from "../../constants";
 
 type Step5ExportSessionProps = {};
-
-const TITLE = "Export Session (Bonus)";
-const SUBTITLE =
-  "Export the session to a server. As this demo is client-side only, this feature is not implemented but the code snippet is provided for reference.";
 
 const Step5ExportSession: React.FC<PropsWithChildren<Step5ExportSessionProps>> = () => {
   const [, setDisableNext] = useAtom(disableNextAtom);
@@ -40,8 +37,8 @@ const Step5ExportSession: React.FC<PropsWithChildren<Step5ExportSessionProps>> =
 
   return (
     <StepLayout
-      title={TITLE}
-      subtitle={SUBTITLE}>
+      title={DemoDetails["bonus"].title}
+      subtitle={DemoDetails["bonus"].subtitle}>
       <div className="flex flex-col items-center justify-center h-full">
         <Card className="w-[350px]">
           <CardHeader>
