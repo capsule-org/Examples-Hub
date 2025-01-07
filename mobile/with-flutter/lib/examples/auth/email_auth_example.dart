@@ -49,7 +49,8 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error checking login status: ${e.toString()}')),
+          SnackBar(
+              content: Text('Error checking login status: ${e.toString()}')),
         );
       }
     }
@@ -65,7 +66,8 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
       if (await capsuleClient.checkIfUserExists(email)) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('User already exists, please use passkey login')),
+          const SnackBar(
+              content: Text('User already exists, please use passkey login')),
         );
         return;
       }
@@ -81,7 +83,8 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
                   try {
                     final biometricsId = await capsuleClient.verifyEmail(code);
                     await capsuleClient.generatePasskey(email, biometricsId);
-                    final result = await capsuleClient.createWallet(skipDistribute: false);
+                    final result =
+                        await capsuleClient.createWallet(skipDistribute: false);
                     setState(() {
                       _wallet = result.wallet;
                       _address = result.wallet.address;
