@@ -1,4 +1,8 @@
-import { AuthOptions, SigningOptions } from "../constants";
+import {
+  AuthOptions,
+  SigningOptions,
+  SigningGaslessOptions,
+} from "../constants";
 
 export type AuthOption = (typeof AuthOptions)[number];
 
@@ -23,4 +27,9 @@ export type CodeStepItem = {
   title: string;
   subtitle: string;
   code: string;
+};
+
+export type GaslessTransactionOption = (typeof SigningGaslessOptions)[number];
+export type SigningGaslessOptionDetails = {
+  [k in GaslessTransactionOption]: OptionDetails;
 };
