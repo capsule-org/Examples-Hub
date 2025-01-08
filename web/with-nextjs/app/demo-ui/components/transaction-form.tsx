@@ -7,7 +7,7 @@ import { Input } from "./input";
 import { Alert, AlertDescription } from "./alert";
 
 type TransactionFormProps = {
-  fromAddress: string;
+  fromAddress?: string;
   recipient: string;
   amount: string;
   onRecipientChange: (value: string) => void;
@@ -43,33 +43,39 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
           <div className="rounded-lg bg-green-50 p-4 space-y-3">
             <div className="flex items-center space-x-2">
               <CheckCircle2 className="h-5 w-5 text-green-500" />
-              <span className="font-medium text-green-800">Successfully signed!</span>
+              <span className="font-medium text-green-800">
+                Successfully signed!
+              </span>
             </div>
             <div className="space-y-2 text-sm">
-              <div className="space-y-1">
-                <p className="text-gray-500">From</p>
-                <p className="font-mono break-all">{fromAddress}</p>
-              </div>
+              {fromAddress !== undefined && (
+                <div className="space-y-1">
+                  <p className="text-gray-500">From</p>
+                  <p className="font-mono break-all text-gray-500">
+                    {fromAddress}
+                  </p>
+                </div>
+              )}
+
               <div className="space-y-1">
                 <p className="text-gray-500">To</p>
-                <p className="font-mono break-all">{recipient}</p>
+                <p className="font-mono break-all text-gray-500">{recipient}</p>
               </div>
               <div className="space-y-1">
                 <p className="text-gray-500">Amount</p>
-                <p className="font-mono">{amount}</p>
+                <p className="font-mono text-gray-500">{amount}</p>
               </div>
               <div className="space-y-1">
                 <p className="text-gray-500">Signature</p>
-                <p className="font-mono break-all">{signatureResult}</p>
+                <p className="font-mono break-all text-gray-500">
+                  {signatureResult}
+                </p>
               </div>
             </div>
           </div>
         </CardContent>
         <CardFooter>
-          <Button
-            onClick={onReset}
-            className="w-full"
-            variant="outline">
+          <Button onClick={onReset} className="w-full" variant="outline">
             <RotateCcw className="mr-2 h-4 w-4" />
             Sign Another Transaction
           </Button>
@@ -84,14 +90,12 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         <CardTitle>Sign Demo Transaction</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="from">From Address</Label>
-          <Input
-            id="from"
-            value={fromAddress}
-            readOnly
-          />
-        </div>
+        {fromAddress !== undefined && (
+          <div className="space-y-2">
+            <Label htmlFor="from">From Address</Label>
+            <Input id="from" value={fromAddress} readOnly />
+          </div>
+        )}
 
         <div className="space-y-2">
           <Label htmlFor="recipient">Recipient Address</Label>
@@ -123,10 +127,7 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         )}
       </CardContent>
       <CardFooter>
-        <Button
-          onClick={onSign}
-          disabled={isDisabled}
-          className="w-full">
+        <Button onClick={onSign} disabled={isDisabled} className="w-full">
           {isLoading ? "Signing..." : "Sign Transaction"}
         </Button>
       </CardFooter>

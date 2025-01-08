@@ -56,25 +56,34 @@ const FooterNavigation: React.FC<FooterNavigationProps> = () => {
               : "text-secondary hover:text-secondary-foreground hover:bg-secondary/90"
           }`}
           onClick={() => setCurrentStep((prev) => prev - 1)}
-          disabled={currentStep === 0 || disablePrev || isLoading}>
+          disabled={currentStep === 0 || disablePrev || isLoading}
+        >
           Previous
         </Button>
-        {currentStep === 5 ? (
+        {currentStep === 7 ? (
           <Button
             variant="destructive"
-            className={`transition-smooth ${isLoading || disableNext ? "opacity-50" : "hover:bg-destructive/90"}`}
+            className={`transition-smooth ${
+              isLoading || disableNext
+                ? "opacity-50"
+                : "hover:bg-destructive/90"
+            }`}
             onClick={resetAllStates}
-            disabled={isLoading || disableNext}>
+            disabled={isLoading || disableNext}
+          >
             Reset
           </Button>
         ) : (
           <Button
             variant="default"
             className={`transition-smooth ${
-              disableNext || isLoading ? "opacity-50" : "bg-primary text-primary-foreground hover:bg-primary/90"
+              disableNext || isLoading
+                ? "opacity-50"
+                : "bg-primary text-primary-foreground hover:bg-primary/90"
             }`}
             onClick={() => setCurrentStep((prev) => prev + 1)}
-            disabled={disableNext || isLoading}>
+            disabled={disableNext || isLoading}
+          >
             Next
           </Button>
         )}

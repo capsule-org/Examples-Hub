@@ -1662,6 +1662,11 @@
     "@babel/helper-validator-identifier" "^7.25.7"
     to-fast-properties "^2.0.0"
 
+"@biconomy/sdk@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/@biconomy/sdk/-/sdk-0.0.24.tgz#3369d5e39374c5ab0b07221449d08f18a6bb72d6"
+  integrity sha512-svCQe/xrGqwBgjjlQGOaIzmZvjMqrL6WIyM9xnceMRGAoH2Dm8PpOYOu3vF53ySXvFG6hCD6zquDzA7TzQPS8A==
+
 "@celo/base@3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@celo/base/-/base-3.2.0.tgz#19dcff6a822abb1f6b57af8f9db35a4c673aee62"
@@ -6226,6 +6231,14 @@
   dependencies:
     "@react-types/overlays" "^3.8.10"
     "@react-types/shared" "^3.25.0"
+
+"@rhinestone/module-sdk@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@rhinestone/module-sdk/-/module-sdk-0.2.1.tgz#89345747e9b8255928375050c2ec8b0c3feff243"
+  integrity sha512-ACWb76l95dOCqN9eBjJnlR62tHwsolBdwgtExY9ou8EBczCGCx/St8s3P3g4oKDkP46t1smK4fGMy5St4UrF3g==
+  dependencies:
+    solady "^0.0.235"
+    tslib "^2.7.0"
 
 "@rnx-kit/chromium-edge-launcher@^1.0.0":
   version "1.0.0"
@@ -14155,6 +14168,11 @@ socket.io-parser@~4.2.4:
     "@socket.io/component-emitter" "~3.1.0"
     debug "~4.3.1"
 
+solady@^0.0.235:
+  version "0.0.235"
+  resolved "https://registry.yarnpkg.com/solady/-/solady-0.0.235.tgz#50ab6e403ed6935012df2c16803fcd58045f9a0e"
+  integrity sha512-JUEXLDG7ag3HmqUnrDG7ilhafH6R9bFPpwV63O2kH4UbnS2+gRGEOqqy4k01O7tHjo3MWkDD0cpG+UY9pjy/fQ==
+
 sonic-boom@^2.2.1:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/sonic-boom/-/sonic-boom-2.8.0.tgz#c1def62a77425090e6ad7516aad8eb402e047611"
@@ -14755,7 +14773,7 @@ tslib@^2.0.0, tslib@^2.0.3, tslib@^2.1.0, tslib@^2.3.1, tslib@^2.4.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.7.0.tgz#d9b40c5c40ab59e8738f297df3087bf1a2690c01"
   integrity sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==
 
-tslib@^2.0.1:
+tslib@^2.0.1, tslib@^2.7.0:
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.8.1.tgz#612efe4ed235d567e8aba5f2a5fab70280ade83f"
   integrity sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==

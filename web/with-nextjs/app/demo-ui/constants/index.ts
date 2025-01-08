@@ -1,4 +1,8 @@
-import { AuthOptionDetails, SigningOptionDetails } from "../types";
+import {
+  AuthOptionDetails,
+  SigningOptionDetails,
+  SigningGaslessOptionDetails,
+} from "../types";
 import { OAuthMethod } from "@leapwallet/cosmos-social-login-capsule-provider";
 import AlchemyIcon from "../assets/alchemy.svg";
 import CapsuleIcon from "../assets/capsule.svg";
@@ -23,6 +27,7 @@ import WalletIcon from "../assets/wallet.svg";
 import Web3Icon from "../assets/web3onboard.svg";
 import AppleIcon from "../assets/apple.svg";
 import WagmiIcon from "../assets/wagmi.svg";
+import BiconomyIcon from "../assets/biconomy.svg";
 
 export const AuthOptions = [
   "email",
@@ -38,13 +43,24 @@ export const AuthOptions = [
   "wagmi",
 ] as const;
 
-export const SigningOptions = ["capsule-client", "ethers", "viem", "cosmjs", "solana-web3js", "alchemy-aa"] as const;
+export const SigningOptions = [
+  "capsule-client",
+  "ethers",
+  "viem",
+  "cosmjs",
+  "solana-web3js",
+  "alchemy-aa",
+] as const;
+
+export const SigningGaslessOptions = ["biconomy"] as const;
 
 export const exampleSteps = [
   { label: "Select Auth" },
   { label: "Auth" },
   { label: "Select Signer" },
   { label: "Sign" },
+  { label: "Select Gasless Transaction" },
+  { label: "Sign Gasless Transaction" },
   { label: "Bonus" },
   { label: "Session" },
 ];
@@ -55,17 +71,17 @@ export const AuthMethods: AuthOptionDetails = {
     label: "Capsule Modal",
     description: "Authenticate with the Capsule Modal.",
   },
-  "email": {
+  email: {
     icon: MailIcon,
     label: "Email",
     description: "Authenticate with your email address.",
   },
-  "oauth": {
+  oauth: {
     icon: OAuthIcon,
     label: "OAuth",
     description: "Authenticate with a third-party OAuth provider.",
   },
-  "phone": {
+  phone: {
     icon: PhoneIcon,
     label: "Phone",
     description: "Authenticate with your mobile phone.",
@@ -75,7 +91,7 @@ export const AuthMethods: AuthOptionDetails = {
     label: "PreGen",
     description: "Authenticate with a Capsule PreGen wallet.",
   },
-  "rainbowkit": {
+  rainbowkit: {
     icon: RainbowIcon,
     label: "RainbowKit",
     description: "Authenticate with RainbowKit.",
@@ -95,12 +111,12 @@ export const AuthMethods: AuthOptionDetails = {
     label: "Cosmos Kit",
     description: "Authenticate with Cosmos Kit + Leap Social Modal.",
   },
-  "graz": {
+  graz: {
     icon: GrazIcon.src,
     label: "Graz",
     description: "Authenticate with Graz + Leap Social Modal.",
   },
-  "wagmi": {
+  wagmi: {
     icon: WagmiIcon,
     label: "Wagmi",
     description: "Authenticate with Wagmi.",
@@ -113,17 +129,17 @@ export const SigningMethods: SigningOptionDetails = {
     label: "Capsule",
     description: "Sign transactions directly with Capsule client.",
   },
-  "ethers": {
+  ethers: {
     icon: EthersIcon,
     label: "Ethers",
     description: "Sign transactions with Ethers.js.",
   },
-  "viem": {
+  viem: {
     icon: ViemIcon,
     label: "Viem",
     description: "Sign transactions with Viem.js.",
   },
-  "cosmjs": {
+  cosmjs: {
     icon: CosmjsIcon,
     label: "CosmJS",
     description: "Sign transactions with CosmJS.js.",
@@ -169,5 +185,13 @@ export const OAuthOptions: {
   [OAuthMethod.FARCASTER]: {
     label: "Farcaster",
     icon: FarcasterIcon,
+  },
+};
+
+export const GaslessTransactionMethods: SigningGaslessOptionDetails = {
+  biconomy: {
+    icon: BiconomyIcon,
+    label: "Biconomy",
+    description: "Sign gasless transactions directly with biconomy.",
   },
 };
