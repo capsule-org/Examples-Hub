@@ -8,10 +8,11 @@ import { Button } from "../components/button";
 import { Alert, AlertDescription } from "../components/alert";
 import { RefreshCw, LogOut } from "react-feather";
 
-type Step6LogoutProps = {};
+type Step8LogoutProps = {};
 
 const TITLE = "Session Management";
-const SUBTITLE = "Logout from the session or refresh the session to keep it active.";
+const SUBTITLE =
+  "Logout from the session or refresh the session to keep it active.";
 
 const withMinimumLoadingTime = async (
   fn: () => Promise<void>,
@@ -28,7 +29,7 @@ const withMinimumLoadingTime = async (
   setLoading(false);
 };
 
-const Step6Logout: React.FC<Step6LogoutProps> = () => {
+const Step8Logout: React.FC<Step8LogoutProps> = () => {
   const [, setDisableNext] = useAtom(disableNextAtom);
   const [, setDisablePrev] = useAtom(disablePrevAtom);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -73,9 +74,7 @@ const Step6Logout: React.FC<Step6LogoutProps> = () => {
   };
 
   return (
-    <StepLayout
-      title={TITLE}
-      subtitle={SUBTITLE}>
+    <StepLayout title={TITLE} subtitle={SUBTITLE}>
       <Card className="w-full max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle>Session Management</CardTitle>
@@ -85,7 +84,8 @@ const Step6Logout: React.FC<Step6LogoutProps> = () => {
             <Button
               onClick={handleRefreshSession}
               disabled={loading || !isLoggedIn}
-              className="flex-1">
+              className="flex-1"
+            >
               <RefreshCw className="mr-2 h-4 w-4" />
               Refresh Session
             </Button>
@@ -94,7 +94,8 @@ const Step6Logout: React.FC<Step6LogoutProps> = () => {
               onClick={handleLogout}
               disabled={loading || !isLoggedIn}
               variant="destructive"
-              className="flex-1">
+              className="flex-1"
+            >
               <LogOut className="mr-2 h-4 w-4" />
               Logout
             </Button>
@@ -107,7 +108,9 @@ const Step6Logout: React.FC<Step6LogoutProps> = () => {
           )}
 
           <Alert variant={isLoggedIn ? "default" : "destructive"}>
-            <AlertDescription>Status: {isLoggedIn ? "Logged In" : "Logged Out"}</AlertDescription>
+            <AlertDescription>
+              Status: {isLoggedIn ? "Logged In" : "Logged Out"}
+            </AlertDescription>
           </Alert>
         </CardContent>
       </Card>
@@ -115,4 +118,4 @@ const Step6Logout: React.FC<Step6LogoutProps> = () => {
   );
 };
 
-export default Step6Logout;
+export default Step8Logout;

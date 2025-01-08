@@ -9,10 +9,14 @@ import Step3SelectSigningMethod from "./demo-ui/views/Step3SelectSigningMethod";
 import Step3SelectSigningMethodCodeSnippet from "./demo-ui/views/Step3SelectSigningMethodCodeSnippet";
 import Step4SignTransaction from "./demo-ui/views/Step4SignTransaction";
 import Step4SignTransactionCodeSnippet from "./demo-ui/views/Step4SignTransactionCodeSnippet";
-import Step5ExportSession from "./demo-ui/views/Step5ExportSession";
-import Step5ExportSessionCodeSnippet from "./demo-ui/views/Step5ExportSessionCodeSnippet";
-import Step6Logout from "./demo-ui/views/Step6Logout";
-import Step6LogoutCodeSnippet from "./demo-ui/views/Step6LogoutCodeSnippet";
+import Step5SelectGaslessTransactionMethod from ".demo-ui/views/Step5SelectGaslessTransactionMethod";
+import Step5SelectGaslessTransactionMethodCodeSnippet from ".demo-ui/views/Step5SelectGaslessTransactionMethodCodeSnippet";
+import Step6SignGaslessTransaction from ".demo-ui/views/Step6SignGaslessTransaction";
+import Step6SignGaslessTransactionCodeSnippet from ".demo-ui/views/Step6SignGaslessTransactionCodeSnippet";
+import Step7ExportSession from "./demo-ui/views/Step7ExportSession";
+import Step7ExportSessionCodeSnippet from "./demo-ui/views/Step7ExportSessionCodeSnippet";
+import Step8Logout from "./demo-ui/views/Step8Logout";
+import Step8LogoutCodeSnippet from "./demo-ui/views/Step8LogoutCodeSnippet";
 import { useAtom } from "jotai";
 import { currentStepAtom } from "./demo-ui/state";
 
@@ -30,9 +34,13 @@ export default function Main() {
       case 3:
         return <Step4SignTransaction />;
       case 4:
-        return <Step5ExportSession />;
+        return <Step5SelectGaslessTransactionMethod />;
       case 5:
-        return <Step6Logout />;
+        return <Step6SignGaslessTransaction />;
+      case 6:
+        return <Step7ExportSession />;
+      case 7:
+        return <Step8Logout />;
       default:
         return null;
     }
@@ -49,9 +57,13 @@ export default function Main() {
       case 3:
         return <Step4SignTransactionCodeSnippet />;
       case 4:
-        return <Step5ExportSessionCodeSnippet />;
+        return <Step5SelectGaslessTransactionMethodCodeSnippet />;
       case 5:
-        return <Step6LogoutCodeSnippet />;
+        return <Step6SignGaslessTransactionCodeSnippet />;
+      case 6:
+        return <Step7ExportSessionCodeSnippet />;
+      case 7:
+        return <Step8LogoutCodeSnippet />;
       default:
         return null;
     }

@@ -3,17 +3,25 @@ import { useAtom } from "jotai";
 import { capsuleClient } from "../../capsule-essential/capsule-client";
 import { disableNextAtom, disablePrevAtom } from "../state";
 import StepLayout from "../layouts/stepLayout";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../components/card";
 import { Button } from "../components/button";
 import { Alert, AlertDescription, AlertTitle } from "../components/alert";
 
-type Step5ExportSessionProps = {};
+type Step7ExportSessionProps = {};
 
 const TITLE = "Export Session (Bonus)";
 const SUBTITLE =
   "Export the session to a server. As this demo is client-side only, this feature is not implemented but the code snippet is provided for reference.";
 
-const Step5ExportSession: React.FC<PropsWithChildren<Step5ExportSessionProps>> = () => {
+const Step7ExportSession: React.FC<
+  PropsWithChildren<Step7ExportSessionProps>
+> = () => {
   const [, setDisableNext] = useAtom(disableNextAtom);
   const [, setDisablePrev] = useAtom(disablePrevAtom);
   const [exportedSession, setExportedSession] = useState<string>("");
@@ -39,26 +47,29 @@ const Step5ExportSession: React.FC<PropsWithChildren<Step5ExportSessionProps>> =
   };
 
   return (
-    <StepLayout
-      title={TITLE}
-      subtitle={SUBTITLE}>
+    <StepLayout title={TITLE} subtitle={SUBTITLE}>
       <div className="flex flex-col items-center justify-center h-full">
         <Card className="w-[350px]">
           <CardHeader>
             <CardTitle>Session Export</CardTitle>
-            <CardDescription>Export your client-side session to a server.</CardDescription>
+            <CardDescription>
+              Export your client-side session to a server.
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {exportedSession && (
               <Alert>
                 <AlertTitle>Exported Session:</AlertTitle>
-                <AlertDescription className="break-all font-mono">{truncateSession(exportedSession)}</AlertDescription>
+                <AlertDescription className="break-all font-mono">
+                  {truncateSession(exportedSession)}
+                </AlertDescription>
               </Alert>
             )}
             <Button
               onClick={handleExportSession}
               disabled={loading || !!exportedSession}
-              className="w-full">
+              className="w-full"
+            >
               {loading ? "Exporting..." : "Export Session"}
             </Button>
           </CardContent>
@@ -68,4 +79,4 @@ const Step5ExportSession: React.FC<PropsWithChildren<Step5ExportSessionProps>> =
   );
 };
 
-export default Step5ExportSession;
+export default Step7ExportSession;
