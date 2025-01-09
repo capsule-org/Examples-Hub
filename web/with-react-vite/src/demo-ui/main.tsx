@@ -71,7 +71,7 @@ export default function Main() {
         className={`absolute inset-0 z-50 flex items-center justify-center bg-background transition-opacity duration-300 ${
           showLoader ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}>
-        <LoadingState message="Loading Capsule Demo..." />
+        <LoadingState message="Loading Capsule Walkthrough..." />
       </div>
 
       <WelcomeDialog

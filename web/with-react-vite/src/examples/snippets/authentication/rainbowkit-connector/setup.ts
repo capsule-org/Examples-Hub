@@ -18,7 +18,7 @@ const capsuleWalletOpts = {
     environment: Environment.BETA,
     apiKey: "YOUR_API_KEY",
   },
-  appName: "Capsule Demo",
+  appName: "Capsule Walkthrough",
   logo: YourLogoComponent,
   oAuthMethods: [
     OAuthMethod.GOOGLE,

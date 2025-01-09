@@ -22,7 +22,7 @@ const capsuleWalletOpts: GetCapsuleOpts = {
     environment: Environment.BETA,
     apiKey: CAPSULE_API_KEY,
   },
-  appName: "Capsule Demo",
+  appName: "Capsule Walkthrough",
   logo: Logo,
   oAuthMethods: [OAuthMethod.GOOGLE, OAuthMethod.TWITTER, OAuthMethod.FACEBOOK, OAuthMethod.DISCORD, OAuthMethod.APPLE],
   theme: {
@@ -51,8 +51,8 @@ const wagmiConfig = createConfig({
   connectors,
   chains: [sepolia],
   multiInjectedProviderDiscovery: false,
-  client({ chain }) {
-    return createClient({ chain, transport: http() });
+  transports: {
+    [sepolia.id]: http(),
   },
 } as CreateConfigParameters);
 

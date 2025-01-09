@@ -13,7 +13,7 @@ export const WelcomeDialog: React.FC<WelcomeDialogProps> = ({ showWelcomeDialog,
       onOpenChange={setShowWelcomeDialog}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Welcome to the Capsule Demo</DialogTitle>
+          <DialogTitle>Welcome to the Capsule Walkthrough</DialogTitle>
           <DialogDescription>
             This tutorial will walk you through using Capsule for authentication and signing. Code snippets will update
             dynamically based on your selections—feel free to copy them into your own application.
