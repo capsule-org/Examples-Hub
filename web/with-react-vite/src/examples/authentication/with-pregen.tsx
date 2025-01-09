@@ -21,19 +21,14 @@ const AuthWithPreGen: React.FC<AuthWithPreGenProps> = () => {
   useEffect(() => {
     const checkPregenWallet = async () => {
       setIsLoading(true);
-      try {
-        const storedWallet = localStorage.getItem("pregenWallet");
-        if (storedWallet) {
-          await capsuleClient.setUserShare(storedWallet);
-          setIsAuthenticated(true);
-          setStep(1);
-          setDisableNext(false);
-        }
-      } catch (err) {
-        console.error("Error checking pregen wallet:", err);
-      } finally {
-        setIsLoading(false);
+      const storedWallet = localStorage.getItem("pregenWallet");
+      if (storedWallet) {
+        await capsuleClient.setUserShare(storedWallet);
+        setIsAuthenticated(true);
+        setStep(1);
+        setDisableNext(false);
       }
+      setIsLoading(false);
     };
     checkPregenWallet();
   }, []);

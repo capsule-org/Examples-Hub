@@ -7,7 +7,7 @@ import Logo from "../../demo-ui/assets/capsule.svg";
 import { CAPSULE_API_KEY } from "../capsule-client";
 import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from "../../demo-ui/state";
 import { ModalTriggerCard } from "../../demo-ui/components/modal-trigger-card";
-import { withMinimumLoadingTime } from "../../demo-ui/lib/utils";
+    
 
 type AuthWithWeb3OnboardProps = {};
 const initOptions: CapsuleInitOptions = {
@@ -72,22 +72,18 @@ const AuthWithWeb3Onboard: React.FC<AuthWithWeb3OnboardProps> = () => {
     }
   }, [wallet, step, setDisableNext, setDisablePrev, setIsLoggedIn]);
 
-  const checkConnectionStatus = () => {
-    withMinimumLoadingTime(
-      async () => {
-        if (wallet) {
-          setIsLoggedIn(true);
-          setDisableNext(false);
-          setStep(1);
-        } else {
-          setIsLoggedIn(false);
-          setDisableNext(true);
-          setStep(0);
-        }
-      },
-      250,
-      setIsLoading
-    );
+  const checkConnectionStatus = async () => {
+    setIsLoading(true);
+    if (wallet) {
+      setIsLoggedIn(true);
+      setDisableNext(false);
+      setStep(1);
+    } else {
+      setIsLoggedIn(false);
+      setDisableNext(true);
+      setStep(0);
+    }
+    setIsLoading(false);
   };
 
   const handleConnect = async () => {

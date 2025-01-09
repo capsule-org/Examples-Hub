@@ -5,7 +5,7 @@ import { Card, CardContent } from "../../demo-ui/components/card";
 import SuccessMessage from "../../demo-ui/components/success-message";
 import { OAuthDetails } from "../../demo-ui/constants";
 import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from "../../demo-ui/state";
-import { withMinimumLoadingTime } from "../../demo-ui/lib/utils";
+
 import { capsuleClient } from "../capsule-client";
 
 type AuthWithOAuthProps = {};
@@ -22,19 +22,15 @@ const AuthWithOAuth: React.FC<AuthWithOAuthProps> = () => {
     checkLoginStatus();
   }, []);
 
-  const checkLoginStatus = () => {
-    withMinimumLoadingTime(
-      async () => {
-        const loggedIn = await capsuleClient.isFullyLoggedIn();
-        setIsLoggedIn(loggedIn);
-        setDisableNext(!loggedIn);
-        if (loggedIn) {
-          setInternalStep(1);
-        }
-      },
-      250,
-      setIsLoading
-    );
+  const checkLoginStatus = async () => {
+    setIsLoading(true);
+    const loggedIn = await capsuleClient.isFullyLoggedIn();
+    setIsLoggedIn(loggedIn);
+    setDisableNext(!loggedIn);
+    if (loggedIn) {
+      setInternalStep(1);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {

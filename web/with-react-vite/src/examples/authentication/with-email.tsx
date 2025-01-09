@@ -9,7 +9,7 @@ import {
   isLoggedInAtom,
   verificationCodeAtom,
 } from "../../demo-ui/state";
-import { withMinimumLoadingTime } from "../../demo-ui/lib/utils";
+    
 import { capsuleClient } from "../capsule-client";
 
 type AuthWithEmailProps = {};
@@ -28,19 +28,15 @@ const AuthWithEmail: React.FC<AuthWithEmailProps> = () => {
     checkLoginStatus();
   }, []);
 
-  const checkLoginStatus = () => {
-    withMinimumLoadingTime(
-      async () => {
-        const loggedIn = await capsuleClient.isFullyLoggedIn();
-        setIsLoggedIn(loggedIn);
-        setDisableNext(!loggedIn);
-        if (loggedIn) {
-          setInternalStep(2);
-        }
-      },
-      250,
-      setIsLoading
-    );
+  const checkLoginStatus = async () => {
+    setIsLoading(true);
+    const loggedIn = await capsuleClient.isFullyLoggedIn();
+    setIsLoggedIn(loggedIn);
+    setDisableNext(!loggedIn);
+    if (loggedIn) {
+      setInternalStep(2);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {

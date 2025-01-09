@@ -11,7 +11,7 @@ import {
   phoneNumberAtom,
   verificationCodeAtom,
 } from "../../demo-ui/state";
-import { withMinimumLoadingTime } from "../../demo-ui/lib/utils";
+    
 import { capsuleClient } from "../capsule-client";
 
 type AuthWithPhoneProps = {};
@@ -31,19 +31,15 @@ const AuthWithPhone: React.FC<AuthWithPhoneProps> = () => {
     checkLoginStatus();
   }, []);
 
-  const checkLoginStatus = () => {
-    withMinimumLoadingTime(
-      async () => {
-        const loggedIn = await capsuleClient.isFullyLoggedIn();
-        setIsLoggedIn(loggedIn);
-        setDisableNext(!loggedIn);
-        if (loggedIn) {
-          setInternalStep(2);
-        }
-      },
-      250,
-      setIsLoading
-    );
+  const checkLoginStatus = async () => {
+    setIsLoading(true);
+    const loggedIn = await capsuleClient.isFullyLoggedIn();
+    setIsLoggedIn(loggedIn);
+    setDisableNext(!loggedIn);
+    if (loggedIn) {
+      setInternalStep(2);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {

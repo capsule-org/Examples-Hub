@@ -6,7 +6,7 @@ import { ConnectButton, RainbowKitProvider, connectorsForWallets } from "@usecap
 import { getCapsuleWallet, GetCapsuleOpts, OAuthMethod } from "@usecapsule/rainbowkit-wallet";
 import { WagmiProvider, createConfig, useAccount, type CreateConfigParameters } from "wagmi";
 import { sepolia } from "wagmi/chains";
-import { createClient, http } from "viem";
+import { http } from "viem";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Environment } from "@usecapsule/web-sdk";
 import { useAtom } from "jotai";

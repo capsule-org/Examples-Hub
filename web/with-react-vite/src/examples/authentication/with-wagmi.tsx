@@ -3,9 +3,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { capsuleConnector } from "@usecapsule/wagmi-v2-integration";
 import { OAuthMethod } from "@usecapsule/web-sdk";
 import { capsuleClient } from "../capsule-client";
-import { createConfig, WagmiProvider, type CreateConfigParameters, useConnect } from "wagmi";
-import { http } from "wagmi";
-import { sepolia } from "wagmi/chains";
+import { createConfig, WagmiProvider, type CreateConfigParameters, useConnect, http } from "wagmi";
+import { sepolia } from "@wagmi/chains";
 import { ModalTriggerCard } from "../../demo-ui/components/modal-trigger-card";
 import { WalletSelectorModal } from "../../demo-ui/components/wallet-selector";
 

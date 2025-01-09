@@ -10,7 +10,7 @@ import { capsuleClient } from "../capsule-client";
 import { useAtom } from "jotai";
 import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from "../../demo-ui/state";
 import { ModalTriggerCard } from "../../demo-ui/components/modal-trigger-card";
-import { withMinimumLoadingTime } from "../../demo-ui/lib/utils";
+    
 
 type AuthWithCosmosKitProps = {};
 
@@ -26,19 +26,15 @@ const AuthWithCosmosKit: React.FC<AuthWithCosmosKitProps> = () => {
     checkLoginStatus();
   }, []);
 
-  const checkLoginStatus = () => {
-    withMinimumLoadingTime(
-      async () => {
-        const loggedIn = await capsuleClient.isFullyLoggedIn();
-        setIsLoggedIn(loggedIn);
-        setDisableNext(!loggedIn);
-        if (loggedIn) {
-          setStep(1);
-        }
-      },
-      250,
-      setIsLoading
-    );
+  const checkLoginStatus = async () => {
+    setIsLoading(true);
+    const loggedIn = await capsuleClient.isFullyLoggedIn();
+    setIsLoggedIn(loggedIn);
+    setDisableNext(!loggedIn);
+    if (loggedIn) {
+      setStep(1);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {

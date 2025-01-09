@@ -1,4 +1,4 @@
-import { CodeStepItem } from "../../../types";
+import { CodeStepItem } from "../../../../demo-ui/types";
 
 const signingSnippets: CodeStepItem[] = [
   {

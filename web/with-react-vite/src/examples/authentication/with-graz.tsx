@@ -7,7 +7,7 @@ import { capsuleClient } from "../capsule-client";
 import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from "../../demo-ui/state";
 import { useCapsule } from "graz";
 import { ModalTriggerCard } from "../../demo-ui/components/modal-trigger-card";
-import { withMinimumLoadingTime } from "../../demo-ui/lib/utils";
+    
 
 type AuthWithGrazProps = {};
 
@@ -23,19 +23,15 @@ const AuthWithGraz: React.FC<AuthWithGrazProps> = () => {
     checkLoginStatus();
   }, []);
 
-  const checkLoginStatus = () => {
-    withMinimumLoadingTime(
-      async () => {
-        const loggedIn = await capsuleClient.isFullyLoggedIn();
-        setIsLoggedIn(loggedIn);
-        setDisableNext(!loggedIn);
-        if (loggedIn) {
-          setStep(1);
-        }
-      },
-      250,
-      setIsLoading
-    );
+  const checkLoginStatus = async () => {
+    setIsLoading(true);
+    const loggedIn = await capsuleClient.isFullyLoggedIn();
+    setIsLoggedIn(loggedIn);
+    setDisableNext(!loggedIn);
+    if (loggedIn) {
+      setStep(1);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
