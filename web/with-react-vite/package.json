@@ -31,6 +31,7 @@
     "@usecapsule/cosmos-wallet-connectors": "1.15.0",
     "@usecapsule/ethers-v6-integration": "2.15.0",
     "@usecapsule/evm-wallet-connectors": "1.15.0",
+    "@usecapsule/graz": "^0.2.0",
     "@usecapsule/rainbowkit": "3.6.0",
     "@usecapsule/rainbowkit-wallet": "1.6.0",
     "@usecapsule/react-sdk": "4.15.0",
