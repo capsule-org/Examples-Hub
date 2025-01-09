@@ -5,11 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "tsc": "tsc",
+    "vite-build": "NODE_OPTIONS='--max-old-space-size=8192' vite build",
+    "build": "tsc && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "bun run build",
-    "deploy": "gh-pages -d dist --dest with-react-vite --add true"
+    "deploy": "gh-pages -d dist --dest with-react-vite --add true",
+    "postinstall": "graz --generate"
   },
   "dependencies": {
     "@alchemy/aa-alchemy": "3.19.0",
@@ -51,6 +54,7 @@
     "input-otp": "1.4.2",
     "jotai": "2.11.0",
     "react-error-boundary": "5.0.0",
+    "starknet": "^6.11.0",
     "viem": "2.22.5",
     "wagmi": "2.14.7"
   },
