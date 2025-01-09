@@ -41,115 +41,142 @@ export const AuthOptions = [
   "leap-social-wrapper",
 ] as const;
 
-export const SigningOptions = ["capsule-client", "ethers", "viem", "cosmjs", "solana-web3js", "alchemy-aa"] as const;
-
-export const DemoOptions = ["select-auth", "auth", "select-signer", "sign", "bonus", "session"] as const;
-
+/**
+ * Assign ecosystem(s) for each auth option.
+ * If it supports multiple, store them in an array.
+ */
 export const AuthDetails: AuthDetailsType = {
   "capsule-modal-basic": {
     icon: ModalIcon,
     label: "Capsule Modal",
     description: "Authenticate with the Capsule Modal and social logins.",
+    ecosystem: ["evm", "solana", "cosmos"], // This one covers multiple
   },
   "capsule-modal-evm": {
     icon: ModalIcon,
     label: "Capsule + EVM Wallets",
     description: "Authenticate with Capsule Modal using EVM wallets.",
+    ecosystem: ["evm"],
   },
   "capsule-modal-solana": {
     icon: ModalIcon,
     label: "Capsule + Solana Wallets",
     description: "Authenticate with Capsule Modal using Solana wallets.",
+    ecosystem: ["solana"],
   },
   "capsule-modal-cosmos": {
     icon: ModalIcon,
     label: "Capsule + Cosmos Wallets",
     description: "Authenticate with Capsule Modal using Cosmos wallets.",
+    ecosystem: ["cosmos"],
   },
   "email-auth": {
     icon: MailIcon,
     label: "Email",
     description: "Authenticate with your email address using a custom UI.",
+    ecosystem: ["evm", "solana", "cosmos"], // Email can yield EVM, Sol, or Cosmos
   },
   "oauth-auth": {
     icon: OAuthIcon,
     label: "OAuth",
     description: "Authenticate with a third-party OAuth provider using a custom UI.",
+    ecosystem: ["evm", "solana", "cosmos"], // OAuth can yield EVM, Sol, or Cosmos
   },
   "phone-auth": {
     icon: PhoneIcon,
     label: "Phone",
     description: "Authenticate with your mobile phone number using a custom UI.",
+    ecosystem: ["evm", "solana", "cosmos"], // Same reasoning
   },
   "pregen-auth": {
     icon: WalletIcon,
     label: "PreGen",
     description: "Authenticate with a Capsule using a pregenerated wallet.",
+    ecosystem: ["evm", "solana", "cosmos"],
   },
   "rainbowkit-connector": {
     icon: RainbowIcon,
     label: "RainbowKit",
     description: "Authenticate with RainbowKit's wallet connector.",
+    ecosystem: ["evm"],
   },
   "leap-social-wrapper": {
     icon: LeapSocialIcon,
     label: "Leap Social",
     description: "Authenticate with Leap Social Modal.",
+    ecosystem: ["cosmos"],
   },
   "web3-onboard-connector": {
     icon: Web3Icon,
     label: "Web3 Onboard",
     description: "Authenticate with Blocknative's Web3 Onboard wallet connector.",
+    ecosystem: ["evm"],
   },
   "cosmos-kit-connector": {
     icon: CosmosKitIcon,
     label: "Cosmos Kit",
     description: "Authenticate with Cosmos Kit + Leap Social Modal.",
+    ecosystem: ["cosmos"],
   },
   "graz-connector": {
     icon: GrazIcon,
     label: "Graz",
     description: "Authenticate with Graz + Leap Social Modal.",
+    ecosystem: ["cosmos"],
   },
   "wagmi-connector": {
     icon: WagmiIcon,
     label: "Wagmi",
     description: "Authenticate with Wagmi wallet connector.",
+    ecosystem: ["evm"],
   },
 };
 
+export const SigningOptions = ["capsule-client", "ethers", "viem", "cosmjs", "solana-web3js", "alchemy-aa"] as const;
+
+/**
+ * Ecosystem assignment for signers.
+ */
 export const SigningDetails: SigningDetailsType = {
   "capsule-client": {
     icon: CapsuleIcon,
     label: "Capsule",
     description: "Sign transactions directly with Capsule client.",
+    ecosystem: ["evm", "solana", "cosmos"], // Capsule client can handle multiple
   },
   "ethers": {
     icon: EthersIcon,
     label: "Ethers",
     description: "Sign transactions with Ethers.js.",
+    ecosystem: ["evm"],
   },
   "viem": {
     icon: ViemIcon,
     label: "Viem",
     description: "Sign transactions with Viem.js.",
+    ecosystem: ["evm"],
   },
   "cosmjs": {
     icon: CosmjsIcon,
     label: "CosmJS",
     description: "Sign transactions with CosmJS.js.",
+    ecosystem: ["cosmos"],
   },
   "solana-web3js": {
     icon: SolanaWeb3Icon,
     label: "Solana Web3",
     description: "Sign transactions with Solana-Web3.js.",
+    ecosystem: ["solana"],
   },
   "alchemy-aa": {
     icon: AlchemyIcon,
     label: "Alchemy",
     description: "Sign transactions with Alchemy-AA.js.",
+    ecosystem: ["evm"],
   },
 };
+
+export const DemoOptions = ["select-auth", "auth", "select-signer", "sign", "bonus", "session"] as const;
 
 export const DemoDetails: DemoDetailsType = {
   "select-auth": {

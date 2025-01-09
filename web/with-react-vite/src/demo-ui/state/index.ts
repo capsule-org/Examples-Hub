@@ -13,3 +13,13 @@ export const selectedAuthAtom = atom<AuthOptionType | "">("");
 export const selectedSignerAtom = atom<SigningOptionType>("capsule-client");
 export const signatureAtom = atom<string>("");
 export const verificationCodeAtom = atom<string>("");
+
+/**
+ * Ecosystem filter atom: controls which ecosystems are enabled.
+ * By default, all ecosystems are true (enabled).
+ */
+export const ecosystemFilterAtom = atom({
+  evm: true,
+  solana: true,
+  cosmos: true,
+});
