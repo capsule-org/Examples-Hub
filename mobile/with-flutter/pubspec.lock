@@ -2,7 +2,7 @@
 # See https://dart.dev/tools/pub/glossary#lockfile
 packages:
   app_links:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: app_links
       sha256: "433df2e61b10519407475d7f69e470789d23d593f28224c38ba1068597be7950"
@@ -68,11 +68,10 @@ packages:
   capsule:
     dependency: "direct main"
     description:
-      name: capsule
-      sha256: "486d41a3aca5a19f331dc9c2359af4835f597b57c9403d947353592299689724"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.0-pre.2"
+      path: "../../../flutter-sdk"
+      relative: true
+    source: path
+    version: "0.7.0"
   characters:
     dependency: transitive
     description:
@@ -433,7 +432,7 @@ packages:
     source: hosted
     version: "6.0.2"
   pinenacl:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: pinenacl
       sha256: "57e907beaacbc3c024a098910b6240758e899674de07d6949a67b52fd984cbdf"
@@ -598,7 +597,7 @@ packages:
     source: hosted
     version: "1.4.0"
   url_launcher:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: url_launcher
       sha256: "9d06212b1362abc2f0f0d78e6f09f726608c74e3b9462e8368bb03314aa8d603"
