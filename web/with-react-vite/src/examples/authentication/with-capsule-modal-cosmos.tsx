@@ -54,7 +54,7 @@ const CAPSULE_MODAL_PROPS = {
   disableEmailLogin: false,
   disablePhoneLogin: false,
   authLayout: [AuthLayout.AUTH_FULL, AuthLayout.EXTERNAL_FULL],
-  externalWallets: [ExternalWallet.METAMASK, ExternalWallet.COINBASE, ExternalWallet.PHANTOM],
+  externalWallets: [ExternalWallet.KEPLR, ExternalWallet.LEAP],
   twoFactorAuthEnabled: true,
   recoverySecretStepEnabled: true,
   onRampTestMode: true,
