@@ -3,53 +3,18 @@ import { CodeStepItem } from "../../../../demo-ui/types";
 export const setupSteps: CodeStepItem[] = [
   {
     title: "Install dependencies",
-    subtitle: "Install the required packages for Wagmi and Capsule integration",
-    code: `yarn add wagmi @usecapsule/wagmi-v2-integration @usecapsule/web-sdk @tanstack/react-query`,
+    subtitle: "Install required packages for Wagmi integration",
+    code: `yarn add @usecapsule/wagmi-v2-integration wagmi viem @tanstack/react-query`,
   },
   {
-    title: "Configure Capsule connector",
-    subtitle: "Set up the Capsule connector with Wagmi configuration",
+    title: "Set up Capsule client",
+    subtitle: "Initialize the Capsule client with your project configuration",
     code: `
-import { capsuleConnector } from "@usecapsule/wagmi-v2-integration";
-import { OAuthMethod } from "@usecapsule/web-sdk";
-import { sepolia } from "wagmi/chains";
+import { CapsuleClient } from "@usecapsule/sdk-core";
 
-const connector = capsuleConnector({
-  capsule: capsuleClient,
-  chains: [sepolia],
-  appName: "Capsule Wagmi Example",
-  options: {},
-  nameOverride: "Capsule",
-  idOverride: "capsule",
-  oAuthMethods: [
-    OAuthMethod.GOOGLE,
-    OAuthMethod.TWITTER,
-    OAuthMethod.FACEBOOK,
-    OAuthMethod.DISCORD,
-    OAuthMethod.APPLE
-  ],
-  disableEmailLogin: false,
-  disablePhoneLogin: false,
-  onRampTestMode: true,
+export const capsuleClient = new CapsuleClient({
+  apiKey: "YOUR_API_KEY",
+  environment: "YOUR_ENVIRONMENT", // e.g., "development" or "production"
 });`,
-  },
-  {
-    title: "Initialize Wagmi configuration",
-    subtitle: "Set up Wagmi provider configuration with necessary clients",
-    code: `
-import { createConfig, type CreateConfigParameters } from "wagmi";
-import { http } from "wagmi";
-import { QueryClient } from "@tanstack/react-query";
-
-const config: CreateConfigParameters = {
-  chains: [sepolia],
-  connectors: [connector],
-  transports: {
-    [sepolia.id]: http(),
-  },
-};
-
-const wagmiProviderConfig = createConfig(config);
-const queryClient = new QueryClient();`,
   },
 ];

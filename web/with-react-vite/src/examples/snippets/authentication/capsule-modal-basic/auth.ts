@@ -2,90 +2,97 @@ import { CodeStepItem } from "../../../../demo-ui/types";
 
 export const authSteps: CodeStepItem[] = [
   {
-    title: "Import necessary components and providers",
-    subtitle: "Import Capsule components and wallet providers",
+    title: "Import required dependencies",
+    subtitle: "Import Capsule SDK components and types",
     code: `
-import { CapsuleModal, OAuthMethod, AuthLayout, ExternalWallet } from "@usecapsule/react-sdk";
+import React, { useEffect, useState } from "react";
+import { CapsuleModal, OAuthMethod } from "@usecapsule/react-sdk";
 import "@usecapsule/react-sdk/styles.css";
-import { CapsuleEvmProvider, metaMaskWallet, coinbaseWallet } from "@usecapsule/evm-wallet-connectors";
-import { CapsuleSolanaProvider, phantomWallet } from "@usecapsule/solana-wallet-connectors";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import { clusterApiUrl } from "@solana/web3.js";
-import { sepolia } from "wagmi/chains";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";`,
+// Import your configured Capsule client
+import { capsuleClient } from "./capsule-client";`,
   },
   {
-    title: "Set up providers and modal",
-    subtitle: "Wrap your component with necessary providers and set up the Capsule modal",
+    title: "Configure modal settings",
+    subtitle: "Set up theme and authentication options",
     code: `
-const QUERY_CLIENT = new QueryClient();
-const SOLANA_NETWORK = WalletAdapterNetwork.Devnet;
-const SOLANA_ENDPOINT = clusterApiUrl(SOLANA_NETWORK);
+// Define modal theme configuration
+const CAPSULE_MODAL_THEME = {
+  backgroundColor: "#1F1F1F",
+  foregroundColor: "#FFF",
+  accentColor: "#FF754A",
+  mode: "dark",
+  font: "Inter",
+} as const;
 
-return (
-  <QueryClientProvider client={QUERY_CLIENT}>
-    <CapsuleEvmProvider
-      config={{
-        projectId: "",
-        appName: "Capsule Modal Example",
-        chains: [sepolia],
-        wallets: [metaMaskWallet, coinbaseWallet],
-      }}>
-      <CapsuleSolanaProvider
-        endpoint={SOLANA_ENDPOINT}
-        wallets={[phantomWallet]}
-        chain={SOLANA_NETWORK}
-        appIdentity={{ name: "Capsule Modal Example", uri: \`\${location.protocol}//\${location.host}\` }}>
-        <CapsuleModal
-          logo={Logo}
-          theme={{
-            backgroundColor: "#FFF",
-            foregroundColor: "#000",
-            accentColor: "#FF754A",
-            mode: "light",
-            font: "Inter",
-          }}
-          capsule={capsuleClient}
-          isOpen={showCapsuleModal}
-          onClose={handleModalClose}
-          appName="Capsule Modal Example"
-          oAuthMethods={Object.values(OAuthMethod)}
-          disableEmailLogin={false}
-          disablePhoneLogin={false}
-          authLayout={[AuthLayout.AUTH_FULL, AuthLayout.EXTERNAL_FULL]}
-          externalWallets={[ExternalWallet.METAMASK, ExternalWallet.COINBASE, ExternalWallet.PHANTOM]}
-          twoFactorAuthEnabled={true}
-          recoverySecretStepEnabled={true}
-          onRampTestMode={true}
-        />
-      </CapsuleSolanaProvider>
-    </CapsuleEvmProvider>
-  </QueryClientProvider>
-);`,
-  },
-  {
-    title: "Handle authentication state",
-    subtitle: "Implement functions to check login status and handle modal actions",
-    code: `
-const [isLoggedIn, setIsLoggedIn] = useState(false);
-const [showCapsuleModal, setShowCapsuleModal] = useState(false);
+// Configure OAuth methods
+const OAUTH_METHODS = [
+  OAuthMethod.GOOGLE,
+  OAuthMethod.TWITTER,
+  OAuthMethod.FACEBOOK,
+  OAuthMethod.DISCORD,
+  OAuthMethod.APPLE,
+];
 
-useEffect(() => {
-  checkLoginStatus();
-}, []);
-
-const checkLoginStatus = async () => {
-  const loggedIn = await capsuleClient.isFullyLoggedIn();
-  setIsLoggedIn(loggedIn);
-};
-
-const handleModalOpen = () => {
-  setShowCapsuleModal(true);
-};
-
-const handleModalClose = async () => {
-  setShowCapsuleModal(false);
-  await checkLoginStatus();
+// Define core modal properties
+const CAPSULE_MODAL_PROPS = {
+  capsule: capsuleClient,
+  logo: YourLogoComponent,
+  appName: "Your App Name",
+  theme: CAPSULE_MODAL_THEME,
+  oAuthMethods: OAUTH_METHODS,
+  disableEmailLogin: false,
+  disablePhoneLogin: false,
+  authLayout: [AuthLayout.AUTH_FULL],
+  twoFactorAuthEnabled: true,
+  recoverySecretStepEnabled: true,
+  onRampTestMode: true,
 };`,
+  },
+  {
+    title: "Implement authentication logic",
+    subtitle: "Set up state management and authentication checks",
+    code: `
+const YourAuthComponent: React.FC = () => {
+  // State for managing modal visibility and auth status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showCapsuleModal, setShowCapsuleModal] = useState(false);
+
+  // Check login status on component mount
+  const checkLoginStatus = async () => {
+    const loggedIn = await capsuleClient.isFullyLoggedIn();
+    setIsLoggedIn(loggedIn);
+  };
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
+
+  // Modal handlers
+  const handleModalOpen = () => setShowCapsuleModal(true);
+
+  const handleModalClose = async () => {
+    setShowCapsuleModal(false);
+    // Check login status after closing the modal
+    await checkLoginStatus();
+  };`,
+  },
+  {
+    title: "Render the modal component",
+    subtitle: "Integrate the Capsule modal into your component",
+    code: `
+  return (
+    <>
+      // Button to open the modal
+      <button onClick={handleModalOpen}>
+        Open Auth Modal
+      </button>
+      // Render the Capsule modal
+      <CapsuleModal
+        {...CAPSULE_MODAL_PROPS}
+        isOpen={showCapsuleModal}
+        onClose={handleModalClose}
+      />
+    </>
+  );`,
   },
 ];

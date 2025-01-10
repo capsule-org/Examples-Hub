@@ -28,7 +28,7 @@ const CAPSULE_MODAL_THEME = {
   accentColor: "#FF754A",
   mode: "dark",
   font: "Inter",
-};
+} as const;
 
 const SOLANA_PROVIDER_PROPS = {
   endpoint: SOLANA_ENDPOINT,

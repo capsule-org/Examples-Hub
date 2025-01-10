@@ -3,8 +3,8 @@ import { CodeStepItem } from "../../../../demo-ui/types";
 export const setupSteps: CodeStepItem[] = [
   {
     title: "Install dependencies",
-    subtitle: "Install required packages for Graz and Leap's Capsule integration",
-    code: `yarn add graz @leapwallet/cosmos-social-login-capsule-provider-ui @usecapsule/web-sdk`,
+    subtitle: "Use your favorite package manager to install the required dependencies",
+    code: `yarn add @usecapsule/react-sdk @usecapsule/solana-wallet-connectors @solana/web3.js @solana/wallet-adapter-base @tanstack/react-query`,
   },
   {
     title: "Set up Capsule client",

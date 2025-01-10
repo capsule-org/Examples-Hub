@@ -2,39 +2,42 @@ import { CodeStepItem } from "../../../../demo-ui/types";
 
 export const authSteps: CodeStepItem[] = [
   {
-    title: "Import required components",
-    subtitle: "Set up imports for Leap Social integration",
+    title: "Import required dependencies",
+    subtitle: "Import Leap's custom modal components",
     code: `
-  import { CustomCapsuleModalView } from "@leapwallet/cosmos-social-login-capsule-provider-ui";
-  import { OAuthMethod } from "@usecapsule/web-sdk";`,
+import React, { useState } from "react";
+import { CustomCapsuleModalView } from "@leapwallet/cosmos-social-login-capsule-provider-ui";
+import "@leapwallet/cosmos-social-login-capsule-provider-ui/styles.css";
+import { OAuthMethod } from "@usecapsule/web-sdk";
+import { capsuleClient } from "./capsule-client";`,
   },
   {
-    title: "Implement authentication state management",
-    subtitle: "Set up state handling for login status and modal visibility",
+    title: "Implement authentication component",
+    subtitle: "Create component with modal state and handlers",
     code: `
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const YourAuthComponent: React.FC = () => {
   const [showCapsuleModal, setShowCapsuleModal] = useState(false);
-  
-  const checkLoginStatus = async () => {
-    const loggedIn = await capsuleClient.isFullyLoggedIn();
-    setIsLoggedIn(loggedIn);
-  };
-  
+
   const handleLoginSuccess = async () => {
     setShowCapsuleModal(false);
-    await checkLoginStatus();
+    // Handle successful login
   };
-  
+
   const handleLoginFailure = () => {
     setShowCapsuleModal(false);
+    // Handle login failure
   };`,
   },
   {
-    title: "Configure CustomCapsuleModalView",
-    subtitle: "Set up the Leap Social modal with OAuth methods",
+    title: "Render the custom modal",
+    subtitle: "Implement the Leap custom modal with OAuth methods",
     code: `
   return (
     <div className="leap-ui">
+      <button onClick={() => setShowCapsuleModal(true)}>
+        Open Auth Modal
+      </button>
+
       <CustomCapsuleModalView
         capsule={capsuleClient}
         showCapsuleModal={showCapsuleModal}
@@ -51,35 +54,9 @@ export const authSteps: CodeStepItem[] = [
         ]}
       />
     </div>
-  );`,
-  },
-  {
-    title: "Create modal trigger component",
-    subtitle: "Implement a wrapper component to trigger the Leap Social modal",
-    code: `
-  const LeapSocialAuth: React.FC = () => {
-    const [step, setStep] = useState(0);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
-    const [showCapsuleModal, setShowCapsuleModal] = useState(false);
-  
-    useEffect(() => {
-      checkLoginStatus();
-    }, []);
-  
-    return (
-      <ModalTriggerCard
-        step={step}
-        titles={{
-          initial: "Leap Custom Capsule Modal",
-          success: "Success!",
-        }}
-        buttonLabel="Open Modal"
-        isLoading={isLoading}
-        onModalOpen={() => setShowCapsuleModal(true)}>
-        {/* CustomCapsuleModalView component */}
-      </ModalTriggerCard>
-    );
-  };`,
+  );
+};
+
+export default YourAuthComponent;`,
   },
 ];

@@ -20,7 +20,7 @@ const CAPSULE_MODAL_THEME = {
   accentColor: "#FF754A",
   mode: "dark",
   font: "Inter",
-};
+} as const;
 
 const OAUTH_METHODS = [
   OAuthMethod.GOOGLE,
@@ -38,8 +38,7 @@ const CAPSULE_MODAL_PROPS = {
   oAuthMethods: OAUTH_METHODS,
   disableEmailLogin: false,
   disablePhoneLogin: false,
-  authLayout: [AuthLayout.AUTH_FULL],
-  twoFactorAuthEnabled: true,
+  twoFactorAuthEnabled: false,
   recoverySecretStepEnabled: true,
   onRampTestMode: true,
 };

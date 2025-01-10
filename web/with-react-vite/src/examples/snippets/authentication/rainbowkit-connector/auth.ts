@@ -2,64 +2,70 @@ import { CodeStepItem } from "../../../../demo-ui/types";
 
 export const authSteps: CodeStepItem[] = [
   {
-    title: "Create authentication content component",
-    subtitle: "Implement the main authentication UI with connection status",
+    title: "Import required dependencies",
+    subtitle: "Import RainbowKit and Wagmi components",
     code: `
-  const AuthContent: React.FC = () => {
-    const { isConnected } = useAccount();
-    const [internalStep, setInternalStep] = useState(0);
-  
-    React.useEffect(() => {
-      if (isConnected) {
-        setInternalStep(1);
-        setDisableNext(false);
-        setDisablePrev(true);
-      } else {
-        setInternalStep(0);
-        setDisableNext(true);
-        setDisablePrev(false);
-      }
-    }, [isConnected]);
-  
-    return (
-      <Card className="w-[350px]">
-        <CardHeader>
-          <CardTitle>
-            {internalStep === 0 ? "Connect with Rainbowkit" : "Connection Status"}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {internalStep === 0 && (
-            <ConnectButton label="Connect with Capsule Modal" />
-          )}
-          {internalStep === 1 && (
-            <SuccessMessage 
-              message="You're logged in! Click next to continue to selecting a signer." 
-            />
-          )}
-        </CardContent>
-      </Card>
-    );
-  };`,
+import { ConnectButton, RainbowKitProvider, connectorsForWallets } from "@usecapsule/rainbowkit";
+import { getCapsuleWallet } from "@usecapsule/rainbowkit-wallet";
+import { WagmiProvider, createConfig, useAccount } from "wagmi";
+import { sepolia } from "wagmi/chains";
+import { http } from "viem";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "@usecapsule/rainbowkit/styles.css";`,
   },
   {
-    title: "Set up provider wrapper component",
-    subtitle: "Create a component that wraps the authentication content with necessary providers",
+    title: "Configure wallet connectors",
+    subtitle: "Set up RainbowKit wallet connectors",
     code: `
-  const RainbowKitAuth: React.FC = () => {
-    return (
-      <div className="flex flex-col items-center justify-center h-full">
-        <WagmiProvider config={wagmiConfig}>
-          <QueryClientProvider client={queryClient}>
-            <RainbowKitProvider>
-              <AuthContent />
-            </RainbowKitProvider>
-          </QueryClientProvider>
-        </WagmiProvider>
-      </div>
-    );
-  };
-  
-  export default RainbowKitAuth;`,
+const capsuleWallet = getCapsuleWallet(capsuleConfig);
+
+const connectors = connectorsForWallets(
+  [
+    {
+      groupName: "Capsule",
+      wallets: [capsuleWallet],
+    },
+  ],
+  {
+    appName: "Your App Name",
+    projectId: "your-project-id",
+  }
+);
+
+const wagmiConfig = createConfig({
+  connectors,
+  chains: [sepolia],
+  multiInjectedProviderDiscovery: false,
+  transports: {
+    [sepolia.id]: http(),
+  },
+});
+
+const queryClient = new QueryClient();`,
+  },
+  {
+    title: "Create authentication component",
+    subtitle: "Implement the component with RainbowKit connection button",
+    code: `
+const RainbowKitAuth: React.FC = () => {
+  const { isConnected } = useAccount();
+
+  return (
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
+          <div>
+            <ConnectButton label="Connect with Capsule Modal" />
+            {isConnected && (
+              <div>Successfully connected!</div>
+            )}
+          </div>
+        </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+};
+
+export default RainbowKitAuth;`,
   },
 ];

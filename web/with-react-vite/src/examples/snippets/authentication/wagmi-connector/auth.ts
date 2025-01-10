@@ -2,83 +2,79 @@ import { CodeStepItem } from "../../../../demo-ui/types";
 
 export const authSteps: CodeStepItem[] = [
   {
-    title: "Create wallet content component",
-    subtitle: "Implement the wallet connection interface using Wagmi hooks",
+    title: "Import required dependencies",
+    subtitle: "Import Wagmi and Capsule connector components",
     code: `
-  interface WalletContentProps {
-    isModalOpen: boolean;
-    setIsModalOpen: (open: boolean) => void;
-    onConnect: () => void;
-  }
-  
-  const WalletContent: React.FC<WalletContentProps> = ({ 
-    isModalOpen, 
-    setIsModalOpen, 
-    onConnect 
-  }) => {
-    const { connect, connectors } = useConnect({
-      mutation: {
-        onSuccess: () => {
-          setIsModalOpen(false);
-          onConnect();
-        },
-      },
-    });
-  
-    const handleSelectWallet = (walletId: string) => {
-      const connector = connectors.find((c) => c.id === walletId);
-      if (connector) {
-        connect({ connector });
-      }
-    };
-  
-    return (
-      <WalletSelectorModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onSelectWallet={handleSelectWallet}
-        walletOptions={connectors.map((connector) => ({
-          id: connector.id,
-          name: connector.name,
-        }))}
-      />
-    );
-  };`,
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { capsuleConnector } from "@usecapsule/wagmi-v2-integration";
+import { OAuthMethod } from "@usecapsule/web-sdk";
+import { createConfig, WagmiProvider, useConnect, http } from "wagmi";
+import { sepolia } from "@wagmi/chains";
+import { capsuleClient } from "./capsule-client";`,
   },
   {
-    title: "Create main authentication component",
-    subtitle: "Implement the main component with Wagmi provider setup",
+    title: "Configure Capsule connector",
+    subtitle: "Set up the Capsule connector with Wagmi",
     code: `
-  const WagmiAuth: React.FC = () => {
-    const [step, setStep] = useState(0);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isLoading] = useState(false);
-  
-    const handleConnect = () => {
-      setStep(1);
-    };
-  
-    return (
-      <WagmiProvider config={wagmiProviderConfig}>
-        <QueryClientProvider client={queryClient}>
-          <ModalTriggerCard
-            step={step}
-            titles={{
-              initial: "Connect with Wagmi",
-              success: "Wallet Connected!",
-            }}
-            buttonLabel="Connect Wallet"
-            isLoading={isLoading}
-            onModalOpen={() => setIsModalOpen(true)}>
-            <WalletContent
-              isModalOpen={isModalOpen}
-              setIsModalOpen={setIsModalOpen}
-              onConnect={handleConnect}
-            />
-          </ModalTriggerCard>
-        </QueryClientProvider>
-      </WagmiProvider>
-    );
-  };`,
+const connector = capsuleConnector({
+  capsule: capsuleClient,
+  chains: [sepolia],
+  appName: "Your App Name",
+  options: {},
+  nameOverride: "Capsule",
+  idOverride: "capsule",
+  oAuthMethods: [
+    OAuthMethod.GOOGLE,
+    OAuthMethod.TWITTER,
+    OAuthMethod.FACEBOOK,
+    OAuthMethod.DISCORD,
+    OAuthMethod.APPLE
+  ],
+  disableEmailLogin: false,
+  disablePhoneLogin: false,
+});
+
+const config = createConfig({
+  chains: [sepolia],
+  connectors: [connector],
+  transports: {
+    [sepolia.id]: http(),
+  },
+});
+
+const queryClient = new QueryClient();`,
+  },
+  {
+    title: "Create connection component",
+    subtitle: "Implement the component with Wagmi hooks",
+    code: `
+const WagmiAuth: React.FC = () => {
+  const { connect, connectors } = useConnect({
+    mutation: {
+      onSuccess: () => {
+        // Handle successful connection
+      },
+    },
+  });
+
+  const handleConnect = () => {
+    const connector = connectors.find((c) => c.id === "capsule");
+    if (connector) {
+      connect({ connector });
+    }
+  };
+
+  return (
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <button onClick={handleConnect}>
+          Connect Wallet
+        </button>
+      </QueryClientProvider>
+    </WagmiProvider>
+  );
+};
+
+export default WagmiAuth;`,
   },
 ];

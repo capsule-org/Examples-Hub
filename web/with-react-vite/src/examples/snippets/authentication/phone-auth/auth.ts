@@ -2,101 +2,109 @@ import { CodeStepItem } from "../../../../demo-ui/types";
 
 export const authSteps: CodeStepItem[] = [
   {
-    title: "Implement phone authentication handlers",
-    subtitle: "Set up functions to handle phone authentication for new and existing users",
+    title: "Import required dependencies",
+    subtitle: "Import components and types for phone authentication",
     code: `
-  const handleAuthenticateUser = async () => {
-    const isExistingUser = await capsuleClient.checkIfUserExistsByPhone(
-      phoneNumber, 
-      countryCode as CountryCallingCode
-    );
-  
-    if (isExistingUser) {
-      // Handle existing user login
-      const webAuthUrlForLogin = await capsuleClient.initiateUserLoginForPhone(
-        phoneNumber,
-        countryCode as CountryCallingCode
-      );
-      const popupWindow = window.open(webAuthUrlForLogin, "loginPopup", "popup=true");
-  
-      const { needsWallet } = await capsuleClient.waitForLoginAndSetup(popupWindow!);
-  
-      if (needsWallet) {
-        const [wallet, secret] = await capsuleClient.createWallet();
-      }
-      setIsLoggedIn(true);
-    } else {
-      // Handle new user registration
-      await capsuleClient.createUserByPhone(phoneNumber, countryCode as CountryCallingCode);
-      setInternalStep(1); // Move to verification step
-    }
-  };`,
+import React, { useState } from "react";
+import { CountryCallingCode } from "libphonenumber-js";
+import { capsuleClient } from "./capsule-client";`,
   },
   {
-    title: "Implement phone verification and wallet creation",
-    subtitle: "Handle phone verification and wallet setup for new users",
+    title: "Implement authentication component",
+    subtitle: "Create component with phone auth state and handlers",
     code: `
-  const handleVerifyAndCreateWallet = async () => {
+const PhoneAuth: React.FC = () => {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [countryCode, setCountryCode] = useState<CountryCallingCode>("+1");
+  const [verificationCode, setVerificationCode] = useState("");
+
+  const handlePhoneAuth = async () => {
+    const isExistingUser = await capsuleClient.checkIfUserExistsByPhone(
+      phoneNumber,
+      countryCode
+    );
+
+    if (isExistingUser) {
+      const webAuthUrlForLogin = await capsuleClient.initiateUserLoginForPhone(
+        phoneNumber,
+        countryCode
+      );
+      const popupWindow = window.open(webAuthUrlForLogin, "loginPopup", "popup=true");
+
+      const { needsWallet } = await capsuleClient.waitForLoginAndSetup(popupWindow!);
+
+      if (needsWallet) {
+        await capsuleClient.createWallet();
+      }
+      setCurrentStep(2);
+    } else {
+      await capsuleClient.createUserByPhone(phoneNumber, countryCode);
+      setCurrentStep(1);
+    }
+  };
+
+  const handleVerification = async () => {
     const isVerified = await capsuleClient.verifyPhone(verificationCode);
-  
+
     if (!isVerified) {
       return;
     }
-  
+
     const webAuthURLForCreate = await capsuleClient.getSetUpBiometricsURL(false);
-    window.open(webAuthURLForCreate, "createWalletPopup", "popup=true");
-  
+    const popupWindow = window.open(webAuthURLForCreate, "createWalletPopup", "popup=true");
+
     const { recoverySecret } = await capsuleClient.waitForPasskeyAndCreateWallet();
-  
-    setIsLoggedIn(true);
+    // Store or display recoverySecret securely
+
+    setCurrentStep(2);
   };`,
   },
   {
-    title: "Implement login status check",
-    subtitle: "Set up function to verify user's authentication status",
+    title: "Create authentication UI",
+    subtitle: "Implement the UI for phone authentication flow",
     code: `
-  const checkLoginStatus = async () => {
-    const loggedIn = await capsuleClient.isFullyLoggedIn();
-    setIsLoggedIn(loggedIn);
-    if (loggedIn) {
-      setInternalStep(2); // Move to success step
-    }
-  };`,
-  },
-  {
-    title: "Create authentication component",
-    subtitle: "Implement the main component for phone authentication",
-    code: `
-  const PhoneAuth: React.FC = () => {
-    const [internalStep, setInternalStep] = useState(0);
-    const [phoneNumber, setPhoneNumber] = useAtom(phoneNumberAtom);
-    const [countryCode, setCountryCode] = useAtom(countryCodeAtom);
-    const [verificationCode, setVerificationCode] = useAtom(verificationCodeAtom);
-    const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
-    const [isLoading, setIsLoading] = useAtom(isLoadingAtom);
-  
-    useEffect(() => {
-      checkLoginStatus();
-    }, []);
-  
-    return (
-      <div className="flex flex-col items-center justify-center h-full">
-        <Authentication
-          authType="phone"
-          internalStep={internalStep}
-          phoneNumber={phoneNumber}
-          setPhoneNumber={setPhoneNumber}
-          countryCode={countryCode}
-          setCountryCode={setCountryCode}
-          verificationCode={verificationCode}
-          setVerificationCode={setVerificationCode}
-          isLoading={isLoading}
-          isLoggedIn={isLoggedIn}
-          handleAuthenticateUser={handleAuthenticateUser}
-          handleVerifyAndCreateWallet={handleVerifyAndCreateWallet}
-        />
-      </div>
-    );
-  };`,
+  return (
+    <div>
+      {currentStep === 0 && (
+        <div>
+          <select 
+            value={countryCode}
+            onChange={(e) => setCountryCode(e.target.value as CountryCallingCode)}>
+            <option value="+1">US (+1)</option>
+            {/* Add other country codes */}
+          </select>
+          <input
+            type="tel"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            placeholder="Phone number"
+          />
+          <button onClick={handlePhoneAuth}>Continue</button>
+        </div>
+      )}
+
+      {currentStep === 1 && (
+        <div>
+          <input
+            type="text"
+            value={verificationCode}
+            onChange={(e) => setVerificationCode(e.target.value)}
+            placeholder="Enter verification code"
+          />
+          <button onClick={handleVerification}>
+            Verify Code
+          </button>
+        </div>
+      )}
+
+      {currentStep === 2 && (
+        <div>Successfully authenticated!</div>
+      )}
+    </div>
+  );
+};
+
+export default PhoneAuth;`,
   },
 ];
