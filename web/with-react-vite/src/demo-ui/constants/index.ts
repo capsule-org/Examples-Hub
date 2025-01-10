@@ -134,9 +134,6 @@ export const AuthDetails: AuthDetailsType = {
 
 export const SigningOptions = ["capsule-client", "ethers", "viem", "cosmjs", "solana-web3js", "alchemy-aa"] as const;
 
-/**
- * Ecosystem assignment for signers.
- */
 export const SigningDetails: SigningDetailsType = {
   "capsule-client": {
     icon: CapsuleIcon,

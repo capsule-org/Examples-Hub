@@ -10,9 +10,25 @@ import { capsuleClient } from "../capsule-client";
 import { useAtom } from "jotai";
 import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from "../../demo-ui/state";
 import { ModalTriggerCard } from "../../demo-ui/components/modal-trigger-card";
-    
 
 type AuthWithCosmosKitProps = {};
+
+const CARD_TITLES = {
+  initial: "Leap Custom Capsule Modal + Cosmos Kit",
+  success: "Success!",
+};
+
+const COSMOS_PROVIDER_CONFIG = {
+  chains: chains,
+  assetLists: assets,
+  wallets: wallets,
+};
+
+const CAPSULE_MODAL_PROPS = {
+  capsule: capsuleClient as any,
+  theme: "light",
+  oAuthMethods: [OAuthMethod.GOOGLE, OAuthMethod.TWITTER, OAuthMethod.FACEBOOK, OAuthMethod.DISCORD, OAuthMethod.APPLE],
+};
 
 const AuthWithCosmosKit: React.FC<AuthWithCosmosKitProps> = () => {
   const [step, setStep] = useState<0 | 1>(0);
@@ -22,20 +38,25 @@ const AuthWithCosmosKit: React.FC<AuthWithCosmosKitProps> = () => {
   const [, setDisablePrev] = useAtom(disablePrevAtom);
   const [showCapsuleModal, setShowCapsuleModal] = useState<boolean>(false);
 
+  const checkLoginStatus = async () => {
+    setIsLoading(true);
+    try {
+      const loggedIn = await capsuleClient.isFullyLoggedIn();
+      setIsLoggedIn(loggedIn);
+      setDisableNext(!loggedIn);
+      if (loggedIn) {
+        setStep(1);
+      }
+    } catch (error) {
+      console.error("Failed to check login status:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     checkLoginStatus();
   }, []);
-
-  const checkLoginStatus = async () => {
-    setIsLoading(true);
-    const loggedIn = await capsuleClient.isFullyLoggedIn();
-    setIsLoggedIn(loggedIn);
-    setDisableNext(!loggedIn);
-    if (loggedIn) {
-      setStep(1);
-    }
-    setIsLoading(false);
-  };
 
   useEffect(() => {
     if (isLoggedIn && step === 1) {
@@ -56,32 +77,18 @@ const AuthWithCosmosKit: React.FC<AuthWithCosmosKitProps> = () => {
   return (
     <ModalTriggerCard
       step={step}
-      titles={{
-        initial: "Leap Custom Capsule Modal + Cosmos Kit",
-        success: "Success!",
-      }}
+      titles={CARD_TITLES}
       buttonLabel="Open Modal"
       isLoading={isLoading}
       onModalOpen={() => setShowCapsuleModal(true)}>
-      <ChainProvider
-        chains={chains as any}
-        assetLists={assets}
-        wallets={wallets}>
+      <ChainProvider {...COSMOS_PROVIDER_CONFIG}>
         <div className="leap-ui">
           <CustomCapsuleModalView
-            capsule={capsuleClient as any}
+            {...CAPSULE_MODAL_PROPS}
             showCapsuleModal={showCapsuleModal}
             setShowCapsuleModal={setShowCapsuleModal}
-            theme="light"
             onAfterLoginSuccessful={handleLoginSuccess}
             onLoginFailure={handleLoginFailure}
-            oAuthMethods={[
-              OAuthMethod.GOOGLE,
-              OAuthMethod.TWITTER,
-              OAuthMethod.FACEBOOK,
-              OAuthMethod.DISCORD,
-              OAuthMethod.APPLE,
-            ]}
           />
         </div>
       </ChainProvider>

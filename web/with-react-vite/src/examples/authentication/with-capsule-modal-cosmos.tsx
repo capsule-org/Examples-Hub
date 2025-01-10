@@ -7,7 +7,7 @@ import Logo from "../../demo-ui/assets/capsule.svg";
 import { capsuleClient } from "../capsule-client";
 import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from "../../demo-ui/state";
 import { ModalTriggerCard } from "../../demo-ui/components/modal-trigger-card";
-    
+
 import { CapsuleCosmosProvider, leapWallet, keplrWallet } from "@usecapsule/cosmos-wallet-connectors";
 import { axelar, cosmoshub, osmosis, sommelier, stargaze } from "@usecapsule/graz/chains";
 
@@ -15,7 +15,12 @@ type AuthWithCapsuleModalProps = {};
 
 const QUERY_CLIENT = new QueryClient();
 
-export const COSMOS_CHAINS = [
+const CARD_TITLES = {
+  initial: "Capsule Modal",
+  success: "Success!",
+};
+
+const COSMOS_CHAINS = [
   { ...cosmoshub, rpc: "https://rpc.cosmos.directory/cosmoshub", rest: "https://rest.cosmos.directory/cosmoshub" },
   { ...sommelier, rpc: "https://rpc.cosmos.directory/sommelier", rest: "https://rest.cosmos.directory/sommelier" },
   { ...stargaze, rpc: "https://rpc.cosmos.directory/stargaze", rest: "https://rest.cosmos.directory/stargaze" },
@@ -32,6 +37,29 @@ const COSMOS_WALLET_CONFIG = {
   },
 };
 
+const CAPSULE_MODAL_THEME = {
+  backgroundColor: "#1F1F1F",
+  foregroundColor: "#FFF",
+  accentColor: "#FF754A",
+  mode: "dark" as const,
+  font: "Inter",
+};
+
+const CAPSULE_MODAL_PROPS = {
+  logo: Logo as unknown as string,
+  theme: CAPSULE_MODAL_THEME,
+  capsule: capsuleClient,
+  appName: "Capsule Modal Example",
+  oAuthMethods: [OAuthMethod.GOOGLE, OAuthMethod.TWITTER, OAuthMethod.FACEBOOK, OAuthMethod.DISCORD, OAuthMethod.APPLE],
+  disableEmailLogin: false,
+  disablePhoneLogin: false,
+  authLayout: [AuthLayout.AUTH_FULL, AuthLayout.EXTERNAL_FULL],
+  externalWallets: [ExternalWallet.METAMASK, ExternalWallet.COINBASE, ExternalWallet.PHANTOM],
+  twoFactorAuthEnabled: true,
+  recoverySecretStepEnabled: true,
+  onRampTestMode: true,
+};
+
 const AuthWithCapsuleModal: React.FC<AuthWithCapsuleModalProps> = () => {
   const [step, setStep] = useState<0 | 1>(0);
   const [isLoggedIn, setIsLoggedIn] = useAtom(isLoggedInAtom);
@@ -40,10 +68,6 @@ const AuthWithCapsuleModal: React.FC<AuthWithCapsuleModalProps> = () => {
   const [, setDisablePrev] = useAtom(disablePrevAtom);
   const [showCapsuleModal, setShowCapsuleModal] = useState<boolean>(false);
   const [selectedCosmosChain, setSelectedCosmosChain] = useState(cosmoshub.chainId);
-
-  useEffect(() => {
-    checkLoginStatus();
-  }, []);
 
   const checkLoginStatus = async () => {
     setIsLoading(true);
@@ -55,6 +79,10 @@ const AuthWithCapsuleModal: React.FC<AuthWithCapsuleModalProps> = () => {
     }
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    checkLoginStatus();
+  }, []);
 
   useEffect(() => {
     if (isLoggedIn && step === 1) {
@@ -76,53 +104,27 @@ const AuthWithCapsuleModal: React.FC<AuthWithCapsuleModalProps> = () => {
     <div className="flex flex-col items-center justify-center h-full">
       <ModalTriggerCard
         step={step}
-        titles={{
-          initial: "Capsule Modal",
-          success: "Success!",
-        }}
+        titles={CARD_TITLES}
         buttonLabel="Open Modal"
         isLoading={isLoading}
-        onModalOpen={handleModalOpen}>
-        <QueryClientProvider client={QUERY_CLIENT}>
-          <CapsuleCosmosProvider
-            selectedChainId={selectedCosmosChain}
-            chains={COSMOS_WALLET_CONFIG.chains}
-            onSwitchChain={setSelectedCosmosChain}
-            wallets={COSMOS_WALLET_CONFIG.wallets}
-            walletConnect={{
-              options: COSMOS_WALLET_CONFIG.walletConnectOptions,
-            }}>
-            <CapsuleModal
-              logo={Logo as unknown as string}
-              theme={{
-                backgroundColor: "#1F1F1F",
-                foregroundColor: "#FFF",
-                accentColor: "#FF754A",
-                mode: "dark",
-                font: "Inter",
-              }}
-              capsule={capsuleClient}
-              isOpen={showCapsuleModal}
-              onClose={handleModalClose}
-              appName="Capsule Modal Example"
-              oAuthMethods={[
-                OAuthMethod.GOOGLE,
-                OAuthMethod.TWITTER,
-                OAuthMethod.FACEBOOK,
-                OAuthMethod.DISCORD,
-                OAuthMethod.APPLE,
-              ]}
-              disableEmailLogin={false}
-              disablePhoneLogin={false}
-              authLayout={[AuthLayout.AUTH_FULL, AuthLayout.EXTERNAL_FULL]}
-              externalWallets={[ExternalWallet.METAMASK, ExternalWallet.COINBASE, ExternalWallet.PHANTOM]}
-              twoFactorAuthEnabled={true}
-              recoverySecretStepEnabled={true}
-              onRampTestMode={true}
-            />
-          </CapsuleCosmosProvider>
-        </QueryClientProvider>
-      </ModalTriggerCard>
+        onModalOpen={handleModalOpen}
+      />
+      <QueryClientProvider client={QUERY_CLIENT}>
+        <CapsuleCosmosProvider
+          selectedChainId={selectedCosmosChain}
+          chains={[...COSMOS_WALLET_CONFIG.chains]}
+          onSwitchChain={setSelectedCosmosChain}
+          wallets={COSMOS_WALLET_CONFIG.wallets}
+          walletConnect={{
+            options: COSMOS_WALLET_CONFIG.walletConnectOptions,
+          }}>
+          <CapsuleModal
+            {...CAPSULE_MODAL_PROPS}
+            isOpen={showCapsuleModal}
+            onClose={handleModalClose}
+          />
+        </CapsuleCosmosProvider>
+      </QueryClientProvider>
     </div>
   );
 };

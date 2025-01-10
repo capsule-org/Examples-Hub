@@ -5,6 +5,7 @@ export type OptionDetailsType = {
   icon: IconType;
   label: string;
   description: string;
+  ecosystem?: EcosystemType[];
 };
 
 export type IconType = React.FC<React.SVGProps<SVGElement>> | string;
@@ -37,3 +38,5 @@ export type CodeStepItem = {
   subtitle: string;
   code: string;
 };
+
+export type EcosystemType = "evm" | "solana" | "cosmos";

@@ -9,7 +9,7 @@ import {
   isLoggedInAtom,
   verificationCodeAtom,
 } from "../../demo-ui/state";
-    
+
 import { capsuleClient } from "../capsule-client";
 
 type AuthWithEmailProps = {};
@@ -59,8 +59,8 @@ const AuthWithEmail: React.FC<AuthWithEmailProps> = () => {
       const { needsWallet } = await capsuleClient.waitForLoginAndSetup(popupWindow!);
 
       if (needsWallet) {
-        const [wallet, recoverySecret] = await capsuleClient.createWallet();
-        // do something with the wallet and
+        //waitForLoginAndSetup usually creates a wallet but if it doesn't, you can create a wallet here
+        // const [wallet, recoverySecret] = await capsuleClient.createWallet();
       }
 
       setIsLoggedIn(true);
@@ -87,6 +87,7 @@ const AuthWithEmail: React.FC<AuthWithEmailProps> = () => {
 
     window.open(authUrl, "signUpPopup", "popup=true");
 
+    //Do something with the recoverySecret. Provide it to the user or safely store it on their behalf
     const { recoverySecret } = await capsuleClient.waitForPasskeyAndCreateWallet();
 
     setIsLoggedIn(true);

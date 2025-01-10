@@ -7,9 +7,18 @@ import { capsuleClient } from "../capsule-client";
 import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from "../../demo-ui/state";
 import { useCapsule } from "graz";
 import { ModalTriggerCard } from "../../demo-ui/components/modal-trigger-card";
-    
 
 type AuthWithGrazProps = {};
+
+const CARD_TITLES = {
+  initial: "Graz + Leap Custom Capsule Modal",
+  success: "Success!",
+};
+
+const CAPSULE_MODAL_PROPS = {
+  theme: "light",
+  oAuthMethods: [OAuthMethod.GOOGLE, OAuthMethod.TWITTER, OAuthMethod.FACEBOOK, OAuthMethod.DISCORD, OAuthMethod.APPLE],
+};
 
 const AuthWithGraz: React.FC<AuthWithGrazProps> = () => {
   const { client, modalState, setModalState, onAfterLoginSuccessful, onLoginFailure } = useCapsule();
@@ -19,20 +28,25 @@ const AuthWithGraz: React.FC<AuthWithGrazProps> = () => {
   const [, setDisableNext] = useAtom(disableNextAtom);
   const [, setDisablePrev] = useAtom(disablePrevAtom);
 
+  const checkLoginStatus = async () => {
+    setIsLoading(true);
+    try {
+      const loggedIn = await capsuleClient.isFullyLoggedIn();
+      setIsLoggedIn(loggedIn);
+      setDisableNext(!loggedIn);
+      if (loggedIn) {
+        setStep(1);
+      }
+    } catch (error) {
+      console.error("Failed to check login status:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     checkLoginStatus();
   }, []);
-
-  const checkLoginStatus = async () => {
-    setIsLoading(true);
-    const loggedIn = await capsuleClient.isFullyLoggedIn();
-    setIsLoggedIn(loggedIn);
-    setDisableNext(!loggedIn);
-    if (loggedIn) {
-      setStep(1);
-    }
-    setIsLoading(false);
-  };
 
   useEffect(() => {
     if (isLoggedIn && step === 1) {
@@ -53,33 +67,25 @@ const AuthWithGraz: React.FC<AuthWithGrazProps> = () => {
   };
 
   return (
-    <ModalTriggerCard
-      step={step}
-      titles={{
-        initial: "Graz + Leap Custom Capsule Modal",
-        success: "Success!",
-      }}
-      buttonLabel="Open Modal"
-      isLoading={isLoading}
-      onModalOpen={() => setModalState(true)}>
+    <div className="flex flex-col items-center justify-center h-full">
+      <ModalTriggerCard
+        step={step}
+        titles={CARD_TITLES}
+        buttonLabel="Open Modal"
+        isLoading={isLoading}
+        onModalOpen={() => setModalState(true)}
+      />
       <div className="leap-ui">
         <CustomCapsuleModalView
-          capsule={capsuleClient as any}
+          {...CAPSULE_MODAL_PROPS}
+          capsule={client?.getClient()}
           showCapsuleModal={modalState}
           setShowCapsuleModal={setModalState}
-          theme="light"
           onAfterLoginSuccessful={handleLoginSuccess}
           onLoginFailure={handleLoginFailure}
-          oAuthMethods={[
-            OAuthMethod.GOOGLE,
-            OAuthMethod.TWITTER,
-            OAuthMethod.FACEBOOK,
-            OAuthMethod.DISCORD,
-            OAuthMethod.APPLE,
-          ]}
         />
       </div>
-    </ModalTriggerCard>
+    </div>
   );
 };
 
