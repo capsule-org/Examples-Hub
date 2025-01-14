@@ -77,3 +77,6 @@ Make sure to configure the `.env` file based on the `.env.example` file in each 
 Each of these examples is an app that can be run individually. Follow the same steps as above to run them.
 
 Make sure to configure the `.env` file based on the `.env.example` file in each project directory.
+
+## Contribute 
+Contributions welcome! Read the [contribution guidelines](https://github.com/capsule-org/awesome-capsule/blob/main/CONTRIBUTING.md) first.
