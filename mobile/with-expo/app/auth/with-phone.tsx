@@ -19,11 +19,8 @@ export default function PhoneAuthScreen() {
   const handleContinue = async () => {
     if (!countryCode || !phoneNumber) return;
     setIsLoading(true);
-    console.log("Phone number:", phoneNumber);
-    console.log("Country code:", countryCode);
     try {
       const userExists = await capsuleClient.checkIfUserExistsByPhone(phoneNumber, countryCode as CountryCallingCode);
-      console.log("User exists:", userExists);
       if (userExists) {
         await capsuleClient.login(undefined, phoneNumber, countryCode as CountryCallingCode);
         router.navigate("../home");
@@ -39,10 +36,8 @@ export default function PhoneAuthScreen() {
 
   const handleVerify = async (code: string) => {
     if (!code) return;
-    console.log("Verification code:", code);
     try {
       const biometricsId = await capsuleClient.verifyPhoneBiometricsId(code);
-      console.log("Biometrics ID:", biometricsId);
       if (biometricsId) {
         await capsuleClient.registerPasskey(
           phoneNumber,
