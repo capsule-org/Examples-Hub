@@ -12,7 +12,7 @@
     "preview": "vite preview",
     "predeploy": "bun run build",
     "deploy": "gh-pages -d dist --dest with-react-vite --add true",
-    "postinstall": "graz --generate"
+    "postinstall": "yarn graz --generate"
   },
   "dependencies": {
     "@alchemy/aa-alchemy": "3.19.0",
@@ -50,7 +50,6 @@
     "bs58": "6.0.0",
     "chain-registry": "1.69.87",
     "ethers": "6.13.5",
-    "graz": "0.1.31",
     "input-otp": "1.4.2",
     "jotai": "2.11.0",
     "react-error-boundary": "5.0.0",

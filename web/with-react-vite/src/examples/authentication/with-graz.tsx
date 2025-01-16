@@ -5,7 +5,8 @@ import "@leapwallet/cosmos-social-login-capsule-provider-ui/styles.css";
 import { OAuthMethod } from "@usecapsule/web-sdk";
 import { capsuleClient } from "../capsule-client";
 import { disableNextAtom, disablePrevAtom, isLoadingAtom, isLoggedInAtom } from "../../demo-ui/state";
-import { useCapsule } from "graz";
+//@usecapsule/graz can be replaced with graz
+import { useCapsule } from "@usecapsule/graz";
 import { ModalTriggerCard } from "../../demo-ui/components/modal-trigger-card";
 
 type AuthWithGrazProps = {};
