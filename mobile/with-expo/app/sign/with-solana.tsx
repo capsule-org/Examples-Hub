@@ -44,7 +44,6 @@ export default function SolanaSendScreen() {
         preflightCommitment: "confirmed",
       });
 
-      console.log("Transaction signature:", signature);
     } catch (error) {
       console.error("Error signing Solana transaction:", error);
       throw error;

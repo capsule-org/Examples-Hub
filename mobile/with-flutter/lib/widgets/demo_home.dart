@@ -26,7 +26,6 @@ class _DemoHomeState extends State<DemoHome> {
     setState(() => _isLoading = true);
     try {
       final wallets = await capsuleClient.fetchWallets();
-      debugPrint('DemoHome: Fetched ${wallets.length} wallets');
       setState(() => _wallets = wallets);
     } catch (e) {
       if (mounted) {
