@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Stack } from "expo-router";
-import "@usecapsule/react-native-wallet/dist/shim";
 import { capsuleClient } from "@/client/capsule";
 
 export default function RootLayout() {

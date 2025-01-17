@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { AuthOption, SigningOption } from "../types";
+import { AuthOptionType, SigningOptionType } from "../types";
 
 export const countryCodeAtom = atom<string>("");
 export const currentStepAtom = atom<number>(0);
@@ -9,7 +9,17 @@ export const emailAtom = atom<string>("");
 export const isLoadingAtom = atom<boolean>(false);
 export const isLoggedInAtom = atom<boolean>(false);
 export const phoneNumberAtom = atom<string>("");
-export const selectedAuthAtom = atom<AuthOption | "">("");
-export const selectedSignerAtom = atom<SigningOption>("capsule-client");
+export const selectedAuthAtom = atom<AuthOptionType | "">("");
+export const selectedSignerAtom = atom<SigningOptionType>("capsule-client");
 export const signatureAtom = atom<string>("");
 export const verificationCodeAtom = atom<string>("");
+
+/**
+ * Ecosystem filter atom: controls which ecosystems are enabled.
+ * By default, all ecosystems are true (enabled).
+ */
+export const ecosystemFilterAtom = atom({
+  evm: true,
+  solana: true,
+  cosmos: true,
+});
