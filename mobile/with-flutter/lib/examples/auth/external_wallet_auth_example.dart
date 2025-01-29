@@ -1,13 +1,14 @@
 // ignore_for_file: unused_field, unused_local_variable
 import 'dart:async';
+import 'package:cpsl_flutter/widgets/demo_meta_mask.dart';
 import 'package:cpsl_flutter/widgets/demo_phantom.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:capsule/capsule.dart';
+import 'package:capsule/capsule.dart' as capsule;
 import 'package:cpsl_flutter/client/capsule.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-enum ExternalWalletProvider { phantom }
+enum ExternalWalletProvider { phantom, metamask, other }
 
 class CapsuleExternalWalletExample extends StatefulWidget {
   const CapsuleExternalWalletExample({super.key});
@@ -21,9 +22,14 @@ class _CapsuleExternalWalletExampleState
     extends State<CapsuleExternalWalletExample> {
   bool _isLoading = false;
   String? _loadingProvider;
-  Wallet? _wallet;
+  capsule.Wallet? _wallet;
   String? _address;
   String? _recoveryShare;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Future<void> _handleExternalWalletLogin(
       ExternalWalletProvider provider) async {
@@ -33,14 +39,28 @@ class _CapsuleExternalWalletExampleState
       _isLoading = true;
     });
 
-    await capsuleClient.connectToPhantom(
-        "https://deeplink-movie-tutorial-dummy-site.vercel.app/",
-        "capsuleflutter");
+    if (provider == ExternalWalletProvider.phantom) {
+      await phantomConnector.connect();
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const DemoPhantom()),
-    );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const DemoPhantom()),
+      );
+    }
+
+    if (provider == ExternalWalletProvider.metamask) {
+      await metamaskConnector.connect();
+      setState(() {
+        _isLoading = false;
+      });
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const DemoMetaMask()),
+      );
+    }
+
+    if (provider == ExternalWalletProvider.other) {}
   }
 
   Widget _buildExternalWalletButton({
@@ -133,6 +153,14 @@ class _CapsuleExternalWalletExampleState
               _buildExternalWalletButton(
                 provider: ExternalWalletProvider.phantom,
                 label: 'Phantom',
+                icon: FontAwesomeIcons.google,
+                backgroundColor: const Color(0xFF4285F4),
+                textColor: Colors.white,
+              ),
+              const SizedBox(height: 48),
+              _buildExternalWalletButton(
+                provider: ExternalWalletProvider.metamask,
+                label: 'MetaMask',
                 icon: FontAwesomeIcons.google,
                 backgroundColor: const Color(0xFF4285F4),
                 textColor: Colors.white,

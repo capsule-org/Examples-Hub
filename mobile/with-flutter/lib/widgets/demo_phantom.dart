@@ -47,12 +47,12 @@ class DemoPhantomState extends State<DemoPhantom> {
         ]);
 
     final signedTransaction =
-        await capsuleClient.signTransactionWithExternalWallet(transaction);
+        await phantomConnector.signTransaction(transaction);
   }
 
   void _signMessage() {
-    capsuleClient
-        .signMessageWithExternalWallet("Message to sign! Hello World")
+    phantomConnector
+        .signMessage("Message to sign! Hello World")
         .then((onValue) => {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
