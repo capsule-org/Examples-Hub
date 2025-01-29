@@ -37,7 +37,7 @@ export default function PhoneAuthScreen() {
   const handleVerify = async (code: string) => {
     if (!code) return;
     try {
-      const biometricsId = await capsuleClient.verifyEmailBiometricsId(code);
+      const biometricsId = await capsuleClient.verifyPhoneBiometricsId(code);
       if (biometricsId) {
         await capsuleClient.registerPasskey(
           phoneNumber,
