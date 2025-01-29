@@ -35,3 +35,5 @@ flutter:
   assets:
     - .env
     - lib/assets/farcaster.svg
+    - lib/assets/metamask_icon.svg
+    - lib/assets/phantom_icon.svg
