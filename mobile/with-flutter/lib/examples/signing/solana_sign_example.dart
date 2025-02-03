@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cpsl_flutter/client/capsule.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:capsule/capsule.dart';
+import 'package:para/para.dart';
 import 'package:solana_web3/solana_web3.dart' as web3;
 import 'package:solana_web3/programs.dart' as programs;
 
@@ -65,11 +65,12 @@ class _SolanaSignExampleState extends State<SolanaSignExample> {
         ],
       );
 
-      final message = Uint8List.fromList(transaction.serializeMessage().toList());
+      final message =
+          Uint8List.fromList(transaction.serializeMessage().toList());
 
       final messageBase64 = base64Encode(message);
 
-      final result = await capsuleClient.signMessage(
+      final result = await paraClient.signMessage(
         walletId: widget.wallet.id!,
         messageBase64: messageBase64,
       );
@@ -112,7 +113,8 @@ class _SolanaSignExampleState extends State<SolanaSignExample> {
     try {
       final connection = web3.Connection(web3.Cluster.devnet);
 
-      final solanaWeb3Signer = CapsuleSolanaWeb3Signer(capsule: capsuleClient, connection: connection);
+      final solanaWeb3Signer =
+          ParaSolanaWeb3Signer(para: paraClient, connection: connection);
 
       final publicKey = web3.Pubkey.fromBase58(widget.wallet.address!);
 
@@ -132,7 +134,8 @@ class _SolanaSignExampleState extends State<SolanaSignExample> {
         ],
       );
 
-      final signedTransaction = await solanaWeb3Signer.signTransaction(transaction);
+      final signedTransaction =
+          await solanaWeb3Signer.signTransaction(transaction);
 
       setState(() {
         _lastSignature = signedTransaction.signature.toString();
@@ -203,7 +206,8 @@ class _SolanaSignExampleState extends State<SolanaSignExample> {
                     hintText: 'Enter amount in SOL',
                     prefixIcon: Icon(Icons.attach_money),
                   ),
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*$')),
                   ],
@@ -261,9 +265,12 @@ class _SolanaSignExampleState extends State<SolanaSignExample> {
                           IconButton(
                             icon: const Icon(Icons.copy),
                             onPressed: () {
-                              Clipboard.setData(ClipboardData(text: _lastSignature!));
+                              Clipboard.setData(
+                                  ClipboardData(text: _lastSignature!));
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Signature copied to clipboard')),
+                                const SnackBar(
+                                    content:
+                                        Text('Signature copied to clipboard')),
                               );
                             },
                           ),

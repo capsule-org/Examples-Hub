@@ -1,7 +1,7 @@
 import 'package:cpsl_flutter/widgets/demo_transactions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:capsule/capsule.dart';
+import 'package:para/para.dart';
 import 'package:cpsl_flutter/client/capsule.dart';
 
 class DemoHome extends StatefulWidget {
@@ -25,7 +25,7 @@ class _DemoHomeState extends State<DemoHome> {
   Future<void> _loadWallets() async {
     setState(() => _isLoading = true);
     try {
-      final wallets = await capsuleClient.fetchWallets();
+      final wallets = await paraClient.fetchWallets();
       setState(() => _wallets = wallets);
     } catch (e) {
       if (mounted) {
@@ -41,7 +41,7 @@ class _DemoHomeState extends State<DemoHome> {
   Future<void> _createWallet(WalletType type) async {
     setState(() => _creatingWallet[type] = true);
     try {
-      await capsuleClient.createWallet(
+      await paraClient.createWallet(
         type: type,
         skipDistribute: false,
       );
@@ -119,7 +119,8 @@ class _DemoHomeState extends State<DemoHome> {
                 children: [
                   Expanded(
                     child: Text(
-                      type == WalletType.cosmos && wallet!.addressSecondary != null
+                      type == WalletType.cosmos &&
+                              wallet!.addressSecondary != null
                           ? wallet.addressSecondary!
                           : wallet!.address!,
                       style: const TextStyle(
@@ -131,7 +132,8 @@ class _DemoHomeState extends State<DemoHome> {
                   IconButton(
                     icon: const Icon(Icons.copy),
                     onPressed: () => _copyAddress(
-                      type == WalletType.cosmos && wallet.addressSecondary != null
+                      type == WalletType.cosmos &&
+                              wallet.addressSecondary != null
                           ? wallet.addressSecondary!
                           : wallet.address!,
                     ),
@@ -188,7 +190,8 @@ class _DemoHomeState extends State<DemoHome> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => DemoTransactions(wallets: _wallets),
+                                  builder: (context) =>
+                                      DemoTransactions(wallets: _wallets),
                                 ),
                               );
                             },

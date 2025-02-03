@@ -121,30 +121,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
-  capsule:
-    dependency: transitive
-    description:
-      name: capsule
-      sha256: b2f62dca3ea383aadd051b6ffffd2ce3c2a43a266223215406db4d8d422c666b
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.0"
-  capsule_metamask_connector:
-    dependency: "direct main"
-    description:
-      name: capsule_metamask_connector
-      sha256: "32dcc116eaa7c65662623ba535490e659fd09c69fa8839b36bd94fdb4682e9ec"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
-  capsule_phantom_connector:
-    dependency: "direct main"
-    description:
-      name: capsule_phantom_connector
-      sha256: "39a5d0896b9f5f764748a89f532f62f521cc62914a53d846018dd5bffc89c764"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.1"
   characters:
     dependency: transitive
     description:
@@ -584,6 +560,28 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  para:
+    dependency: "direct main"
+    description:
+      name: para
+      sha256: dbd7e9d87a98374183a738ae8ed1a9283cc7bd66b98205d5e623987c9fe438ea
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.0"
+  para_metamask_connector:
+    dependency: "direct main"
+    description:
+      path: "../../../capsule_metamask_connector"
+      relative: true
+    source: path
+    version: "0.0.2"
+  para_phantom_connector:
+    dependency: "direct main"
+    description:
+      path: "../../../phantom_wallet_connector"
+      relative: true
+    source: path
+    version: "0.0.2"
   passkeys:
     dependency: transitive
     description:

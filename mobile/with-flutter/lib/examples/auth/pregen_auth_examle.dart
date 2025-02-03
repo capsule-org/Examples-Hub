@@ -1,18 +1,18 @@
 // ignore_for_file: unused_field, unused_local_variable
 
 import 'package:flutter/material.dart';
-import 'package:capsule/capsule.dart';
-import 'package:cpsl_flutter/client/capsule.dart';
+import 'package:para/para.dart';
+import 'package:cpsl_flutter/client/para.dart';
 import 'package:cpsl_flutter/widgets/demo_home.dart';
 
-class CapsulePregenExample extends StatefulWidget {
-  const CapsulePregenExample({super.key});
+class ParaPregenExample extends StatefulWidget {
+  const ParaPregenExample({super.key});
 
   @override
-  State<CapsulePregenExample> createState() => _CapsulePregenExampleState();
+  State<ParaPregenExample> createState() => _ParaPregenExampleState();
 }
 
-class _CapsulePregenExampleState extends State<CapsulePregenExample> {
+class _ParaPregenExampleState extends State<ParaPregenExample> {
   final _formKey = GlobalKey<FormState>();
   final _identifierController = TextEditingController();
   bool _isLoading = false;
@@ -35,7 +35,7 @@ class _CapsulePregenExampleState extends State<CapsulePregenExample> {
 
   Future<void> _checkExistingWallet() async {
     try {
-      final wallets = await capsuleClient.getWallets();
+      final wallets = await paraClient.getWallets();
       if (wallets.isNotEmpty) {
         setState(() {
           _wallet = wallets.values.first;
@@ -46,7 +46,8 @@ class _CapsulePregenExampleState extends State<CapsulePregenExample> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error checking wallet status: ${e.toString()}')),
+          SnackBar(
+              content: Text('Error checking wallet status: ${e.toString()}')),
         );
       }
     }
@@ -87,21 +88,21 @@ class _CapsulePregenExampleState extends State<CapsulePregenExample> {
       final identifier = _selectedType == PregenIdentifierType.phone
           ? '+${_countryCodeController.text}${_phoneController.text}'
           : _identifierController.text.trim();
-      final hasWallet = await capsuleClient.hasPregenWallet(
+      final hasWallet = await paraClient.hasPregenWallet(
         pregenIdentifier: identifier,
         pregenIdentifierType: _selectedType,
       );
 
       if (hasWallet) {
-        await capsuleClient.setUserShare(_userShare);
+        await paraClient.setUserShare(_userShare);
       } else {
-        final wallet = await capsuleClient.createWalletPreGen(
+        final wallet = await paraClient.createWalletPreGen(
           type: WalletType.evm,
           pregenIdentifier: identifier,
           pregenIdentifierType: _selectedType,
         );
 
-        final userShare = await capsuleClient.getUserShare();
+        final userShare = await paraClient.getUserShare();
         setState(() {
           _wallet = wallet;
           _address = wallet.address;

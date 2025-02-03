@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cpsl_flutter/client/capsule.dart';
+import 'package:web3dart/web3dart.dart';
 
 class DemoMetaMask extends StatefulWidget {
   const DemoMetaMask({super.key});
@@ -14,7 +15,25 @@ class DemoMetaMaskState extends State<DemoMetaMask> {
     super.initState();
   }
 
-  Future<void> _signTransaction() async {}
+  void _sendTransaction() {
+    final transaction = Transaction(
+      from: EthereumAddress.fromHex(metamaskConnector.accounts.first),
+      to: EthereumAddress.fromHex('0x13158486860B81Dee9e43Dd0391e61c2F82B577F'),
+      value: EtherAmount.inWei(BigInt.from(10000000000000000)),
+      maxGas: 100000,
+      gasPrice: EtherAmount.inWei(BigInt.from(1000000000)),
+    );
+
+    metamaskConnector
+        .sendTransaction(transaction, metamaskConnector.accounts.first)
+        .then((onValue) => {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Transaction signed: $onValue'),
+                ),
+              )
+            });
+  }
 
   void _signMessage() {
     metamaskConnector
@@ -57,16 +76,16 @@ class DemoMetaMaskState extends State<DemoMetaMask> {
                 child: const Text('Sign Message'),
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(24),
-            //   child: ElevatedButton(
-            //     onPressed: _signTransaction,
-            //     style: ElevatedButton.styleFrom(
-            //       minimumSize: const Size.fromHeight(50),
-            //     ),
-            //     child: const Text('Sign Transaction'),
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: ElevatedButton(
+                onPressed: _sendTransaction,
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size.fromHeight(50),
+                ),
+                child: const Text('Send Transaction'),
+              ),
+            ),
           ],
         ),
       ),

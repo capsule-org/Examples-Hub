@@ -4,25 +4,24 @@ import 'package:cpsl_flutter/widgets/demo_meta_mask.dart';
 import 'package:cpsl_flutter/widgets/demo_phantom.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:capsule/capsule.dart' as capsule;
-import 'package:cpsl_flutter/client/capsule.dart';
+import 'package:para/para.dart' as para;
+import 'package:cpsl_flutter/client/para.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 enum ExternalWalletProvider { phantom, metamask, other }
 
-class CapsuleExternalWalletExample extends StatefulWidget {
-  const CapsuleExternalWalletExample({super.key});
+class ParaExternalWalletExample extends StatefulWidget {
+  const ParaExternalWalletExample({super.key});
 
   @override
-  State<CapsuleExternalWalletExample> createState() =>
-      _CapsuleExternalWalletExampleState();
+  State<ParaExternalWalletExample> createState() =>
+      _ParaExternalWalletExampleState();
 }
 
-class _CapsuleExternalWalletExampleState
-    extends State<CapsuleExternalWalletExample> {
+class _ParaExternalWalletExampleState extends State<ParaExternalWalletExample> {
   bool _isLoading = false;
   String? _loadingProvider;
-  capsule.Wallet? _wallet;
+  para.Wallet? _wallet;
   String? _address;
   String? _recoveryShare;
 

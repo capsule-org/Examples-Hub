@@ -9,8 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  capsule_phantom_connector: ^0.0.1
-  capsule_metamask_connector: ^0.0.1
+  para: ^0.8.0
+  para_phantom_connector:
+    path: ../../../phantom_wallet_connector
+  para_metamask_connector:
+    path: ../../../capsule_metamask_connector
   flutter_dotenv: ^5.2.1
   flutter_inappwebview: ^6.1.5
   font_awesome_flutter: ^10.8.0

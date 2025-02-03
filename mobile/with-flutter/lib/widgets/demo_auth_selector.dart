@@ -3,7 +3,7 @@ import 'package:cpsl_flutter/examples/auth/external_wallet_auth_example.dart';
 import 'package:cpsl_flutter/examples/auth/oauth_auth_example.dart';
 import 'package:cpsl_flutter/examples/auth/phone_auth_example.dart';
 import 'package:cpsl_flutter/examples/auth/pregen_auth_examle.dart';
-import 'package:cpsl_flutter/client/capsule.dart';
+import 'package:cpsl_flutter/client/para.dart';
 import 'package:flutter/material.dart';
 
 class DemoAuthSelector extends StatefulWidget {
@@ -17,7 +17,7 @@ class _DemoAuthSelectorState extends State<DemoAuthSelector> {
   @override
   void initState() {
     super.initState();
-    capsuleClient.logout();
+    paraClient.logout();
   }
 
   @override
@@ -54,7 +54,7 @@ class _DemoAuthSelectorState extends State<DemoAuthSelector> {
                 title: 'Email + Passkey Authentication',
                 description:
                     'Implement email-based authentication with passkey support for enhanced security.',
-                route: const CapsuleEmailExample(),
+                route: const ParaEmailExample(),
                 icon: Icons.email_outlined,
               ),
               const SizedBox(height: 16),
@@ -63,7 +63,7 @@ class _DemoAuthSelectorState extends State<DemoAuthSelector> {
                 title: 'Phone + Passkey Authentication',
                 description:
                     'Add phone number authentication with passkey support to your application.',
-                route: const CapsulePhoneExample(),
+                route: const ParaPhoneExample(),
                 icon: Icons.phone_android_outlined,
               ),
               const SizedBox(height: 16),
@@ -72,7 +72,7 @@ class _DemoAuthSelectorState extends State<DemoAuthSelector> {
                 title: 'OAuth Authentication',
                 description:
                     'Integrate popular OAuth providers (Google, Apple, X, Discord) into your app.',
-                route: const CapsuleOAuthExample(),
+                route: const ParaOAuthExample(),
                 icon: Icons.account_circle_outlined,
               ),
               const SizedBox(height: 16),
@@ -81,7 +81,7 @@ class _DemoAuthSelectorState extends State<DemoAuthSelector> {
                 title: 'Pregen Wallet Authentication',
                 description:
                     'Create and manage pre-generated wallets using various identifier types.',
-                route: const CapsulePregenExample(),
+                route: const ParaPregenExample(),
                 icon: Icons.wallet_outlined,
               ),
               const SizedBox(height: 16),
@@ -89,7 +89,7 @@ class _DemoAuthSelectorState extends State<DemoAuthSelector> {
                   context: context,
                   title: "External Wallet Authentication",
                   description: "Login with an external wallet",
-                  route: const CapsuleExternalWalletExample(),
+                  route: const ParaExternalWalletExample(),
                   icon: Icons.wallet_outlined),
             ],
           ),
