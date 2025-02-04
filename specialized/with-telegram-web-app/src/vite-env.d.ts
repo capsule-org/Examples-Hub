@@ -1,10 +1,10 @@
 /// <reference types="vite/client" />
 
-import { Environment } from "@usecapsule/web-sdk";
+import { Environment } from "@getpara/web-sdk";
 
 interface ImportMetaEnv {
-  readonly VITE_CAPSULE_ENV: Environment;
-  readonly VITE_CAPSULE_API_KEY: string;
+  readonly VITE_PARA_ENV: Environment;
+  readonly VITE_PARA_API_KEY: string;
 }
 
 interface ImportMeta {
