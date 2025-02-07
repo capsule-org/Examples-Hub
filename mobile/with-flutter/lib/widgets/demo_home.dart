@@ -2,7 +2,7 @@ import 'package:cpsl_flutter/widgets/demo_transactions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:para/para.dart';
-import 'package:cpsl_flutter/client/capsule.dart';
+import 'package:cpsl_flutter/client/para.dart';
 
 class DemoHome extends StatefulWidget {
   const DemoHome({super.key});

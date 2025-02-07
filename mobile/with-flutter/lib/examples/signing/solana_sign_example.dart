@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cpsl_flutter/client/capsule.dart';
+import 'package:cpsl_flutter/client/para.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:para/para.dart';
