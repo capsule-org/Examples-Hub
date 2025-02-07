@@ -4,7 +4,7 @@ import { Button } from "./button";
 import { Database, ExternalLink, Github, LogOut, Menu, Twitter } from "lucide-react";
 import WebApp from "@twa-dev/sdk";
 import { clearChunkedStorage } from "../../lib/cloudStorageUtil";
-import capsuleClient from "../../lib/capsuleClient";
+import para from "../../lib/para";
 
 interface NavigationDrawerProps {
   isOpen: boolean;
@@ -40,7 +40,7 @@ export const NavigationDrawer: React.FC<NavigationDrawerProps> = ({ isOpen, onOp
               className="w-full justify-start transition-colors duration-200 bg-primary text-primary-foreground hover:bg-primary/90"
               asChild>
               <a
-                href="https://usecapsule.com"
+                href="https://getpara.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center">
@@ -53,7 +53,7 @@ export const NavigationDrawer: React.FC<NavigationDrawerProps> = ({ isOpen, onOp
               className="w-full justify-start transition-colors duration-200 bg-secondary text-secondary-foreground hover:bg-secondary/90"
               asChild>
               <a
-                href="https://docs.usecapsule.com"
+                href="https://docs.getpara.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center">
@@ -69,7 +69,7 @@ export const NavigationDrawer: React.FC<NavigationDrawerProps> = ({ isOpen, onOp
                 className="bg-muted text-muted-foreground hover:bg-muted/90 transition-colors duration-200"
                 asChild>
                 <a
-                  href="https://x.com/usecapsule"
+                  href="https://x.com/getpara"
                   target="_blank"
                   rel="noopener noreferrer">
                   <Twitter className="h-4 w-4" />
@@ -82,7 +82,7 @@ export const NavigationDrawer: React.FC<NavigationDrawerProps> = ({ isOpen, onOp
                 className="bg-muted text-muted-foreground hover:bg-muted/90 transition-colors duration-200"
                 asChild>
                 <a
-                  href="https://github.com/capsule-org/examples-hub"
+                  href="https://github.com/getpara/examples-hub"
                   target="_blank"
                   rel="noopener noreferrer">
                   <Github className="h-4 w-4" />
@@ -99,8 +99,8 @@ export const NavigationDrawer: React.FC<NavigationDrawerProps> = ({ isOpen, onOp
                     () => {},
                     () => {}
                   );
-                  capsuleClient.clearStorage("all");
-                  capsuleClient.logout();
+                  para.clearStorage("all");
+                  para.logout();
                   setScreen("onboarding");
                 }}
                 className="w-full justify-start transition-colors duration-200 bg-accent text-accent-foreground hover:bg-accent/90">

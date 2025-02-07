@@ -6,8 +6,8 @@ import { Card, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
-import { CapsuleEthersSigner } from "@usecapsule/ethers-v6-integration";
-import capsuleClient from "../../lib/capsuleClient";
+import { ParaEthersSigner } from "@getpara/ethers-v6-integration";
+import para from "../../lib/para";
 import { LoadingState } from "../ui/loading-state";
 import _ from "lodash";
 
@@ -56,7 +56,7 @@ const TransactionScreen: React.FC<TransactionScreenProps> = ({ setScreen }) => {
 
   useEffect(() => {
     const provider = new ethers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
-    const signer = new CapsuleEthersSigner(capsuleClient, provider);
+    const signer = new ParaEthersSigner(para, provider);
 
     const fetchAddress = async () => {
       try {
@@ -101,7 +101,7 @@ const TransactionScreen: React.FC<TransactionScreenProps> = ({ setScreen }) => {
 
     try {
       const provider = new ethers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
-      const signer = new CapsuleEthersSigner(capsuleClient, provider);
+      const signer = new ParaEthersSigner(para, provider);
 
       const transaction = {
         from: address,

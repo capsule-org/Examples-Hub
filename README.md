@@ -1,3 +1,8 @@
+# ⚠️ Important Notice
+We are currently migrating to our new name Para at the github.com/getpara organization. A new examples hub is available with improved examples at https://github.com/getpara/new-examples-hub/. During this transition period, you can reference both example repositories:
+- The examples-hub (this repo) uses the legacy @usecapsule/* dependencies
+- The new-examples-hub uses the updated @getpara/* dependencies
+
 # Examples Hub
 
 A centralized repository featuring comprehensive Capsule SDK examples. For more details, visit the

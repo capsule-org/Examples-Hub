@@ -5,8 +5,8 @@ import { DeveloperPortalCard } from "../ui/developer-portal-card";
 import QRCodeModal from "../ui/qr-code-modal";
 import WebApp from "@twa-dev/sdk";
 import { ethers } from "ethers";
-import { CapsuleEthersSigner } from "@usecapsule/ethers-v6-integration";
-import capsuleClient from "../../lib/capsuleClient";
+import { ParaEthersSigner } from "@getpara/ethers-v6-integration";
+import para from "../../lib/para";
 import { ErrorState } from "../ui/error-state";
 import { LoadingState } from "../ui/loading-state";
 import WalletDetailsModal from "../ui/wallet-details-modal";
@@ -37,13 +37,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ setScreen }) => {
 
   const fetchBalance = async () => {
     const provider = new ethers.JsonRpcProvider("https://ethereum-sepolia-rpc.publicnode.com");
-    const capsuleEthersSigner = new CapsuleEthersSigner(capsuleClient, provider);
+    const paraEthersSigner = new ParaEthersSigner(para, provider);
 
     setIsLoading(true);
     setLoadingMessage("Loading wallet balance...");
     await new Promise((resolve) => setTimeout(resolve, 1000));
     try {
-      const address = await capsuleEthersSigner.getAddress();
+      const address = await paraEthersSigner.getAddress();
       if (!address) {
         setError("Failed to fetch address.");
         return;
@@ -61,7 +61,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ setScreen }) => {
 
   const handleWalletDetailsClick = async () => {
     try {
-      const details = await capsuleClient.getWallets();
+      const details = await para.getWallets();
       setWalletDetails(details);
       setShowWalletDetails(true);
     } catch (error) {
@@ -111,7 +111,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ setScreen }) => {
         </div>
 
         <div className="animate-slide-in-from-bottom delay-3 fill-both">
-          <DeveloperPortalCard onPortalClick={() => window.open("https://developer.usecapsule.com", "_blank")} />
+          <DeveloperPortalCard onPortalClick={() => window.open("https://developer.getpara.com", "_blank")} />
         </div>
       </div>
       <QRCodeModal

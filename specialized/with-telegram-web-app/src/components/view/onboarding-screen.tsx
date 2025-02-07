@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import WebApp from "@twa-dev/sdk";
 import { clearChunkedStorage, retrieveChunkedData, storeWithChunking } from "../../lib/cloudStorageUtil";
-import capsuleClient from "../../lib/capsuleClient";
-import { WalletType } from "@usecapsule/web-sdk";
+import para from "../../lib/para";
+import { WalletType } from "@getpara/web-sdk";
 import { CheckCircle, Shield, Wallet } from "lucide-react";
 import { ErrorState } from "../ui/error-state";
 import { LoadingState } from "../ui/loading-state";
@@ -23,7 +23,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ setScreen }) => {
 
   const handleInitialize = async () => {
     setIsLoading(true);
-    setLoadingMessage("Starting the initialization of Capsule Telegram Mini App Demo...");
+    setLoadingMessage("Starting the initialization of Para Telegram Mini App Demo...");
     setError(null);
 
     try {
@@ -51,7 +51,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ setScreen }) => {
 
       if (userWalletShare) {
         setLoadingMessage("Existing wallet data found. Setting up your wallet...");
-        await capsuleClient.setUserShare(userWalletShare);
+        await para.setUserShare(userWalletShare);
         setLoadingMessage("Initialization complete. Redirecting to the app...");
         await new Promise((resolve) => setTimeout(resolve, 1000));
         setScreen("home");
@@ -74,8 +74,8 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ setScreen }) => {
       ).catch((error) => {
         console.error("Failed to clear storage:", error);
       });
-      capsuleClient.clearStorage("all");
-      capsuleClient.logout();
+      para.clearStorage("all");
+      para.logout();
       setError("Storage cleared. Retry initialization...");
     } finally {
       setIsLoading(false);
@@ -95,16 +95,20 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ setScreen }) => {
         return;
       }
 
-      const pregenIdentifier = `${username + crypto.randomUUID().split("-")[0]}@test.usecapsule.com`;
+      const pregenIdentifier = `tg:${username}`;
 
       setLoadingMessage("Creating wallet with pre-generated identifier...");
-      const pregenWallet = await capsuleClient.createWalletPreGen(WalletType.EVM, pregenIdentifier);
+      const pregenWallet = await para.createPregenWallet({
+        type: WalletType.EVM,
+        pregenIdentifier,
+        pregenIdentifierType: "CUSTOM_ID",
+      });
 
       setLoadingMessage(`Wallet created successfully. Address: ${pregenWallet.address || "N/A"}`);
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       setLoadingMessage("Retrieving user wallet share...");
-      const userWalletShare = (await capsuleClient.getUserShare()) || "";
+      const userWalletShare = (await para.getUserShare()) || "";
 
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -144,7 +148,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ setScreen }) => {
     <div className="h-full flex flex-col justify-between p-6 bg-background animate-fade-in fill-both">
       <div className="fixed top-0 right-0 overflow-hidden w-40 h-40 z-50 pointer-events-none">
         <div className="bg-destructive text-destructive-foreground font-bold py-1 text-center w-52 absolute top-8 right-[-40px] transform rotate-45 shadow-lg">
-          Capsule Demo
+          Para Demo
         </div>
       </div>
       <div className="flex-1 flex flex-col items-center justify-center">
