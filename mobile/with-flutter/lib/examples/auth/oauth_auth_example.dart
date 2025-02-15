@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cpsl_flutter/widgets/demo_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:para/para.dart';
 import 'package:cpsl_flutter/client/para.dart';
@@ -58,51 +59,14 @@ class _ParaOAuthExampleState extends State<ParaOAuthExample> {
       _loadingProvider = provider.value;
     });
 
-    final chromeSafariBrowser = ChromeSafariBrowser();
-
     try {
-      final isFarcaster = provider == OAuthMethod.farcaster;
-      final authUrl = isFarcaster
-          ? await paraClient.getFarcasterConnectURL()
-          : await paraClient.getOAuthURL(provider);
+      final email = await paraClient.oAuthConnect(provider, "capsuleflutter");
+      final userExists = await paraClient.checkIfUserExists(email);
 
-      final authStatusFuture = isFarcaster
-          ? paraClient.waitForFarcasterStatus()
-          : paraClient.waitForOAuth();
-
-      chromeSafariBrowser.open(
-        url: WebUri(authUrl),
-        settings: ChromeSafariBrowserSettings(),
-      );
-
-      final authResult = await authStatusFuture;
-
-      if (chromeSafariBrowser.isOpened()) {
-        await chromeSafariBrowser.close();
-      }
-
-      if (isFarcaster) {
-        final farcasterResult = authResult as FarcasterStatus;
-        if (!farcasterResult.userExists) {
-          await _handleNewUserSetup(farcasterResult.username);
-        } else {
-          await _handlePasskeyLogin();
-        }
+      if (userExists) {
+        await _handlePasskeyLogin(email);
       } else {
-        final oauthResult = authResult as OAuthResponse;
-
-        if (oauthResult.isError == true) {
-          throw Exception('OAuth authentication failed');
-        }
-
-        if (oauthResult.userExists) {
-          await _handlePasskeyLogin();
-        } else {
-          if (oauthResult.email == null) {
-            throw Exception('Email is required for new user registration');
-          }
-          await _handleNewUserSetup(oauthResult.email!);
-        }
+        await _handleNewUserSetup(email);
       }
     } catch (e) {
       if (!mounted) return;
@@ -138,11 +102,11 @@ class _ParaOAuthExampleState extends State<ParaOAuthExample> {
     );
   }
 
-  Future<void> _handlePasskeyLogin() async {
+  Future<void> _handlePasskeyLogin(String email) async {
     setState(() => _isLoading = true);
 
     try {
-      final wallet = await paraClient.login();
+      final wallet = await paraClient.login(email: email);
 
       if (!mounted) return;
 
