@@ -112,7 +112,7 @@ class _ParaOAuthExampleState extends State<ParaOAuthExample> {
 
       setState(() {
         _wallet = wallet;
-        _address = wallet.address;
+        _address = wallet?.address;
         _recoveryShare = "";
       });
 

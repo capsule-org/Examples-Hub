@@ -39,7 +39,24 @@ class _ParaExternalWalletExampleState extends State<ParaExternalWalletExample> {
     });
 
     if (provider == ExternalWalletProvider.phantom) {
-      await phantomConnector.connect();
+      final res = await phantomConnector.connect();
+      final userExists = res['userExists'] as bool;
+      final userId = res['userId'] as String;
+      final signatureVerificationMessage =
+          res['signatureVerificationMessage'] as String;
+
+      final walletAddress = phantomConnector.address;
+
+      if (userExists) {
+        await paraClient.login(externalWalletUserId: "SOLANA-$walletAddress");
+      } else {
+        final signedMessage =
+            await phantomConnector.signMessage(signatureVerificationMessage);
+        final biometricsId =
+            await paraClient.verifyExternalWallet(signedMessage: signedMessage);
+        await paraClient.generatePasskey(
+            phantomConnector.address!, biometricsId);
+      }
 
       Navigator.pushReplacement(
         context,
@@ -48,7 +65,25 @@ class _ParaExternalWalletExampleState extends State<ParaExternalWalletExample> {
     }
 
     if (provider == ExternalWalletProvider.metamask) {
-      await metamaskConnector.connect();
+      final res = await metamaskConnector.connect();
+      final userExists = res['userExists'] as bool;
+      final userId = res['userId'] as String;
+      final signatureVerificationMessage =
+          res['signatureVerificationMessage'] as String;
+
+      final walletAddress = metamaskConnector.accounts.first;
+
+      if (userExists) {
+        await paraClient.login(externalWalletUserId: "EVM-$walletAddress");
+      } else {
+        final signedMessage = await metamaskConnector.signMessage(
+            signatureVerificationMessage, metamaskConnector.accounts.first);
+        final biometricsId =
+            await paraClient.verifyExternalWallet(signedMessage: signedMessage);
+        await paraClient.generatePasskey(
+            metamaskConnector.accounts.first, biometricsId);
+      }
+
       setState(() {
         _isLoading = false;
       });

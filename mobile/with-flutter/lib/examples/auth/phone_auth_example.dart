@@ -147,7 +147,7 @@ class _ParaPhoneExampleState extends State<ParaPhoneExample> {
 
       setState(() {
         _wallet = wallet;
-        _address = wallet.address;
+        _address = wallet?.address;
         _recoveryShare = "";
       });
 

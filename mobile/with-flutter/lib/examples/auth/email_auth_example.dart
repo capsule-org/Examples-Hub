@@ -130,7 +130,7 @@ class _ParaEmailExampleState extends State<ParaEmailExample> {
 
       setState(() {
         _wallet = wallet;
-        _address = wallet.address;
+        _address = wallet?.address;
         _recoveryShare = "";
       });
 
