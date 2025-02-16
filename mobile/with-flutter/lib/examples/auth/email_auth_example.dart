@@ -1,20 +1,20 @@
 // ignore_for_file: unused_field, unused_local_variable
 
-import 'package:cpsl_flutter/client/capsule.dart';
+import 'package:cpsl_flutter/client/para.dart';
 import 'package:cpsl_flutter/util/random.dart';
 import 'package:cpsl_flutter/widgets/demo_home.dart';
 import 'package:cpsl_flutter/widgets/demo_otp_verification.dart';
 import 'package:flutter/material.dart';
-import 'package:capsule/capsule.dart';
+import 'package:para/para.dart';
 
-class CapsuleEmailExample extends StatefulWidget {
-  const CapsuleEmailExample({super.key});
+class ParaEmailExample extends StatefulWidget {
+  const ParaEmailExample({super.key});
 
   @override
-  State<CapsuleEmailExample> createState() => _CapsuleEmailExampleState();
+  State<ParaEmailExample> createState() => _ParaEmailExampleState();
 }
 
-class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
+class _ParaEmailExampleState extends State<ParaEmailExample> {
   final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
@@ -37,10 +37,10 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
 
   Future<void> _checkLoginStatus() async {
     try {
-      final isLoggedIn = await capsuleClient.isFullyLoggedIn();
+      final isLoggedIn = await paraClient.isFullyLoggedIn();
       if (isLoggedIn && mounted) {
-        final email = await capsuleClient.getEmail();
-        final wallets = await capsuleClient.getWallets();
+        final email = await paraClient.getEmail();
+        final wallets = await paraClient.getWallets();
 
         if (wallets.isNotEmpty) {
           setState(() {
@@ -53,7 +53,8 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error checking login status: ${e.toString()}')),
+          SnackBar(
+              content: Text('Error checking login status: ${e.toString()}')),
         );
       }
     }
@@ -66,15 +67,16 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
 
     try {
       final email = _emailController.text.trim();
-      if (await capsuleClient.checkIfUserExists(email)) {
+      if (await paraClient.checkIfUserExists(email)) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('User already exists, please use passkey login')),
+          const SnackBar(
+              content: Text('User already exists, please use passkey login')),
         );
         return;
       }
 
-      await capsuleClient.createUser(email);
+      await paraClient.createUser(email);
       if (!mounted) return;
 
       final bool verified = await Navigator.push<bool>(
@@ -83,9 +85,10 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
               builder: (context) => DemoOtpVerification(
                 onVerify: (String code) async {
                   try {
-                    final biometricsId = await capsuleClient.verifyEmail(code);
-                    await capsuleClient.generatePasskey(email, biometricsId);
-                    final result = await capsuleClient.createWallet(skipDistribute: false);
+                    final biometricsId = await paraClient.verifyEmail(code);
+                    await paraClient.generatePasskey(email, biometricsId);
+                    final result =
+                        await paraClient.createWallet(skipDistribute: false);
                     setState(() {
                       _wallet = result.wallet;
                       _address = result.wallet.address;
@@ -121,13 +124,13 @@ class _CapsuleEmailExampleState extends State<CapsuleEmailExample> {
     setState(() => _isLoading = true);
 
     try {
-      final wallet = await capsuleClient.login();
+      final wallet = await paraClient.login();
 
       if (!mounted) return;
 
       setState(() {
         _wallet = wallet;
-        _address = wallet.address;
+        _address = wallet?.address;
         _recoveryShare = "";
       });
 

@@ -2,19 +2,19 @@
 import 'package:cpsl_flutter/util/random.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:capsule/capsule.dart';
-import 'package:cpsl_flutter/client/capsule.dart';
+import 'package:para/para.dart';
+import 'package:cpsl_flutter/client/para.dart';
 import 'package:cpsl_flutter/widgets/demo_home.dart';
 import 'package:cpsl_flutter/widgets/demo_otp_verification.dart';
 
-class CapsulePhoneExample extends StatefulWidget {
-  const CapsulePhoneExample({super.key});
+class ParaPhoneExample extends StatefulWidget {
+  const ParaPhoneExample({super.key});
 
   @override
-  State<CapsulePhoneExample> createState() => _CapsulePhoneExampleState();
+  State<ParaPhoneExample> createState() => _ParaPhoneExampleState();
 }
 
-class _CapsulePhoneExampleState extends State<CapsulePhoneExample> {
+class _ParaPhoneExampleState extends State<ParaPhoneExample> {
   final _formKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController();
   final _countryCodeController = TextEditingController(text: '1');
@@ -38,13 +38,14 @@ class _CapsulePhoneExampleState extends State<CapsulePhoneExample> {
     super.dispose();
   }
 
-  String get _fullPhoneNumber => '+${_countryCodeController.text}${_phoneController.text}';
+  String get _fullPhoneNumber =>
+      '+${_countryCodeController.text}${_phoneController.text}';
 
   Future<void> _checkLoginStatus() async {
     try {
-      final isLoggedIn = await capsuleClient.isFullyLoggedIn();
+      final isLoggedIn = await paraClient.isFullyLoggedIn();
       if (isLoggedIn && mounted) {
-        final wallets = await capsuleClient.getWallets();
+        final wallets = await paraClient.getWallets();
 
         if (wallets.isNotEmpty) {
           setState(() {
@@ -57,7 +58,8 @@ class _CapsulePhoneExampleState extends State<CapsulePhoneExample> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error checking login status: ${e.toString()}')),
+          SnackBar(
+              content: Text('Error checking login status: ${e.toString()}')),
         );
       }
     }
@@ -71,15 +73,16 @@ class _CapsulePhoneExampleState extends State<CapsulePhoneExample> {
     try {
       final phoneNumber = _phoneController.text;
       final countryCode = '+${_countryCodeController.text}';
-      if (await capsuleClient.checkIfUserExistsByPhone(phoneNumber, countryCode)) {
+      if (await paraClient.checkIfUserExistsByPhone(phoneNumber, countryCode)) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('User already exists, please use passkey login')),
+          const SnackBar(
+              content: Text('User already exists, please use passkey login')),
         );
         return;
       }
 
-      await capsuleClient.createUserByPhone(phoneNumber, countryCode);
+      await paraClient.createUserByPhone(phoneNumber, countryCode);
       if (!mounted) return;
 
       final bool verified = await Navigator.push<bool>(
@@ -88,9 +91,11 @@ class _CapsulePhoneExampleState extends State<CapsulePhoneExample> {
               builder: (context) => DemoOtpVerification(
                 onVerify: (String code) async {
                   try {
-                    final biometricsId = await capsuleClient.verifyPhone(code);
-                    await capsuleClient.generatePasskey(_fullPhoneNumber, biometricsId);
-                    final result = await capsuleClient.createWallet(skipDistribute: false);
+                    final biometricsId = await paraClient.verifyPhone(code);
+                    await paraClient.generatePasskey(
+                        _fullPhoneNumber, biometricsId);
+                    final result =
+                        await paraClient.createWallet(skipDistribute: false);
 
                     if (!mounted) return false;
                     setState(() {
@@ -105,7 +110,7 @@ class _CapsulePhoneExampleState extends State<CapsulePhoneExample> {
                 },
                 onResendCode: () async {
                   try {
-                    await capsuleClient.resendVerificationCodeByPhone();
+                    await paraClient.resendVerificationCodeByPhone();
                     return true;
                   } catch (e) {
                     return false;
@@ -136,13 +141,13 @@ class _CapsulePhoneExampleState extends State<CapsulePhoneExample> {
     setState(() => _isLoading = true);
 
     try {
-      final wallet = await capsuleClient.login();
+      final wallet = await paraClient.login();
 
       if (!mounted) return;
 
       setState(() {
         _wallet = wallet;
-        _address = wallet.address;
+        _address = wallet?.address;
         _recoveryShare = "";
       });
 
