@@ -1,3 +1,6 @@
+# 📢 Deprecation Notice
+This examples repository has been deprecated and is maintained only for reference. Please visit the [examples-hub](https://github.com/getpara/examples-hub) repository for the most current Para examples and implementations.
+
 # ⚠️ Important Notice
 We are currently migrating to our new name Para at the github.com/getpara organization. A new examples hub is available with improved examples at https://github.com/getpara/new-examples-hub/. During this transition period, you can reference both example repositories:
 - The examples-hub (this repo) uses the legacy @usecapsule/* dependencies
